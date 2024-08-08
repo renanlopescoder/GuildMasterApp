@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "842004749501",
+    "project_id": "guildmasterapp-fullsail",
+    "storage_bucket": "guildmasterapp-fullsail.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:842004749501:android:325a92c75a18324631ebd4",
+        "android_client_info": {
+          "package_name": "com.ai.guildmasterapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBB_ZnLL8wiyGVteYbsMPsQyN6pVG7xFOk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
