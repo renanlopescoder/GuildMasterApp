@@ -3,9 +3,6 @@
   <component name="deploymentTargetDropDown">
     <value>
       <entry key="app">
-        <State />
-      </entry>
-      <entry key="guildmaster">
         <State>
           <targetSelectedWithDropDown>
             <Target>
@@ -13,12 +10,12 @@
               <deviceKey>
                 <Key>
                   <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\Renan Lopes\.android\avd\Medium_Phone_API_25.avd" />
+                  <value value="C:\Users\Renan Lopes\.android\avd\Medium_Phone_API_VanillaIceCream.avd" />
                 </Key>
               </deviceKey>
             </Target>
           </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-08-08T22:17:11.294709900Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-08-11T15:35:17.186586100Z" />
         </State>
       </entry>
     </value>
