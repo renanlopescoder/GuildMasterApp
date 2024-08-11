@@ -12,8 +12,18 @@
             android:title="@string/title_dashboard"/>
 
     <item
+            android:id="@+id/navigation_hamburger"
+            android:icon="@drawable/ic_hamburger_black_24dp"
+            android:title="@string/title_hamburger"/>
+
+    <item
             android:id="@+id/navigation_notifications"
             android:icon="@drawable/ic_notifications_black_24dp"
             android:title="@string/title_notifications"/>
+
+    <item
+            android:id="@+id/navigation_messages"
+            android:icon="@drawable/ic_message_black_24dp"
+            android:title="@string/title_messages"/>
 
 </menu>

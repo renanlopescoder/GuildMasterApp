@@ -3,7 +3,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/mobile_navigation"
-            app:startDestination="@+id/navigation_home">
+            app:startDestination="@+id/navigation_home" tools:ignore="ExtraText">
 
     <fragment
             android:id="@+id/navigation_home"
@@ -18,8 +18,20 @@
             tools:layout="@layout/fragment_dashboard"/>
 
     <fragment
+            android:id="@+id/navigation_hamburger"
+            android:name="com.ai.guildmasterapp.ui.hamburgerMenu.HamburgerMenuFragment"
+            android:label="@string/title_hamburger"
+            tools:layout="@layout/fragment_hamburger"/>
+
+    <fragment
             android:id="@+id/navigation_notifications"
             android:name="com.ai.guildmasterapp.ui.notifications.NotificationsFragment"
             android:label="@string/title_notifications"
             tools:layout="@layout/fragment_notifications"/>
+
+    <fragment
+            android:id="@+id/navigation_messages"
+            android:name="com.ai.guildmasterapp.ui.messages.MessagesFragment"
+            android:label="@string/title_messages"
+            tools:layout="@layout/fragment_messages"/>
 </navigation>
