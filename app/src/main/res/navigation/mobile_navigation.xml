@@ -18,6 +18,12 @@
             tools:layout="@layout/fragment_dashboard"/>
 
     <fragment
+            android:id="@+id/navigation_hamburger"
+            android:name="com.ai.guildmasterapp.ui.dashboard.DashboardFragment"
+            android:label="@string/title_hamburger"
+            tools:layout="@layout/fragment_hamburger"/>
+
+    <fragment
             android:id="@+id/navigation_notifications"
             android:name="com.ai.guildmasterapp.ui.notifications.NotificationsFragment"
             android:label="@string/title_notifications"

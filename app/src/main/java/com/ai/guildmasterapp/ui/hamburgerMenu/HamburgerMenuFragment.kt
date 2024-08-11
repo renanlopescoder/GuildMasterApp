@@ -1,4 +1,4 @@
-package com.ai.guildmasterapp.ui.messages
+package com.ai.guildmasterapp.ui.hamburgerMenu
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.ai.guildmasterapp.databinding.FragmentMessagesBinding
+import com.ai.guildmasterapp.databinding.FragmentHamburgerBinding
 
-class MessagesFragment : Fragment() {
+class HamburgerMenuFragment : Fragment() {
 
-    private var _binding: FragmentMessagesBinding? = null
+    private var _binding: FragmentHamburgerBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -22,14 +22,14 @@ class MessagesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val messagesViewModel =
-            ViewModelProvider(this).get(MessagesViewModel::class.java)
+        val hamburgerViewModel =
+            ViewModelProvider(this).get(HamburgerMenuViewModel::class.java)
 
-        _binding = FragmentMessagesBinding.inflate(inflater, container, false)
+        _binding = FragmentHamburgerBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textMessages
-        messagesViewModel.text.observe(viewLifecycleOwner) {
+        val textView: TextView = binding.textHamburger
+        hamburgerViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
         return root
