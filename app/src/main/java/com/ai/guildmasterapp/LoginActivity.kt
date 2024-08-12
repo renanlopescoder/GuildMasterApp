@@ -6,14 +6,13 @@ import android.util.Log
 import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.AuthResult
 import com.google.android.gms.tasks.Task
-import com.ai.guildmasterapp.MainActivity
+import com.ai.guildmasterapp.SignupActivity
 
 
 class LoginActivity : AppCompatActivity() {
@@ -22,7 +21,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var emailInput: EditText
     private lateinit var passwordInput: EditText
     private lateinit var loginButton: Button
-    private lateinit var signupLink: TextView
+    private lateinit var signupButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +32,11 @@ class LoginActivity : AppCompatActivity() {
         emailInput = findViewById(R.id.emailInput)
         passwordInput = findViewById(R.id.passwordInput)
         loginButton = findViewById(R.id.loginButton)
-        signupLink = findViewById(R.id.signupLink)
+        signupButton = findViewById(R.id.signupButton)
+
+        signupButton.setOnClickListener {
+            signupRedirect()
+        }
 
         loginButton.setOnClickListener {
             val email = emailInput.text.toString().trim()
@@ -80,5 +83,10 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, "Login failed: ${task.exception?.message}", Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    private fun signupRedirect() {
+        val intent = Intent(this, SignupActivity::class.java)
+        startActivity(intent)
     }
 }
