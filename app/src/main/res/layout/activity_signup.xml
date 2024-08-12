@@ -5,19 +5,19 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".LoginActivity">
+        tools:context=".SignupActivity">
 
     <ImageView
             android:id="@+id/backgroundImage"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:src="@drawable/login"
+            android:src="@drawable/signup"
             android:scaleType="centerCrop"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:contentDescription="Login Background Image" />
+            android:contentDescription="Signup Background Image" />
 
     <androidx.cardview.widget.CardView
             android:layout_width="0dp"
@@ -55,20 +55,30 @@
                     android:inputType="textPassword"
                     android:padding="10dp"
                     android:layout_marginTop="16dp"/>
-            <Button
-                    android:id="@+id/loginButton"
-                    style="@style/PrimaryButtonStyle"
+
+            <EditText
+                    android:id="@+id/apiKey"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Sign In"
-                    android:layout_marginTop="24dp"/>
+                    android:hint="Guild Wars API Key"
+                    android:inputType="text"
+                    android:padding="10dp"
+                    android:layout_marginTop="16dp"/>
 
             <Button
                     android:id="@+id/signupButton"
-                    style="@style/SecondaryButtonStyle"
+                    style="@style/PrimaryButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Sign Up"
+                    android:layout_marginTop="24dp"/>
+
+            <Button
+                    android:id="@+id/loginButton"
+                    style="@style/SecondaryButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Sign In"
                     app:backgroundTint="@null"
                     android:layout_marginTop="16dp"/>
 
