@@ -17,17 +17,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:contentDescription="Login Background Image"
-            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintVertical_bias="0.0"/>
-    <Button
-            android:id="@+id/loginButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Login"
-            app:layout_constraintTop_toBottomOf="@id/passwordInput"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintWidth_percent="0.8" android:layout_marginTop="16dp"
-            app:layout_constraintHorizontal_bias="0.487"/>
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintVertical_bias="0.0"
+    />
+
     <EditText
             android:id="@+id/emailInput"
             android:layout_width="0dp"
@@ -38,8 +31,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintWidth_percent="0.8" android:layout_marginTop="488dp"
-            app:layout_constraintHorizontal_bias="0.487"/>
+            app:layout_constraintWidth_percent="0.8" android:layout_marginTop="300dp"
+    />
     <EditText
             android:id="@+id/passwordInput"
             android:layout_width="0dp"
@@ -51,19 +44,43 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintWidth_percent="0.8" android:layout_marginTop="20dp"
-            app:layout_constraintHorizontal_bias="0.487"/>
-    <TextView
-            android:id="@+id/signupLink"
-            android:layout_width="wrap_content"
+            app:layout_constraintHorizontal_bias="0.487"
+    />
+    <Button
+            android:id="@+id/loginButton"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Don't have an account? Sign up"
-            android:textColor="@color/black"
-            android:clickable="true"
-            android:focusable="true"
+            android:text="Sign In"
+            android:background="@drawable/button_rounded"
+            app:layout_constraintTop_toBottomOf="@id/passwordInput"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="0.8"
+            android:layout_marginTop="16dp"
+            app:layout_constraintHorizontal_bias="0.487"
+    />
+    <Button
+            android:id="@+id/signupLink"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Sign Up"
+            android:background="@drawable/button_rounded_secondary"
             app:layout_constraintTop_toBottomOf="@id/loginButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            android:layout_marginTop="12dp"/>
+            app:layout_constraintWidth_percent="0.8"
+            android:layout_marginTop="16dp"
+            app:layout_constraintHorizontal_bias="0.487"
+    />
+    <ImageView
+            android:layout_width="144dp"
+            android:layout_height="373dp"
+            app:srcCompat="@drawable/logo_master"
+            android:id="@+id/imageView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            tools:ignore="MissingConstraints"
+    />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

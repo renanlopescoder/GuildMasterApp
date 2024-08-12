@@ -16,10 +16,11 @@
         <activity
                 android:name=".LoginActivity"
                 android:exported="true"
-                android:label="@string/login">
+                android:label="@string/login"
+                android:theme="@style/Theme.GuildMasterApp.NoActionBar">
+        >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
