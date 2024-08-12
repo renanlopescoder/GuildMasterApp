@@ -28,8 +28,6 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        Log.d("LoginActivity", "onCreate called")
-
         auth = FirebaseAuth.getInstance()
 
         emailInput = findViewById(R.id.emailInput)
@@ -41,8 +39,6 @@ class LoginActivity : AppCompatActivity() {
             val email = emailInput.text.toString().trim()
             val password = passwordInput.text.toString().trim()
 
-            Log.d("LoginActivity", "Login button clicked with email: $email")
-
             if (email.isEmpty()) {
                 Log.w("LoginActivity", "Email is empty")
                 emailInput.error = "Email is required"
@@ -51,21 +47,18 @@ class LoginActivity : AppCompatActivity() {
             }
 
             if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                Log.w("LoginActivity", "Invalid email format: $email")
                 emailInput.error = "Please provide a valid email"
                 emailInput.requestFocus()
                 return@setOnClickListener
             }
 
             if (password.isEmpty()) {
-                Log.w("LoginActivity", "Password is empty")
                 passwordInput.error = "Password is required"
                 passwordInput.requestFocus()
                 return@setOnClickListener
             }
 
             if (password.length < 6) {
-                Log.w("LoginActivity", "Password too short: ${password.length} characters")
                 passwordInput.error = "Password should be at least 6 characters long"
                 passwordInput.requestFocus()
                 return@setOnClickListener
@@ -84,7 +77,6 @@ class LoginActivity : AppCompatActivity() {
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
             } else {
-                Log.e("LoginActivity", "Login failed for email: $email, error: ${task.exception?.message}")
                 Toast.makeText(this, "Login failed: ${task.exception?.message}", Toast.LENGTH_LONG).show()
             }
         }

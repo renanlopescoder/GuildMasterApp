@@ -48,10 +48,8 @@
     />
     <Button
             android:id="@+id/loginButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            style="@style/PrimaryButtonStyle"
             android:text="Sign In"
-            android:background="@drawable/button_rounded"
             app:layout_constraintTop_toBottomOf="@id/passwordInput"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -61,16 +59,16 @@
     />
     <Button
             android:id="@+id/signupLink"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            app:backgroundTint="@null"
+            style="@style/SecondaryButtonStyle"
             android:text="Sign Up"
-            android:background="@drawable/button_rounded_secondary"
             app:layout_constraintTop_toBottomOf="@id/loginButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintWidth_percent="0.8"
             android:layout_marginTop="16dp"
             app:layout_constraintHorizontal_bias="0.487"
+
     />
     <ImageView
             android:layout_width="144dp"
