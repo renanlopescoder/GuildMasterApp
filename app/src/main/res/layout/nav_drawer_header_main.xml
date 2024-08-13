@@ -13,7 +13,7 @@
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:layout_gravity="center"
-            android:src="@drawable/sample_profile_pic"
+            android:src="@drawable/ic_home_black_24dp"
             android:contentDescription="@string/profile_pic"
             android:scaleType="centerCrop"
             app:layout_constraintTop_toTopOf="parent"
