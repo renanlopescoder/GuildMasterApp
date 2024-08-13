@@ -6,4 +6,7 @@
     <string name="title_messages">Messages</string>
     <string name="title_hamburger">Hamburger</string>
     <string name="login">Login</string>
+    <string name="todo">TODO</string>
+    <string name="notifications">Notifications</string>
+    <string name="backArrow">Back</string>
 </resources>
