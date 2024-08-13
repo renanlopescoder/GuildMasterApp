@@ -11,4 +11,7 @@
     <string name="notifications">Notifications</string>
     <string name="backArrow">Back</string>
     <string name="profile_pic">Profile Picture</string>
+    <string name="launcher_pic">Launcher</string>
+    <string name="sample_username">User Name</string>
+    <string name="sample_email">user@example.com</string>
 </resources>
