@@ -5,38 +5,50 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.ai.guildmasterapp.R
 import com.ai.guildmasterapp.databinding.FragmentHamburgerBinding
+import com.google.android.material.navigation.NavigationView
 
 class HamburgerMenuFragment : Fragment() {
 
-    private var _binding: FragmentHamburgerBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    // private var _drawerLayout: DrawerLayout? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val hamburgerViewModel =
-            ViewModelProvider(this).get(HamburgerMenuViewModel::class.java)
 
-        _binding = FragmentHamburgerBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        // Inflate the layout for this fragment
+        val view = inflater.inflate(R.layout.fragment_hamburger, container, false)
 
-        val textView: TextView = binding.textHamburger
-        hamburgerViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        val navView: NavigationView = view.findViewById(R.id.nav_view_drawer_menu)
+
+        navView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.navigation_home -> {
+                    // Handle Item 1 selection
+                    Toast.makeText(context, "Item 1 selected", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                R.id.navigation_messages -> {
+                    // Handle Item 2 selection
+                    Toast.makeText(context, "Item 2 selected", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                else -> false
+            }
         }
-        return root
+
+        return view
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        // _drawerLayout = null
     }
 }

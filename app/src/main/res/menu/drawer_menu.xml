@@ -6,4 +6,9 @@
             android:icon="@drawable/ic_home_black_24dp"
             android:title="@string/title_home"/>
 
+    <item
+            android:id="@+id/navigation_messages"
+            android:icon="@drawable/ic_message_black_24dp"
+            android:title="@string/title_messages"/>
+
 </menu>

@@ -33,13 +33,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:navGraph="@navigation/mobile_navigation"
     />
-    <ImageView
+    <!-- <ImageView
             android:layout_width="282dp"
             android:layout_height="331dp"
             app:srcCompat="@mipmap/ic_launcher"
             android:id="@+id/imageView4"
             tools:layout_editor_absoluteY="167dp"
             tools:layout_editor_absoluteX="64dp"
-    />
+            app:layout_constraintLeft_toRightOf="parent"
+    /> -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
