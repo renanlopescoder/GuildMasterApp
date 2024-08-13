@@ -15,7 +15,7 @@ import com.google.android.material.navigation.NavigationView
 
 class HamburgerMenuFragment : Fragment() {
 
-    // private var _drawerLayout: DrawerLayout? = null
+    private var _drawerLayout: DrawerLayout? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,7 +24,8 @@ class HamburgerMenuFragment : Fragment() {
     ): View {
 
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_hamburger, container, false)
+        val view = inflater.inflate(R.layout.activity_main, container, false)
+
 
         val navView: NavigationView = view.findViewById(R.id.nav_view_drawer_menu)
 

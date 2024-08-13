@@ -8,15 +8,14 @@
         android:id="@+id/drawer_menu_layout"
         tools:context=".ui.hamburgerMenu.HamburgerMenuFragment">
     <!-- Navigation Drawer -->
-    <com.google.android.material.navigation.NavigationView
+    <!-- <com.google.android.material.navigation.NavigationView
             android:id="@+id/nav_view_drawer_menu"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
             app:menu="@menu/drawer_menu"
             app:headerLayout="@layout/nav_drawer_header_main"
-            tools:ignore="MissingConstraints"/>
+            tools:ignore="MissingConstraints"/> -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!--android:layout_gravity="start" -->
