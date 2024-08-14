@@ -18,6 +18,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:contentDescription="Dashboard background"
             app:layout_constraintHorizontal_bias="1.0" app:layout_constraintVertical_bias="0.0"/>
+    <!-- "Dashboard" at the top of the screen -->
     <TextView
             android:id="@+id/dashboard_title"
             android:layout_width="0dp"
@@ -33,10 +34,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
 
-            />
+    />
+    <!-- "Hello, Wizard! and Profile Pic -->
     <androidx.cardview.widget.CardView
             android:id="@+id/dashboard_greeting_card"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:background="@color/white"
@@ -47,7 +49,7 @@
             app:cardBackgroundColor="#CCFFFFFF">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp">
             <TextView
@@ -75,9 +77,10 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+    <!-- OVERVIEW/PVP Toggle Card -->
     <androidx.cardview.widget.CardView
             android:id="@+id/dashboard_toggle_card"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:background="@drawable/button_rounded"
@@ -86,81 +89,121 @@
             app:layout_constraintEnd_toEndOf="@id/dashboard_greeting_card"
             app:cardCornerRadius="20dp"
             app:cardBackgroundColor="#CCFFFFFF">
-            <ToggleButton
-                    android:id="@+id/dashboard_overview_toggle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/button_toggle"
-                    android:textOn="Overview"
-                    android:textOff="Overview"
-                    android:textSize="10sp"
-                    android:textColor="@color/color_toggle"
-                    android:backgroundTint="@color/dark_gray"
-                    android:checked="true"/>
-            <ToggleButton
-                    android:id="@+id/dashboard_pvp_toggle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="100dp"
-                    android:background="@drawable/button_toggle"
-                    android:textOn="PVP"
-                    android:textOff="PVP"
-                    android:textSize="10sp"
-                    android:textColor="@color/color_toggle"
-                    android:backgroundTint="@color/dark_gray"
-                    android:checked="false"/>
-            <ImageButton
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/filter_icon"
-                    android:scaleType="fitXY"
-                    android:layout_gravity="end"
-                    android:backgroundTint="@android:color/transparent"
-                    />
+        <ToggleButton
+                android:id="@+id/dashboard_overview_toggle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/button_toggle"
+                android:textOn="Overview"
+                android:textOff="Overview"
+                android:textSize="10sp"
+                android:textColor="@color/color_toggle"
+                android:backgroundTint="@color/dark_gray"
+                android:checked="true"/>
+        <ToggleButton
+                android:id="@+id/dashboard_pvp_toggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="100dp"
+                android:background="@drawable/button_toggle"
+                android:textOn="PVP"
+                android:textOff="PVP"
+                android:textSize="10sp"
+                android:textColor="@color/color_toggle"
+                android:backgroundTint="@color/dark_gray"
+                android:checked="false"/>
+        <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/filter_icon"
+                android:scaleType="fitXY"
+                android:layout_gravity="end"
+                android:backgroundTint="@android:color/transparent"
+        />
     </androidx.cardview.widget.CardView>
+    <!-- Crafting Card -->
     <androidx.cardview.widget.CardView
+            android:id="@+id/crafting_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/dashboard_toggle_card"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_margin="50dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginTop="50dp"
             app:cardCornerRadius="20dp"
-            app:cardBackgroundColor="@color/cardview_dark_background">
+            app:cardBackgroundColor="@color/red">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
                 <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="24dp"
                         android:paddingStart="24dp"
                         android:text="@string/dashboard_temp_crafting"
                         android:textSize="18sp"
-                        android:textStyle="bold"/>
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="24dp"
-                        android:paddingBottom="24dp"
-                        android:text="@string/dashboard_temp_craft_requirements"
-                        android:textSize="14sp"/>
+                        android:textStyle="bold"
+                        android:layout_weight="1"/>
+                <ImageButton
+                        android:id="@+id/crafting_close_button"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="15dp"
+                        android:src="@drawable/button_round"
+                        android:background="@drawable/button_round"/>
+            </LinearLayout>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="24dp"
+                    android:paddingBottom="24dp"
+                    android:text="@string/dashboard_temp_craft_requirements"
+                    android:textSize="14sp"/>
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
                 <ProgressBar
                         android:id="@+id/crafting_progessbar"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingStart="24dp"
                         android:paddingEnd="24dp"
                         android:paddingBottom="24dp"
-                        android:paddingTop="50dp"
+                        android:paddingTop="25dp"
                         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                         android:progressDrawable="@drawable/dashboard_progressbar_layer"
                         android:progress="25"
-                        android:indeterminate="false"/>
+                        android:indeterminate="false"
+                        android:layout_weight="3"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/crafting_percent"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.5"
+                />
             </LinearLayout>
-
-
-
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/crafting_card"
+            app:layout_constraintEnd_toEndOf="@id/crafting_card"
+            app:layout_constraintStart_toStartOf="@+id/crafting_card">
 
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

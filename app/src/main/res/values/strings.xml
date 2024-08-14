@@ -9,4 +9,5 @@
     <string name="signup">Sign Up</string>
     <string name="dashboard_temp_crafting">Craft Fire Sword</string>
     <string name="dashboard_temp_craft_requirements">3/5 Items Required</string>
+    <string name="crafting_percent">25.00%</string>
 </resources>
