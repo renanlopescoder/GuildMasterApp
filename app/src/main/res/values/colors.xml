@@ -10,4 +10,7 @@
     <color name="dark_red">#A61B1B</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="white_clear">#CCFFFFFF</color>
+    <color name="yellow">#F4E842</color>
+    <color name="yellow_clear">#99F4E842</color>
 </resources>
