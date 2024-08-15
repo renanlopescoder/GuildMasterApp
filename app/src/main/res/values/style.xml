@@ -35,4 +35,10 @@
         <item name="android:windowActionBar">false</item>
         <item name="android:statusBarColor">@color/dark_gray</item>
     </style>
+
+    <style name="RoundedCornerImage">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
 </resources>
