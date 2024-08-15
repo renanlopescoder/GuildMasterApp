@@ -4,7 +4,7 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_messages">Messages</string>
-    <string name="title_hamburger">Hamburger</string>
+    <string name="title_menu">Menu</string>
     <string name="login">Login</string>
     <string name="signup">Sign Up</string>
     <string name="todo">TODO</string>
