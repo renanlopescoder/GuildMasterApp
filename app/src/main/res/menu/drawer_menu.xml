@@ -2,13 +2,36 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-            android:id="@+id/navigation_home"
-            android:icon="@drawable/ic_home_black_24dp"
-            android:title="@string/title_home"/>
+            android:id="@+id/navigation_dashboard"
+            android:title="@string/title_dashboard"/>
 
     <item
             android:id="@+id/navigation_messages"
-            android:icon="@drawable/ic_message_black_24dp"
             android:title="@string/title_messages"/>
 
+    <item
+            android:id="@+id/navigation_news"
+            android:title="@string/title_news"/>
+
+    <item
+            android:id="@+id/navigation_pvp_history"
+            android:title="@string/title_pvp_history"/>
+
+    <item
+            android:id="@+id/navigation_guild"
+            android:title="@string/title_guild"/>
+
+    <item
+            android:id="@+id/navigation_community"
+            android:title="@string/title_community"/>
+
+    <item
+            android:id="@+id/navigation_crafting"
+            android:title="@string/title_crafting"/>
+
+    <item
+            android:id="@+id/navigation_my_profile"
+            android:title="@string/title_my_profile"/>
+
 </menu>
+
