@@ -27,4 +27,7 @@
     <string name="crafting_icon_description">crafting icon</string>
     <string name="quest_icon">quest icon</string>
     <string name="learning_icon_description">Learning Icon</string>
+    <string name="character_selection">Select Character</string>
+    <string name="backArrow">←</string>
+    <string name="notifications">Notifications</string>
 </resources>
