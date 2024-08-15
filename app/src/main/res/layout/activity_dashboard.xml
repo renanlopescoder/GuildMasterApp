@@ -59,9 +59,9 @@
                     android:textColor="@color/black"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/dashboard_temp_prof_pic" tools:ignore="RtlSymmetry"/>
+                    app:layout_constraintEnd_toStartOf="@id/dashboard_prof_pic" tools:ignore="RtlSymmetry"/>
             <ImageView
-                    android:id="@+id/dashboard_temp_prof_pic"
+                    android:id="@+id/dashboard_prof_pic"
                     android:contentDescription="@string/temporary_profile_picture"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -306,6 +306,7 @@
                 android:elevation="4dp"
                 app:layout_constraintTop_toBottomOf="@id/overall_quests_card"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:cardCornerRadius="25dp">
             <LinearLayout
                     android:layout_width="match_parent"
