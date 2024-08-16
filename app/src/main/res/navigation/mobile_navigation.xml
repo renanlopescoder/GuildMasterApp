@@ -30,8 +30,8 @@
             tools:layout="@layout/fragment_messages"/>
 
     <fragment
-            android:id="@+id/navigation_news"
-            android:name="com.ai.guildmasterapp.ui.news.NewsFragment"
+            android:id="@+id/navigation_pvp_history"
+            android:name="com.ai.guildmasterapp.ui.pvp_history.PvpHistoryFragment"
             android:label="@string/title_messages"
             tools:layout="@layout/fragment_news"/>
 </navigation>
