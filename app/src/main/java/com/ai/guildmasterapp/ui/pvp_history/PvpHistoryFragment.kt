@@ -29,7 +29,7 @@ class PvpHistoryFragment : Fragment() {
         _binding = FragmentPvpHistoryBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textMessages
+        val textView: TextView = binding.textPvpHistory
         pvpHistoryViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
