@@ -76,7 +76,7 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task: Task<AuthResult> ->
             if (task.isSuccessful) {
                 Log.i("LoginActivity", "Login successful for email: $email")
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, CharacterSelectionActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
             } else {

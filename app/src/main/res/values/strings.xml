@@ -4,9 +4,22 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_messages">Messages</string>
-    <string name="title_hamburger">Hamburger</string>
+    <string name="title_menu">Menu</string>
     <string name="login">Login</string>
     <string name="signup">Sign Up</string>
+    <string name="notifications">Notifications</string>
+    <string name="backArrow">Back</string>
+    <string name="profile_pic">Profile Picture</string>
+    <string name="launcher_pic">Launcher</string>
+    <string name="sample_username">User Name</string>
+    <string name="sample_email">user@example.com</string>
+    <string name="title_news">News</string>
+    <string name="title_pvp_history">PVP History</string>
+    <string name="title_friends">Friends</string>
+    <string name="title_guild">Guild</string>
+    <string name="title_community">Community</string>
+    <string name="title_crafting">Crafting</string>
+    <string name="title_my_profile">My Profile</string>
     <string name="dashboard_temp_crafting">Craft Fire Sword</string>
     <string name="dashboard_temp_craft_requirements">3/5 Items Required</string>
     <string name="crafting_percent">60.00%</string>
@@ -27,4 +40,5 @@
     <string name="crafting_icon_description">crafting icon</string>
     <string name="quest_icon">quest icon</string>
     <string name="learning_icon_description">Learning Icon</string>
+    <string name="character_selection">Select Character</string>
 </resources>
