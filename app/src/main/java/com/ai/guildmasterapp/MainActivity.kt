@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
         drawerLayout = findViewById(R.id.drawer_layout) // Initializes drawerLayout
 
-       val bottomNavView: BottomNavigationView = binding.navView // Navigation for bottom menu items
+        val bottomNavView: BottomNavigationView = binding.navView // Navigation for bottom menu items
 
         val navView: NavigationView = binding.navViewDrawerMenu // Navigation for drawer menu items
 

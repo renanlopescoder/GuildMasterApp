@@ -110,6 +110,7 @@
                 android:backgroundTint="@color/dark_gray"
                 android:checked="false"/>
         <ImageButton
+                android:id="@+id/filter_button"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/filter_icon"
@@ -241,6 +242,7 @@
                         android:textColor="@color/dark_gray"
                         android:textStyle="bold"/>
                 <TextView
+                        android:id="@+id/crafting_quests_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -285,6 +287,7 @@
                         android:textColor="@color/dark_gray"
                         android:textStyle="bold"/>
                 <TextView
+                        android:id="@+id/completed_quests_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -328,6 +331,7 @@
                         android:textColor="@color/dark_gray"
                         android:textStyle="bold"/>
                 <TextView
+                        android:id="@+id/learning_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end|center"
