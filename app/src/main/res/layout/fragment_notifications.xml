@@ -5,19 +5,33 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.notifications.NotificationsFragment">
+        tools:context=".ui.messages.MessagesFragment">
 
+
+    <ImageView
+
+            android:id="@+id/backArrowWithTail"
+            android:layout_width="41dp"
+            android:layout_height="37dp"
+            android:src="@drawable/back_arrow"
+            android:contentDescription="@string/backArrow"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.075" app:layout_constraintVertical_bias="0.066"/>
     <TextView
-            android:id="@+id/text_notifications"
+            android:id="@+id/textNotifications"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginTop="16dp"
             android:textAlignment="center"
-            android:textSize="20sp"
+            android:textSize="30sp"
+            android:text="@string/notifications"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.04"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
