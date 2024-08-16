@@ -1,4 +1,4 @@
-package com.ai.guildmasterapp.ui.messages
+package com.ai.guildmasterapp.ui.news
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.ai.guildmasterapp.databinding.FragmentMessagesBinding
-import com.ai.guildmasterapp.databinding.FragmentMessagesBinding.inflate
+import com.ai.guildmasterapp.databinding.FragmentNewsBinding
+import com.ai.guildmasterapp.databinding.FragmentNewsBinding.inflate
 
-class MessagesFragment : Fragment() {
 
-    private var _binding: FragmentMessagesBinding? = null
+class NewsFragment : Fragment() {
+    private var _binding: FragmentNewsBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -23,14 +23,14 @@ class MessagesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val messagesViewModel =
-            ViewModelProvider(this).get(MessagesViewModel::class.java)
+        val newsViewModel =
+            ViewModelProvider(this).get(NewsViewModel::class.java)
 
         _binding = inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textMessages
-        messagesViewModel.text.observe(viewLifecycleOwner) {
+        newsViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
         return root

@@ -28,4 +28,10 @@
             android:name="com.ai.guildmasterapp.ui.messages.MessagesFragment"
             android:label="@string/title_messages"
             tools:layout="@layout/fragment_messages"/>
+
+    <fragment
+            android:id="@+id/navigation_news"
+            android:name="com.ai.guildmasterapp.ui.news.NewsFragment"
+            android:label="@string/title_messages"
+            tools:layout="@layout/fragment_news"/>
 </navigation>
