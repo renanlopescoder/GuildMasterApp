@@ -1,6 +1,7 @@
 package com.ai.guildmasterapp
 
 import android.os.Bundle
+import android.widget.Button
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -57,6 +58,18 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        navView.findViewById<Button>(R.id.button_about).setOnClickListener {
+
+            // Implement code to handle about button click
+        }
+
+        navView.findViewById<Button>(R.id.button_log_out).setOnClickListener {
+
+            // Implement code to handle log out button click
+        }
+
+
     }
 
     override fun onSupportNavigateUp(): Boolean {

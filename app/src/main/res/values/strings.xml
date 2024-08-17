@@ -44,4 +44,6 @@
     <string name="news_temp_text">This is the News fragment</string>
     <string name="pvp_history_temp_text">This is the PVP fragment</string>
     <string name="transparent_product_logo">Transparent Product Logo</string>
+    <string name="about_button">About</string>
+    <string name="log_out_button">Log Out</string>
 </resources>

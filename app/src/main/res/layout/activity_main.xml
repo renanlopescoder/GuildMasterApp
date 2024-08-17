@@ -45,14 +45,58 @@
 
         <!-- Navigation Drawer Menu -->
         <com.google.android.material.navigation.NavigationView
-            android:id="@+id/nav_view_drawer_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            app:itemBackground="@drawable/menu_item_background"
-            app:menu="@menu/drawer_menu"
-            app:headerLayout="@layout/nav_drawer_header_main"
-            tools:ignore="MissingConstraints"
-        />
+                android:id="@+id/nav_view_drawer_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                app:itemBackground="@drawable/menu_item_background"
+                app:menu="@menu/drawer_menu"
+                app:headerLayout="@layout/nav_drawer_header_main"
+                tools:ignore="MissingConstraints">
+
+            <!-- Includes 2 buttons (About & Log out)-->
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="4dp"
+                    android:gravity="center"
+                    android:layout_gravity="bottom">
+
+
+                <!-- <com.google.android.material.button.MaterialButton
+                            android:id="@+id/button_about"
+                            style="@style/Widget.MaterialComponents.Button"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:text="@string/about_button"
+                            android:textColor="@color/white"
+                            app:cornerRadius="16dp"
+                            android:backgroundTint="@color/dark_gray" /> -->
+                <Button
+                        android:id="@+id/button_about"
+                        style="@style/AppTheme.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="@string/about_button"
+                        android:radius="100dp"
+                />
+
+                <Button
+                        android:id="@+id/button_log_out"
+                        style="@style/AppTheme.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="@string/log_out_button"
+
+                />
+
+            </LinearLayout>
+
+        </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>
+
+<!-- android:background="@drawable/button_rounded_secondary" -->
