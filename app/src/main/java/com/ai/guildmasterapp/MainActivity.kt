@@ -1,5 +1,6 @@
 package com.ai.guildmasterapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -64,9 +65,17 @@ class MainActivity : AppCompatActivity() {
             // Implement code to handle about button click
         }
 
+        // When the log-out button is clicked
         navView.findViewById<Button>(R.id.button_log_out).setOnClickListener {
 
-            // Implement code to handle log out button click
+            // Initializes intent to navigate back to the login screen
+            val intent = Intent(this, LoginActivity::class.java)
+
+            // Ensures that the user cannot go back to the main activity
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+
+            startActivity(intent) // Opens the Login screen
+            finish() // Ends MainActivity
         }
 
 
