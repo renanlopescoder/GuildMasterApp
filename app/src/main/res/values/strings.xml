@@ -43,4 +43,5 @@
     <string name="character_selection">Select Character</string>
     <string name="news_temp_text">This is the News fragment</string>
     <string name="pvp_history_temp_text">This is the PVP fragment</string>
+    <string name="transparent_product_logo">Transparent Product Logo</string>
 </resources>
