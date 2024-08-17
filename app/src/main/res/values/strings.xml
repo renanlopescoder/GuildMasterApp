@@ -41,4 +41,6 @@
     <string name="quest_icon">quest icon</string>
     <string name="learning_icon_description">Learning Icon</string>
     <string name="character_selection">Select Character</string>
+    <string name="clear_all">Clear All</string>
+    <string name="save_changes">Save Changes</string>
 </resources>

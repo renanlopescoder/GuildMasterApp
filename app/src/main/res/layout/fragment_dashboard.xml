@@ -53,7 +53,6 @@
                     android:id="@+id/dashboard_greeting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingEnd="30dp"
                     android:text="@string/hello_nwizard"
                     android:textSize="36sp"
                     android:textColor="@color/black"

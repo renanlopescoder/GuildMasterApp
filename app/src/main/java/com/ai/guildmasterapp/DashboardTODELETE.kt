@@ -1,7 +1,6 @@
 package com.ai.guildmasterapp
 
 import android.annotation.SuppressLint
-import android.media.Image
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,12 +9,11 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ToggleButton
-import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.FragmentActivity
 
 
-class DashBoard_Activity : FragmentActivity()
+class DashBoardActivity : FragmentActivity()
 {
     private lateinit var dashboardGreeting : TextView
     private lateinit var profileImage: ImageView
@@ -39,12 +37,9 @@ class DashBoard_Activity : FragmentActivity()
         dashboardGreeting = findViewById(R.id.dashboard_greeting)
         profileImage = findViewById(R.id.dashboard_temp_prof_pic)
         craftingQuestsCard = findViewById(R.id.crafting_quests_card)
-        craftingQuestsCount = findViewById(R.id.crafting_quests_count)
-        completedQuestsCount = findViewById(R.id.completed_quests_count)
-        learningCount = findViewById(R.id.learning_count)
         overviewToggleButton = findViewById(R.id.dashboard_overview_toggle)
         pvpToggleButton = findViewById(R.id.dashboard_pvp_toggle)
-        filterButton = findViewById(R.id.filter_button)
+
 
         setDashboardGreeting("JESSE")
         setCraftingQuestsCount(20)
