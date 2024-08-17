@@ -15,7 +15,6 @@
                 android:paddingTop="?attr/actionBarSize">
 
             <!-- Bottom Navigation Menu -->
-            <!-- Navigation controller (Displays different fragments) -->
             <com.google.android.material.bottomnavigation.BottomNavigationView
                     android:id="@+id/nav_view"
                     android:layout_width="0dp"
@@ -28,6 +27,8 @@
                     app:itemTextColor="@color/white_clear"
                     app:menu="@menu/bottom_nav_menu"
                     app:layout_constraintHorizontal_bias="0.0"/>
+
+            <!-- Navigation controller (Displays different fragments) -->
             <fragment
                     android:id="@+id/nav_host_fragment_activity_main"
                     android:name="androidx.navigation.fragment.NavHostFragment"
@@ -63,16 +64,6 @@
                     android:gravity="center"
                     android:layout_gravity="bottom">
 
-
-                <!-- <com.google.android.material.button.MaterialButton
-                            android:id="@+id/button_about"
-                            style="@style/Widget.MaterialComponents.Button"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:text="@string/about_button"
-                            android:textColor="@color/white"
-                            app:cornerRadius="16dp"
-                            android:backgroundTint="@color/dark_gray" /> -->
                 <Button
                         android:id="@+id/button_about"
                         style="@style/AppTheme.Button"
@@ -99,4 +90,3 @@
 
 </androidx.drawerlayout.widget.DrawerLayout>
 
-<!-- android:background="@drawable/button_rounded_secondary" -->

@@ -43,6 +43,11 @@
     <string name="character_selection">Select Character</string>
     <string name="news_temp_text">This is the News fragment</string>
     <string name="pvp_history_temp_text">This is the PVP fragment</string>
+    <string name="friends_temp_text">This is the Friends fragment</string>
+    <string name="guild_temp_text">This is the Guild fragment</string>
+    <string name="community_temp_text">This is the Community fragment</string>
+    <string name="crafting_temp_text">This is the Crafting fragment</string>
+    <string name="my_profile_temp_text">This is the My Profile fragment</string>
     <string name="transparent_product_logo">Transparent Product Logo</string>
     <string name="about_button">About</string>
     <string name="log_out_button">Log Out</string>
