@@ -1,22 +1,17 @@
 package com.ai.guildmasterapp.ui.dashboard
 
 import android.annotation.SuppressLint
-import android.app.ActionBar
-import android.content.Context
-import android.widget.PopupWindow
 import android.graphics.Color
 import android.os.Bundle
-import android.widget.Button
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.ai.guildmasterapp.R
+import android.widget.PopupWindow
+import android.widget.ImageButton
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.ai.guildmasterapp.databinding.FragmentDashboardBinding
 
 
@@ -48,7 +43,7 @@ class DashboardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
+            ViewModelProvider(this)[DashboardViewModel::class.java]
 
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -64,22 +59,27 @@ class DashboardFragment : Fragment() {
         learningCount = root.findViewById(R.id.learning_count)
         overviewToggleButton = root.findViewById(R.id.dashboard_overview_toggle)
         pvpToggleButton = root.findViewById(R.id.dashboard_pvp_toggle)
+        filterButton = root.findViewById(R.id.filter_button)
 
         //THESE FUNCTION CALLS ARE FOR TESTING ONLY
-        setDashboardGreeting("Swordsman")
-        setLearningCount(20)
-        setCraftingQuestsCount(200)
-        setCompletedQuestsCount(2000)
+        setDashboardGreeting("Warrior")
+        setLearningCount(30)
+        setCraftingQuestsCount(14)
+        setCompletedQuestsCount(100)
 
         //THESE FUNCTION CALLS CHANGE THE ELEVATION AND COLOR OF THE 3 CARDS AT THE BOTTOM
         setCardListeners(craftingQuestsCard)
         setCardListeners(overallQuestsCard)
         setCardListeners(learningCard)
 
+
         //THIS BINDS THE TOGGLE BUTTONS SO OVERVIEW IS ON WHEN PVP IS OFF, AND VISA VERSA
         bindToggleButtons(overviewToggleButton,pvpToggleButton)
 
-
+        //This brings up the popup window
+        filterButton.setOnClickListener{
+            showFilters(it)
+        }
 
 
 
@@ -153,34 +153,87 @@ class DashboardFragment : Fragment() {
         }
     }
 
-    private fun showPopupWindow(view: View) {
-        // Inflate the popup_window.xml
-        val inflater: LayoutInflater = getSystemService(this,Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val popupView: View = inflater.inflate(R.layout.popup_window, null)
+    @SuppressLint("UseCompatOrMaterialCode")
+    private fun showFilters(view: View){
+        val rootLayout: ConstraintLayout = requireView().findViewById(R.id.root_layout)
+        val overlay: View = requireView().findViewById(R.id.overlay)
 
-        // Create the PopupWindow
-        val popupWindow = PopupWindow(popupView,
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            true)
+        val inflater = layoutInflater
+        val popupView = inflater.inflate(R.layout.popop_overview_filter,null)
 
-        // Show the PopupWindow
-        popupWindow.showAsDropDown(view, 0, 0)
+        val popupWindow = PopupWindow(
+            popupView,
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,)
 
-        // Set up click listeners for the buttons
-        val clearAllButton: Button = popupView.findViewById(R.id.clearAllButton)
-        val saveChangesButton: Button = popupView.findViewById(R.id.saveChangesButton)
+        overlay.visibility = View.VISIBLE
 
-        clearAllButton.setOnClickListener {
-            // Handle Clear All button click
+        //Open the popupWindow at the bottom of the screen
+        popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0)
+
+
+        //Access the switches
+        val craftingQuestsSwitch: Switch = popupView.findViewById(R.id.switchQuest)
+        val completedQuestsSwitch: Switch = popupView.findViewById(R.id.switchQuestsCompleted)
+        val learningSwitch: Switch = popupView.findViewById(R.id.switchLearning)
+        val saveButton: Button = popupView.findViewById(R.id.save_changes_button)
+        val clearAllButton: Button = popupView.findViewById(R.id.clear_all_button)
+
+        // Set the switches' states based on the current visibility of the CardViews
+        craftingQuestsSwitch.isChecked = craftingQuestsCard.visibility == View.VISIBLE
+        completedQuestsSwitch.isChecked = overallQuestsCard.visibility == View.VISIBLE
+        learningSwitch.isChecked = learningCard.visibility == View.VISIBLE
+
+        // Variables to store the desired visibility state
+        var craftingSwitchState = craftingQuestsSwitch.isChecked
+        var overallQuestsSwitchState = completedQuestsSwitch.isChecked
+        var learningSwitchState = learningSwitch.isChecked
+
+        //Listeners to change the state based on the switch
+        craftingQuestsSwitch.setOnCheckedChangeListener { _, isChecked ->
+            craftingSwitchState = isChecked
+        }
+
+        completedQuestsSwitch.setOnCheckedChangeListener { _, isChecked ->
+            overallQuestsSwitchState = isChecked
+        }
+
+        learningSwitch.setOnCheckedChangeListener { _, isChecked ->
+            learningSwitchState = isChecked
+        }
+
+        //Save the changes if the button is pressed, and close the pop-up window
+        saveButton.setOnClickListener{
+            craftingQuestsCard.visibility = if (craftingSwitchState) View.VISIBLE else View.GONE
+            overallQuestsCard.visibility = if (overallQuestsSwitchState) View.VISIBLE else View.GONE
+            learningCard.visibility = if (learningSwitchState) View.VISIBLE else View.GONE
+
             popupWindow.dismiss()
         }
 
-        saveChangesButton.setOnClickListener {
-            // Handle Save Changes button click
+
+        //Turn the switches off and change the state
+        clearAllButton.setOnClickListener{
+            craftingQuestsSwitch.isChecked = false
+            completedQuestsSwitch.isChecked = false
+            learningSwitch.isChecked = false
+
+            craftingSwitchState = false
+            overallQuestsSwitchState = false
+            learningSwitchState = false
+        }
+
+        popupWindow.setOnDismissListener {
+            overlay.visibility = View.GONE
+        }
+
+        //Close the window if touched anywhere else, does not save any changes
+        popupView.setOnTouchListener {_,_->
             popupWindow.dismiss()
+            true
         }
     }
+
 
 
 }
