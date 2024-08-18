@@ -16,7 +16,7 @@
 
             <!-- Bottom Navigation Menu -->
             <com.google.android.material.bottomnavigation.BottomNavigationView
-                    android:id="@+id/nav_view"
+                    android:id="@+id/nav_view_bottom_menu"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bottom_menu_shape"
@@ -35,7 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:defaultNavHost="true"
-                    app:layout_constraintBottom_toTopOf="@id/nav_view"
+                    app:layout_constraintBottom_toTopOf="@id/nav_view_bottom_menu"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
