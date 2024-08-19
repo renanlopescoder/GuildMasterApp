@@ -76,7 +76,7 @@
                             android:layout_height="wrap_content"
                             android:textAlignment="textStart"
                             android:textSize="16sp"
-                            android:text="Guild post replied"
+                            android:text="@string/guild_post_replied"
                             android:textColor="@color/black"
                             android:textStyle="bold"
                             android:padding="8dp"/>
@@ -86,8 +86,8 @@
                             android:layout_height="wrap_content"
                             android:textAlignment="textEnd"
                             android:textSize="16sp"
-                            android:text="Augsut 19th"
-                            android:textColor="@color/teal_200"
+                            android:text="@string/august_19th"
+                            android:textColor="@color/red"
                             android:textStyle="bold"
                             android:padding="8dp"/>
 
@@ -99,7 +99,7 @@
                         android:textAlignment="textStart"
                         android:textSize="16sp"
                         android:padding="8dp"
-                        android:text="@string/notifications_guild_post"
+                        android:text="@string/notifications_guild_post_example"
                         android:textColor="@color/dark_gray"
                         android:textStyle="normal"/>
 
