@@ -16,17 +16,18 @@
 
             <!-- Bottom Navigation Menu -->
             <com.google.android.material.bottomnavigation.BottomNavigationView
-                    android:id="@+id/nav_view"
+                    android:id="@+id/nav_view_bottom_menu"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginEnd="0dp"
-                    android:background="@color/dark_red"
+                    android:background="@drawable/bottom_menu_shape"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
+                    app:itemIconTint="@color/bottom_menu_icon_color_toggle"
+                    app:itemTextColor="@color/white_clear"
                     app:menu="@menu/bottom_nav_menu"
-            />
+                    app:layout_constraintHorizontal_bias="0.0"/>
+
             <!-- Navigation controller (Displays different fragments) -->
             <fragment
                     android:id="@+id/nav_host_fragment_activity_main"
@@ -34,37 +35,58 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:defaultNavHost="true"
-                    app:layout_constraintBottom_toTopOf="@id/nav_view"
+                    app:layout_constraintBottom_toTopOf="@id/nav_view_bottom_menu"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:navGraph="@navigation/mobile_navigation"
             />
-<!--            <ImageView-->
-<!--                    android:id="@+id/launcher_image"-->
-<!--                    android:layout_width="115dp"-->
-<!--                    android:layout_height="156dp"-->
-<!--                    android:layout_gravity="end"-->
-<!--                    android:contentDescription="@string/launcher_pic"-->
-<!--                    app:srcCompat="@mipmap/ic_launcher"-->
-<!--                    app:layout_constraintLeft_toLeftOf="parent"-->
-<!--                    app:layout_constraintRight_toRightOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:layout_constraintBottom_toTopOf="@id/nav_view"-->
-<!--                    app:layout_constraintHorizontal_bias="0.945"-->
-<!--                    app:layout_constraintVertical_bias="0.0"/>-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- Navigation Drawer Menu -->
         <com.google.android.material.navigation.NavigationView
-            android:id="@+id/nav_view_drawer_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            app:menu="@menu/drawer_menu"
-            app:headerLayout="@layout/nav_drawer_header_main"
-            tools:ignore="MissingConstraints"
-        />
+                android:id="@+id/nav_view_drawer_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                app:itemBackground="@drawable/menu_item_background"
+                app:menu="@menu/drawer_menu"
+                app:headerLayout="@layout/nav_drawer_header_main"
+                tools:ignore="MissingConstraints">
+
+            <!-- Includes 2 buttons (About & Log out)-->
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="4dp"
+                    android:gravity="center"
+                    android:layout_gravity="bottom">
+
+                <Button
+                        android:id="@+id/button_about"
+                        style="@style/AppTheme.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="@string/about_button"
+                        android:radius="100dp"
+                />
+
+                <Button
+                        android:id="@+id/button_log_out"
+                        style="@style/AppTheme.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="@string/log_out_button"
+
+                />
+
+            </LinearLayout>
+
+        </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>
+

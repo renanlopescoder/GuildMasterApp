@@ -18,6 +18,10 @@
             android:title="@string/title_pvp_history"/>
 
     <item
+            android:id="@+id/navigation_friends"
+            android:title="@string/title_friends"/>
+
+    <item
             android:id="@+id/navigation_guild"
             android:title="@string/title_guild"/>
 

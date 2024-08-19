@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/mobile_navigation"
-            app:startDestination="@+id/navigation_home" tools:ignore="ExtraText">
+<navigation
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/mobile_navigation"
+        app:startDestination="@+id/navigation_home">
 
     <fragment
             android:id="@+id/navigation_home"
@@ -28,4 +29,52 @@
             android:name="com.ai.guildmasterapp.ui.messages.MessagesFragment"
             android:label="@string/title_messages"
             tools:layout="@layout/fragment_messages"/>
+
+    <fragment
+            android:id="@+id/navigation_news"
+            android:name="com.ai.guildmasterapp.ui.news.NewsFragment"
+            android:label="@string/title_news"
+            tools:layout="@layout/fragment_news"/>
+
+    <fragment
+            android:id="@+id/navigation_pvp_history"
+            android:name="com.ai.guildmasterapp.ui.pvp_history.PvpHistoryFragment"
+            android:label="@string/title_pvp_history"
+            tools:layout="@layout/fragment_pvp_history"/>
+
+    <fragment
+            android:id="@+id/navigation_friends"
+            android:name="com.ai.guildmasterapp.ui.friends.FriendsFragment"
+            android:label="@string/title_friends"
+            tools:layout="@layout/fragment_friends"/>
+
+    <fragment
+            android:id="@+id/navigation_guild"
+            android:name="com.ai.guildmasterapp.ui.guild.GuildFragment"
+            android:label="@string/title_guild"
+            tools:layout="@layout/fragment_guild"/>
+
+    <fragment
+            android:id="@+id/navigation_community"
+            android:name="com.ai.guildmasterapp.ui.community.CommunityFragment"
+            android:label="@string/title_community"
+            tools:layout="@layout/fragment_community"/>
+
+    <fragment
+            android:id="@+id/navigation_crafting"
+            android:name="com.ai.guildmasterapp.ui.crafting.CraftingFragment"
+            android:label="@string/title_crafting"
+            tools:layout="@layout/fragment_crafting"/>
+
+    <fragment
+            android:id="@+id/navigation_my_profile"
+            android:name="com.ai.guildmasterapp.ui.profile.ProfileFragment"
+            android:label="@string/title_my_profile"
+            tools:layout="@layout/fragment_my_profile"/>
+
+    <fragment
+            android:id="@+id/navigation_about"
+            android:name="com.ai.guildmasterapp.ui.about.AboutFragment"
+            android:label="@string/title_about"
+            tools:layout="@layout/fragment_about"/>
 </navigation>

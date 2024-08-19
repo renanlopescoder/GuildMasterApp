@@ -5,10 +5,10 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.messages.MessagesFragment">
+        tools:context=".ui.notifications.NotificationsFragment">
 
 
-    <ImageView
+    <!-- <ImageView
 
             android:id="@+id/backArrowWithTail"
             android:layout_width="41dp"
@@ -19,7 +19,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.075" app:layout_constraintVertical_bias="0.066"/>
+            app:layout_constraintHorizontal_bias="0.075" app:layout_constraintVertical_bias="0.066"/> -->
     <TextView
             android:id="@+id/textNotifications"
             android:layout_width="match_parent"
