@@ -54,4 +54,17 @@
     <string name="transparent_product_logo">Transparent Product Logo</string>
     <string name="about_button">About</string>
     <string name="log_out_button">Log Out</string>
+
+
+
+    <!-- Notifications fragment string values -->
+
+    <!-- image Content description -->
+    <string name="notifications_background">Notifications background image</string>
+
+    <!-- Notification examples -->
+    <string name="notifications_guild_post">
+        I found out that the wizard class now have increased
+        cast speed for Fireball and Meteor, this combo can make massive MDMG.
+    </string>
 </resources>
