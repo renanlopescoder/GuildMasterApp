@@ -81,12 +81,37 @@
     <string name="notifications_background">Notifications background image</string>
 
     <!-- Notification examples -->
-
     <!-- First -->
     <string name="guild_post_replied">Guild post replied</string>
     <string name="august_19th">August 19th</string>
     <string name="notifications_guild_post_example">
         I found out that the wizard class now have increased
-        cast speed for Fireball and Meteor, this combo can make massive MDMG.
+        cast speed for Fireball and Meteor, this combo can make massive MDMG
     </string>
+
+    <!-- Second -->
+    <string name="assassin_class_updates">Assassin class updates</string>
+    <string name="august_1st">August 1st</string>
+    <string name="notifications_assassin_class_updates_example">
+        Assassin class has now decreased cool-down for invisible attack,
+        but also decreased invisible skill time, that changed the PVP rank this month
+    </string>
+
+    <!-- Third -->
+    <string name="wizard_legendary_robe">New Wizard Legendary Robe (PVP)</string>
+    <string name="july_15th">July 15th</string>
+    <string name="notifications_wizard_legendary_robe_example">
+        The new Legendary Robe for the Wizard class is one of the best options for
+        fire cast wizards, it increases fire attacks by 20%
+    </string>
+
+    <!-- Fourth -->
+    <string name="warrior_combo_changed">Warrior most used combo changed</string>
+    <string name="may_4th">May 4th</string>
+    <string name="notifications_warrior_combo_changed_example">
+        Warriors now cannot cast Fire Blade and Ice Blade directly,
+        cool-down is required in between both attacks when casting in sequence
+    </string>
+
+
 </resources>
