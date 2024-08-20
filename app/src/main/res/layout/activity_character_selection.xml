@@ -1,13 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <LinearLayout
-            android:id="@+id/characters"
+
+    <ImageView
+            android:id="@+id/backgroundImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/character_selection_background"
+            android:contentDescription="ss"/>
+    <HorizontalScrollView
+            android:id="@+id/character_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp"/>
+            android:layout_alignParentBottom="true"
+            android:padding="16dp">
 
-</ScrollView>
+        <LinearLayout
+                android:id="@+id/characters"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"/>
+    </HorizontalScrollView>
+
+    <RelativeLayout
+            android:id="@+id/selected_character_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/overlay_dark"
+            android:visibility="gone"
+            android:padding="16dp">
+
+        <ImageView
+                android:id="@+id/selected_character_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:contentDescription="Race"
+                android:maxHeight="600dp"
+                android:adjustViewBounds="true"/>
+
+        <TextView
+                android:id="@+id/selected_character_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/selected_character_image"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="20dp"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        <TextView
+                android:id="@+id/selected_character_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/selected_character_name"
+                android:layout_marginStart="5dp"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+        <TextView
+                android:id="@+id/selected_character_race"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/selected_character_level"
+                android:layout_marginStart="5dp"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+        <TextView
+                android:id="@+id/selected_character_profession"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/selected_character_race"
+                android:layout_marginStart="5dp"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+        <TextView
+                android:id="@+id/selected_character_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/selected_character_profession"
+                android:layout_marginStart="5dp"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+    </RelativeLayout>
+</RelativeLayout>
