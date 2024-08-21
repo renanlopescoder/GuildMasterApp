@@ -16,6 +16,7 @@ import com.google.android.material.progressindicator.CircularProgressIndicator
 
 class PVPFragment : Fragment(R.layout.fragment_dashboard_pvp) {
 
+    //Initialization of variables
     private lateinit var pvpWinLossGraph: CircularProgressIndicator
     private lateinit var winLoss: TextView
     private lateinit var rank: TextView
@@ -29,13 +30,17 @@ class PVPFragment : Fragment(R.layout.fragment_dashboard_pvp) {
     private lateinit var ladderSpinner: Spinner
     private lateinit var ladderIcon: ImageView
 
+    // values are currently used for testing purposes, will update once the API is up
     private val wins = 20
     private val losses = 20
+
     private val totalMatches: Int
         get() = wins + losses
 
+    // value used for the circular progress bar
     private val lossPercentage: Float = (losses.toFloat() / totalMatches) * 100
 
+    // list of images, used for the professions icons
     private val professionIcons = listOf(
         R.drawable.mesmer_icon,
         R.drawable.guardian_icon,
@@ -47,6 +52,7 @@ class PVPFragment : Fragment(R.layout.fragment_dashboard_pvp) {
         R.drawable.engineer_icon
     )
 
+    // list of images, used for the ladderIcons
     private val ladderIcons = listOf(
         R.drawable.ranked_icon,
         R.drawable.unranked_icon
@@ -54,19 +60,22 @@ class PVPFragment : Fragment(R.layout.fragment_dashboard_pvp) {
 
 
 
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //Overall PVP variables
         pvpWinLossGraph = view.findViewById(R.id.pvp_win_loss)
         winLoss = view.findViewById(R.id.wins_vs_loss)
         rank = view.findViewById(R.id.pvp_rank)
         rankPoints = view.findViewById(R.id.pvp_rank_points)
         rankRollovers = view.findViewById(R.id.pvp_rank_rollovers)
         pvpSpinner = view.findViewById(R.id.pvp_spinner)
+
+        // Cards
         professionsCard = view.findViewById(R.id.pvp_professions)
         ladderCard = view.findViewById(R.id.pvp_ladder)
+
+        // Spinners and Icons
         professionsSpinner = view.findViewById(R.id.pvp_professions_spinner)
         professionIcon = view.findViewById(R.id.profession_icon)
         ladderSpinner = view.findViewById(R.id.ladder_spinner)
@@ -84,23 +93,11 @@ class PVPFragment : Fragment(R.layout.fragment_dashboard_pvp) {
         startLadderSpinner()
         pvpWinLossGraph.setProgressCompat(lossPercentage.toInt(),true)
 
-        val professionsAdapter = ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.professions_spinner_items,
-            R.layout.spinner_layout
-        )
 
-        val ladderAdapter = ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.ladder_spinner_items,
-            R.layout.spinner_layout
-        )
 
-        ladderAdapter.setDropDownViewResource(R.layout.spinner_layout)
-        ladderSpinner.adapter = ladderAdapter
 
-        professionsAdapter.setDropDownViewResource(R.layout.spinner_layout)
-        professionsSpinner.adapter = professionsAdapter
+
+
 
 
 
@@ -152,9 +149,21 @@ class PVPFragment : Fragment(R.layout.fragment_dashboard_pvp) {
     }
 
     private fun startProfSpinner(){
+        //Creates an adapter for the spinner, lets me tie the array of choices and the custom layout.
+        // The custom layout is needed to be able to customize the text
+        val professionsAdapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.professions_spinner_items,
+            R.layout.spinner_layout
+        )
 
+        //Tell the adapter what layout to use
+        professionsAdapter.setDropDownViewResource(R.layout.spinner_layout)
 
+        //Tie the adapter to the spinner
+        professionsSpinner.adapter = professionsAdapter
 
+        //Set the background color and icon based on the Profession chosen from the spinner
         professionsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent:AdapterView<*>, view: View?, position: Int, id: Long) {
                 when (position){
@@ -185,6 +194,7 @@ class PVPFragment : Fragment(R.layout.fragment_dashboard_pvp) {
                      }
                 }
 
+            //If nothing is chosen, set the background to white_clear. (shouldn't be able to happen)
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 professionsCard.setCardBackgroundColor(Color.parseColor("#CCFFFFFF"))
             }
@@ -193,8 +203,22 @@ class PVPFragment : Fragment(R.layout.fragment_dashboard_pvp) {
 
     private fun startLadderSpinner(){
 
+        //Creates an adapter for the spinner, lets me tie the array of choices and the custom layout.
+        // The custom layout is needed to be able to customize the text
+        val ladderAdapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.ladder_spinner_items,
+            R.layout.spinner_layout
+        )
+
+        //Tell the adapter what layout to use
+        ladderAdapter.setDropDownViewResource(R.layout.spinner_layout)
+
+        //Tie the adapter to the spinner
+        ladderSpinner.adapter = ladderAdapter
 
 
+        //Set the background color and Icon based on the selection chosen from the spinner
         ladderSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent:AdapterView<*>, view: View?, position: Int, id: Long) {
                 when (position){
@@ -206,11 +230,11 @@ class PVPFragment : Fragment(R.layout.fragment_dashboard_pvp) {
                         ladderIcon.setImageResource(ladderIcons[position])}
                 }
             }
+
+            //If nothing is chosen, set the background to white_clear. (shouldn't be able to happen)
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 ladderCard.setCardBackgroundColor(Color.parseColor("#CCFFFFFF"))
             }
         }
     }
 }
-
-
