@@ -12,5 +12,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="white_clear">#CCFFFFFF</color>
     <color name="yellow">#F4E842</color>
-    <color name="yellow_clear">#99F4E842</color>
+    <color name="yellow_clear">#CCF4E842</color>
 </resources>

@@ -1,6 +1,9 @@
 package com.ai.guildmasterapp
 
+import android.app.Notification.Action
 import android.os.Bundle
+import android.view.Window
+import androidx.appcompat.app.ActionBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -21,6 +24,8 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.hide()
+
 
         drawerLayout = findViewById(R.id.drawer_layout) // Initializes drawerLayout
 
