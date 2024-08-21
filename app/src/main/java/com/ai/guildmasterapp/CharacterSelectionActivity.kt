@@ -1,14 +1,11 @@
 package com.ai.guildmasterapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.ai.guildmasterapp.api.GuildWars2Api
@@ -24,6 +21,8 @@ class CharacterSelectionActivity : AppCompatActivity() {
     private lateinit var selectedCharacterRace: TextView
     private lateinit var selectedCharacterGender: TextView
     private lateinit var selectedCharacterProfession: TextView
+    private lateinit var selectButton: Button
+    private val selectionIcons = mutableListOf<ImageView>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +36,7 @@ class CharacterSelectionActivity : AppCompatActivity() {
         selectedCharacterRace = findViewById(R.id.selected_character_race)
         selectedCharacterGender = findViewById(R.id.selected_character_gender)
         selectedCharacterProfession = findViewById(R.id.selected_character_profession)
+        selectButton = findViewById(R.id.selectButton)
 
         // FETCH API DATA
         val api = GuildWars2Api()
@@ -46,6 +46,11 @@ class CharacterSelectionActivity : AppCompatActivity() {
                     populateCharacters(characters)
                 }
             }
+        }
+
+        selectButton.setOnClickListener {
+            val navigationIntent = Intent(this, MainActivity::class.java)
+            startActivity(navigationIntent)
         }
     }
 
@@ -80,7 +85,10 @@ class CharacterSelectionActivity : AppCompatActivity() {
                 // Default is Inactive Icon
                 setImageResource(R.drawable.select_inactive_icon)
                 contentDescription = "Selection icon Inactive"
+                tag = "inactive" // Default inactive
             }
+
+            selectionIcons.add(selectionIcon)
 
             val textView = TextView(this).apply {
                 text = characterName
@@ -155,6 +163,12 @@ class CharacterSelectionActivity : AppCompatActivity() {
             val fadeOutAnimation = AnimationUtils.loadAnimation(this, android.R.anim.fade_out)
             selectedCharacterOverlay.startAnimation(fadeOutAnimation)
             selectedCharacterOverlay.visibility = View.GONE
+
+            // Set all selection icons to inactive
+            selectionIcons.forEach { icon ->
+                icon.setImageResource(R.drawable.select_inactive_icon)
+                icon.tag = "inactive"
+            }
         }
     }
 }
