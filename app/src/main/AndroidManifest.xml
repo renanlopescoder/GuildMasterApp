@@ -16,9 +16,9 @@
         <activity
                 android:name=".LoginActivity"
                 android:exported="true"
-                android:label="@string/login"
+                android:label="@string/title_login"
                 android:theme="@style/Theme.GuildMasterApp.NoActionBar">
-        >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -28,9 +28,9 @@
         <activity
                 android:name=".SignupActivity"
                 android:exported="true"
-                android:label="@string/signup"
+                android:label="@string/title_signup"
                 android:theme="@style/Theme.GuildMasterApp.NoActionBar">
-            >
+
         </activity>
 
         <activity
