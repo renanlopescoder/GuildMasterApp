@@ -11,6 +11,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.*
 import com.ai.guildmasterapp.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
+import com.ai.guildmasterapp.GlobalState
+
 
 class MainActivity : AppCompatActivity() {
 

@@ -9,7 +9,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.ai.guildmasterapp.api.GuildWars2Api
-import com.ai.guildmasterapp.api.CharacterDetail
+import com.ai.guildmasterapp.CharacterDetail
 
 class CharacterSelectionActivity : AppCompatActivity() {
 
@@ -134,10 +134,9 @@ class CharacterSelectionActivity : AppCompatActivity() {
         selectedCharacterOverlay.startAnimation(fadeInAnimation)
 
         val api = GuildWars2Api()
-        api.getCharacterDetails(characterName) { characterDetails ->
+        api.getCharacterDetails(characterName) { detail ->
             runOnUiThread {
-                if (characterDetails != null) {
-                    val detail = characterDetails[0]
+                if (detail != null) {
                     selectedCharacterLevel.text = "Level: ${detail.level}"
                     selectedCharacterRace.text = "Race: ${detail.race}"
                     selectedCharacterGender.text = "Gender: ${detail.gender}"
