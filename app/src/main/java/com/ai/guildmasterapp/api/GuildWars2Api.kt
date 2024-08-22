@@ -7,7 +7,11 @@ import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
-import kotlinx.serialization.Serializable
+import com.ai.guildmasterapp.GlobalState
+import com.ai.guildmasterapp.CharacterDetail
+import com.ai.guildmasterapp.Equipment
+import com.ai.guildmasterapp.Item
+import com.ai.guildmasterapp.Bag
 
 class GuildWars2Api {
 
@@ -24,7 +28,7 @@ class GuildWars2Api {
         }
     }
 
-    fun getCharacterDetails(characterId: String, callback: (List<CharacterDetail>?) -> Unit) {
+    fun getCharacterDetails(characterId: String, callback: (CharacterDetail?) -> Unit) {
         val user = FirebaseAuth.getInstance().currentUser
         val uid = user?.uid
 
@@ -49,7 +53,7 @@ class GuildWars2Api {
             }
     }
 
-    fun fetchCharacterDetails(apiKey: String, characterId: String, callback: (List<CharacterDetail>?) -> Unit) {
+    fun fetchCharacterDetails(apiKey: String, characterId: String, callback: (CharacterDetail?) -> Unit) {
         val request = Request.Builder()
             .url("https://api.guildwars2.com/v2/characters?access_token=$apiKey&ids=$characterId")
             .build()
@@ -59,8 +63,9 @@ class GuildWars2Api {
                 response.body?.string()?.let { jsonResponse ->
                     try {
                         if (jsonResponse.isNotEmpty()) {
-                            val characterDetails = Json.decodeFromString<List<CharacterDetail>>(jsonResponse)
+                            val characterDetails = Json.decodeFromString<List<CharacterDetail>>(jsonResponse)[0]
                             callback(characterDetails)
+                            GlobalState.characterDetail = characterDetails
                         } else {
                             callback(getFallbackCharacterDetails())
                         }
@@ -83,9 +88,8 @@ class GuildWars2Api {
         })
     }
 
-    private fun getFallbackCharacterDetails(): List<CharacterDetail> {
-        return listOf(
-            CharacterDetail(
+    private fun getFallbackCharacterDetails(): CharacterDetail {
+        val char =  CharacterDetail(
                 name = "Lopescodex",
                 race = "Human",
                 gender = "Male",
@@ -130,7 +134,9 @@ class GuildWars2Api {
                     null, null, null, null
                 )
             )
-        )
+
+        GlobalState.characterDetail = char
+        return char
     }
 
 
@@ -146,6 +152,7 @@ class GuildWars2Api {
                         if (jsonResponse.isNotEmpty()) {
                             val characters = Json.decodeFromString<List<String>>(jsonResponse)
                             callback(characters)
+                            GlobalState.characters = characters
                         } else {
                             callback(listOf("lopescodex", "AI Squad"))
                         }
@@ -154,55 +161,20 @@ class GuildWars2Api {
                     } catch (e: Exception) {
                         Log.e("GuildWars2Api", "Unexpected error: ${e.message}")
                         callback(listOf("lopescodex", "AI Squad"))
+                        GlobalState.characters = listOf("lopescodex", "AI Squad")
                     }
                 } ?: run {
                     callback(listOf("lopescodex", "AI Squad"))
+                    GlobalState.characters = listOf("lopescodex", "AI Squad")
                 }
             }
 
             override fun onFailure(call: okhttp3.Call, e: IOException) {
                 Log.e("GuildWars2Api", "API call failed: ${e.message}")
                 callback(listOf("lopescodex", "AI Squad"))
+                GlobalState.characters = listOf("lopescodex", "AI Squad")
             }
         })
     }
 }
 
-@Serializable
-data class CharacterDetail(
-    val name: String,
-    val race: String,
-    val gender: String,
-    val profession: String,
-    val level: Int,
-    val age: Int,
-    val created: String,
-    val deaths: Int,
-    val equipment: List<Equipment>,
-    val bags: List<Bag?>
-)
-
-@Serializable
-data class Equipment(
-    val id: Int,
-    val slot: String,
-    val binding: String? = null,
-    val bound_to: String? = null,
-    val dyes: List<Int?>? = null
-)
-
-@Serializable
-data class Bag(
-    val id: Int,
-    val size: Int,
-    val inventory: List<Item?>
-)
-
-@Serializable
-data class Item(
-    val id: Int,
-    val count: Int,
-    val binding: String? = null,
-    val bound_to: String? = null,
-    val dyes: List<Int?>? = null
-)
