@@ -1,18 +1,17 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+
+<resources>
+
+
     <string name="app_name">GuildMasterApp</string>
+
+    <string name="character_selection">Select Character</string>
+
+    <!-- Screen titles -->
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_messages">Messages</string>
     <string name="title_menu">Menu</string>
-    <string name="login">Login</string>
-    <string name="signup">Sign Up</string>
-    <string name="notifications">Notifications</string>
-    <string name="backArrow">Back</string>
-    <string name="profile_pic">Profile Picture</string>
-    <string name="launcher_pic">Launcher</string>
-    <string name="sample_username">User Name</string>
-    <string name="sample_email">user@example.com</string>
     <string name="title_news">News</string>
     <string name="title_pvp_history">PVP History</string>
     <string name="title_friends">Friends</string>
@@ -20,17 +19,33 @@
     <string name="title_community">Community</string>
     <string name="title_crafting">Crafting</string>
     <string name="title_my_profile">My Profile</string>
-    <string name="dashboard_temp_crafting">Craft Fire Sword</string>
-    <string name="dashboard_temp_craft_requirements">3/5 Items Required</string>
-    <string name="crafting_percent">60.00%</string>
+    <string name="title_login">Login</string>
+    <string name="title_signup">Sign Up</string>
+    <string name="title_about">About</string>
+
+
+
+    <!-- Image descriptions -->
+    <string name="backArrow">Back</string>
+    <string name="profile_pic">Profile Picture</string>
+    <string name="launcher_pic">Launcher</string>
+    <string name="transparent_product_logo">Transparent Product Logo</string>
+
+
+    <!-- Dashboard fragment string values -->
     <string name="toggle_button_overview_label">Overview</string>
+    <string name="pvp_button_label">PVP</string>
+    <string name="about_button">About</string>
+    <string name="log_out_button">Log Out</string>
     <string name="crafting_quests">Crafting Quests</string>
     <string name="crafting_quests_count">16</string>
     <string name="overall_quests">Quests Completed</string>
     <string name="overall_quests_count">32</string>
     <string name="learning_count">11</string>
     <string name="learning">Learning</string>
-    <string name="pvp_button_label">PVP</string>
+    <string name="dashboard_temp_crafting">Craft Fire Sword</string>
+    <string name="dashboard_temp_craft_requirements">3/5 Items Required</string>
+    <string name="crafting_percent">60.00%</string>
     <string name="dashboard_background_description">Dashboard background</string>
     <string name="dashboard_navigation_label">DashBoard</string>
     <string name="hello_nwizard">Hello, \nWizard!</string>
@@ -40,6 +55,7 @@
     <string name="crafting_icon_description">crafting icon</string>
     <string name="quest_icon">quest icon</string>
     <string name="learning_icon_description">Learning Icon</string>
+
     <string name="character_selection">Select Character</string>
     <string name="clear_all">Clear All</string>
     <string name="save_changes">Save Changes</string>
@@ -77,4 +93,67 @@
         <item>Ranked</item>
         <item>UnRanked</item>
     </string-array>
+
+
+
+
+    <!-- Drawer Menu string values -->
+    <string name="sample_username">User Name</string>
+    <string name="sample_email">user@example.com</string>
+
+
+
+    <!-- Placeholder texts for fragments -->
+    <string name="messages_temp_text">This is the Messages fragment</string>
+    <string name="news_temp_text">This is the News fragment</string>
+    <string name="pvp_history_temp_text">This is the PVP fragment</string>
+    <string name="friends_temp_text">This is the Friends fragment</string>
+    <string name="guild_temp_text">This is the Guild fragment</string>
+    <string name="community_temp_text">This is the Community fragment</string>
+    <string name="crafting_temp_text">This is the Crafting fragment</string>
+    <string name="my_profile_temp_text">This is the My Profile fragment</string>
+    <string name="about_temp_text">This is the About fragment</string>
+
+
+
+    <!-- Notifications fragment string values -->
+
+    <!-- image Content description -->
+    <string name="notifications_background">Notifications background image</string>
+
+    <!-- Notification examples -->
+    <!-- First -->
+    <string name="guild_post_replied">Guild post replied</string>
+    <string name="august_19th">August 19th</string>
+    <string name="notifications_guild_post_example">
+        I found out that the wizard class now have increased
+        cast speed for Fireball and Meteor, this combo can make massive MDMG
+    </string>
+
+    <!-- Second -->
+    <string name="assassin_class_updates">Assassin class updates</string>
+    <string name="august_1st">August 1st</string>
+    <string name="notifications_assassin_class_updates_example">
+        Assassin class has now decreased cool-down for invisible attack,
+        but also decreased invisible skill time, that changed the PVP rank this month
+    </string>
+
+    <!-- Third -->
+    <string name="wizard_legendary_robe">New Wizard Legendary Robe (PVP)</string>
+    <string name="july_15th">July 15th</string>
+    <string name="notifications_wizard_legendary_robe_example">
+        The new Legendary Robe for the Wizard class is one of the best options for
+        fire cast wizards, it increases fire attacks by 20%
+    </string>
+
+    <!-- Fourth -->
+    <string name="warrior_combo_changed">Warrior most used combo changed</string>
+    <string name="may_4th">May 4th</string>
+    <string name="notifications_warrior_combo_changed_example">
+        Warriors now cannot cast Fire Blade and Ice Blade directly,
+        cool-down is required in between both attacks when casting in sequence
+    </string>
+
+
+
 </resources>

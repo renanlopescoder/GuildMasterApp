@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.ai.guildmasterapp.databinding.FragmentMessagesBinding
+import com.ai.guildmasterapp.databinding.FragmentMessagesBinding.inflate
 
 class MessagesFragment : Fragment() {
 
@@ -25,7 +26,7 @@ class MessagesFragment : Fragment() {
         val messagesViewModel =
             ViewModelProvider(this).get(MessagesViewModel::class.java)
 
-        _binding = FragmentMessagesBinding.inflate(inflater, container, false)
+        _binding = inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textMessages
