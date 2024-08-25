@@ -53,8 +53,8 @@
     <string name="pvp_professions">Professions</string>
     <string name="pvp_professions_wins_count">Wins: 3</string>
     <string name="pvp_ladder">Ranked/Unranked</string>
-    <string name="pvp_professions_wins">Wins: 3</string>
-    <string name="pvp_professions_losses">Losses: 7</string>
+    <string name="pvp_professions_wins">Wins: 0</string>
+    <string name="pvp_professions_losses">Losses: 0</string>
     <string name="pvp_professions_desertions">Desertions: 0</string>
     <string name="pvp_professions_byes">Byes: 0</string>
     <string name="pvp_professions_forfeits">Forfeits: 0</string>
@@ -63,14 +63,14 @@
         <item>Ranked/Unranked</item>
     </string-array>
     <string-array name="professions_spinner_items">
-        <item>Mesmer</item>
-        <item>Guardian</item>
-        <item>Necromancer</item>
-        <item>Ranger</item>
-        <item>Elementalist</item>
-        <item>Warrior</item>
-        <item>Thief</item>
-        <item>Engineer</item>
+        <item>You vs Mesmer</item>
+        <item>You vs Guardian</item>
+        <item>You vs Necromancer</item>
+        <item>You vs Ranger</item>
+        <item>You vs Elementalist</item>
+        <item>You vs Warrior</item>
+        <item>You vs Thief</item>
+        <item>You vs Engineer</item>
     </string-array>
     <string-array name="ladder_spinner_items"
                   tools:ignore="ExtraTranslation">
