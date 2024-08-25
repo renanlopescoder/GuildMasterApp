@@ -76,9 +76,8 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task: Task<AuthResult> ->
             if (task.isSuccessful) {
                 Log.i("LoginActivity", "Login successful for email: $email")
-                val intent = Intent(this, CharacterSelectionActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
+                val navigationIntent = Intent(this, CharacterSelectionActivity::class.java)
+                startActivity(navigationIntent)
             } else {
                 Toast.makeText(this, "Login failed: ${task.exception?.message}", Toast.LENGTH_LONG).show()
             }
@@ -86,7 +85,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun signupRedirect() {
-        val intent = Intent(this, SignupActivity::class.java)
-        startActivity(intent)
+        val navigationIntent = Intent(this, SignupActivity::class.java)
+        startActivity(navigationIntent)
     }
 }
