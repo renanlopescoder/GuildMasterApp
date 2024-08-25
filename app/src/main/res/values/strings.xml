@@ -1,10 +1,5 @@
-
-<resources>
-
-
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">GuildMasterApp</string>
-
-    <string name="character_selection">Select Character</string>
 
     <!-- Screen titles -->
     <string name="title_home">Home</string>
@@ -88,8 +83,7 @@
         <item>You vs Thief</item>
         <item>You vs Engineer</item>
     </string-array>
-    <string-array name="ladder_spinner_items"
-                  tools:ignore="ExtraTranslation">
+    <string-array name="ladder_spinner_items" tools:ignore="ExtraTranslation">
         <item>Ranked</item>
         <item>UnRanked</item>
     </string-array>
