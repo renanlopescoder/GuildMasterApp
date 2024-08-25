@@ -114,4 +114,11 @@
     </string>
 
 
+
+    <!-- Guild fragment string values -->
+
+    <!-- image Content description -->
+    <string name="guild_emblem_image">Guild Emblem</string>
+
+
 </resources>

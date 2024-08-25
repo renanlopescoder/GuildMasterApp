@@ -5,8 +5,7 @@ import com.ai.guildmasterapp.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.serialization.json.Json
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import okhttp3.*
 import java.io.IOException
 
 class GuildWars2Api {
@@ -54,8 +53,8 @@ class GuildWars2Api {
             .url("https://api.guildwars2.com/v2/characters?access_token=$apiKey&ids=$characterId")
             .build()
 
-        client.newCall(request).enqueue(object : okhttp3.Callback {
-            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+        client.newCall(request).enqueue(object : Callback {
+            override fun onResponse(call: Call, response: Response) {
                 response.body?.string()?.let { jsonResponse ->
                     try {
                         if (jsonResponse.isNotEmpty()) {
@@ -77,7 +76,7 @@ class GuildWars2Api {
                 }
             }
 
-            override fun onFailure(call: okhttp3.Call, e: IOException) {
+            override fun onFailure(call: Call, e: IOException) {
                 Log.e("GuildWars2Api", "API call failed: ${e.message}")
                 callback(getFallbackCharacterDetails())
             }
@@ -134,6 +133,27 @@ class GuildWars2Api {
         GlobalState.characterDetail = char
         return char
     }
+    
+    
+    private fun getFallbackGuildInfo(): GuildInfo {
+        
+        val char =  GuildInfo(
+            id = "8774BBE4-25F8-4515-8557-D7BDE72A7F8A",
+            name = "Team Aggression",
+            tag = "TA",
+            emblem = Emblem(
+                background_id = 2,
+                foreground_id = 53,
+                flags = listOf(""),
+                background_color_id = 673,
+                foreground_primary_color_id = 473,
+                foreground_secondary_color_id = 443
+            )
+        )
+
+        GlobalState.guildInfo = char
+        return char
+    }
 
 
     private fun fetchCharacters(apiKey: String, callback: (List<String>?) -> Unit) {
@@ -141,8 +161,8 @@ class GuildWars2Api {
             .url("https://api.guildwars2.com/v2/characters?access_token=$apiKey")
             .build()
 
-        client.newCall(request).enqueue(object : okhttp3.Callback {
-            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+        client.newCall(request).enqueue(object : Callback {
+            override fun onResponse(call: Call, response: Response) {
                 response.body?.string()?.let { jsonResponse ->
                     try {
                         if (jsonResponse.isNotEmpty()) {
@@ -165,7 +185,7 @@ class GuildWars2Api {
                 }
             }
 
-            override fun onFailure(call: okhttp3.Call, e: IOException) {
+            override fun onFailure(call: Call, e: IOException) {
                 Log.e("GuildWars2Api", "API call failed: ${e.message}")
                 callback(listOf("lopescodex", "AI Squad"))
                 GlobalState.characters = listOf("lopescodex", "AI Squad")
@@ -177,36 +197,36 @@ class GuildWars2Api {
 
     fun fetchGuildInfo(callback: (GuildInfo?) -> Unit) {
         val request = Request.Builder()
-            .url("https://api.guildwars2.com/v1/guild_details?guild_name=Team Aggression") // Hard coded fetch request
+            .url("https://api.guildwars2.com/v1/guild_details?guild_id=8774BBE4-25F8-4515-8557-D7BDE72A7F8A") // Hard coded fetch request
             .build()
 
         // API request for guild information
-        client.newCall(request).enqueue(object : okhttp3.Callback {
-            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+        client.newCall(request).enqueue(object : Callback {
+            override fun onResponse(call: Call, response: Response) {
                 response.body?.string()?.let { jsonResponse ->
                     try {
                         if (jsonResponse.isNotEmpty()) {
-                            val guildInfo = Json.decodeFromString<GuildInfo>(jsonResponse)
+                            val guildInfo = Json.decodeFromString<List<GuildInfo>>(jsonResponse)[0]
                             callback(guildInfo)
                             GlobalState.guildInfo = guildInfo
                         } else {
-                            callback(null)
+                            callback(getFallbackGuildInfo())
                         }
                     } catch (e: IOException) {
                         Log.e("GuildWars2Api", "Invalid JSON format: ${e.message}")
-                        callback(null)
+                        callback(getFallbackGuildInfo())
                     } catch (e: Exception) {
                         Log.e("GuildWars2Api", "Unexpected error: ${e.message}")
-                        callback(null)
+                        callback(getFallbackGuildInfo())
                     }
                 } ?: run {
-                    callback(null)
+                    callback(getFallbackGuildInfo())
                 }
             }
             // If request fails
-            override fun onFailure(call: okhttp3.Call, e: IOException) {
+            override fun onFailure(call: Call, e: IOException) {
                 Log.e("GuildWars2Api", "API call failed: ${e.message}")
-                callback(null)
+                callback(getFallbackGuildInfo())
             }
         })
 
