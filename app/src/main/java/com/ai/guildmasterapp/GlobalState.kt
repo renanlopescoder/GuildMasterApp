@@ -45,3 +45,33 @@ data class Item(
     val bound_to: String? = null,
     val dyes: List<Int?>? = null
 )
+
+
+// Guild details data classes
+@Serializable
+data class GuildInfo(
+    val id: String,
+    val name: String,
+    val tag: String,
+    val emblem: Emblem,
+    // val description: String,
+    // val members: List<GuildMember>
+)
+
+// Stores information for guild emblem.
+@Serializable
+data class Emblem(
+    val background_id: Int,
+    val foreground_id: Int,
+    val flags: List<String>,
+    val background_color_id: Int,
+    val foreground_primary_color_id: Int,
+    val foreground_secondary_color_id: Int
+)
+
+/* @Serializable
+data class GuildMember(
+    val name: String,
+    val rank: String,
+    val joined: String
+) */
