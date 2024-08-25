@@ -1,17 +1,13 @@
 package com.ai.guildmasterapp.api
 
 import android.util.Log
+import com.ai.guildmasterapp.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
-import com.ai.guildmasterapp.GlobalState
-import com.ai.guildmasterapp.CharacterDetail
-import com.ai.guildmasterapp.Equipment
-import com.ai.guildmasterapp.Item
-import com.ai.guildmasterapp.Bag
 
 class GuildWars2Api {
 
@@ -176,5 +172,47 @@ class GuildWars2Api {
             }
         })
     }
+
+
+
+    fun fetchGuildInfo(callback: (GuildInfo?) -> Unit) {
+        val request = Request.Builder()
+            .url("https://api.guildwars2.com/v1/guild_details?guild_name=Team Aggression") // Hard coded fetch request
+            .build()
+
+        // API request for guild information
+        client.newCall(request).enqueue(object : okhttp3.Callback {
+            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+                response.body?.string()?.let { jsonResponse ->
+                    try {
+                        if (jsonResponse.isNotEmpty()) {
+                            val guildInfo = Json.decodeFromString<GuildInfo>(jsonResponse)
+                            callback(guildInfo)
+                            GlobalState.guildInfo = guildInfo
+                        } else {
+                            callback(null)
+                        }
+                    } catch (e: IOException) {
+                        Log.e("GuildWars2Api", "Invalid JSON format: ${e.message}")
+                        callback(null)
+                    } catch (e: Exception) {
+                        Log.e("GuildWars2Api", "Unexpected error: ${e.message}")
+                        callback(null)
+                    }
+                } ?: run {
+                    callback(null)
+                }
+            }
+            // If request fails
+            override fun onFailure(call: okhttp3.Call, e: IOException) {
+                Log.e("GuildWars2Api", "API call failed: ${e.message}")
+                callback(null)
+            }
+        })
+
+
+    }
+
+
 }
 

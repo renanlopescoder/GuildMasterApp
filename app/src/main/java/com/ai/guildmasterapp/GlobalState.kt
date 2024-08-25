@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 object GlobalState {
     var characters: List<String>? = null
     var characterDetail: CharacterDetail? = null
+    var guildInfo: GuildInfo? = null
 }
 
 @Serializable
@@ -47,7 +48,7 @@ data class Item(
 )
 
 
-// Guild details data classes
+// Guild details data class
 @Serializable
 data class GuildInfo(
     val id: String,
