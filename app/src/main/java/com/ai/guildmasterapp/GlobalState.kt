@@ -55,8 +55,6 @@ data class GuildInfo(
     val name: String,
     val tag: String,
     val emblem: Emblem,
-    // val description: String,
-    // val members: List<GuildMember>
 )
 
 // Stores information for guild emblem.
@@ -70,9 +68,9 @@ data class Emblem(
     val foreground_secondary_color_id: Int
 )
 
-/* @Serializable
-data class GuildMember(
-    val name: String,
-    val rank: String,
-    val joined: String
-) */
+// Stores the URLs to make up the background or foreground images of the Emblem
+@Serializable
+data class EmblemLayer(
+    val id: Int,
+    val layers: List<String>
+)
