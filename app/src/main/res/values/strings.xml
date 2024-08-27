@@ -1,5 +1,4 @@
-
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
 
     <string name="app_name">GuildMasterApp</string>
@@ -37,15 +36,6 @@
     <string name="pvp_button_label">PVP</string>
     <string name="about_button">About</string>
     <string name="log_out_button">Log Out</string>
-    <string name="crafting_quests">Crafting Quests</string>
-    <string name="crafting_quests_count">16</string>
-    <string name="overall_quests">Quests Completed</string>
-    <string name="overall_quests_count">32</string>
-    <string name="learning_count">11</string>
-    <string name="learning">Learning</string>
-    <string name="dashboard_temp_crafting">Craft Fire Sword</string>
-    <string name="dashboard_temp_craft_requirements">3/5 Items Required</string>
-    <string name="crafting_percent">60.00%</string>
     <string name="dashboard_background_description">Dashboard background</string>
     <string name="dashboard_navigation_label">DashBoard</string>
     <string name="hello_nwizard">Hello, \nWizard!</string>
@@ -56,7 +46,7 @@
     <string name="quest_icon">quest icon</string>
     <string name="learning_icon_description">Learning Icon</string>
 
-    <string name="character_selection">Select Character</string>
+
     <string name="clear_all">Clear All</string>
     <string name="save_changes">Save Changes</string>
     <string name="overall_pvp_stats_title">Overall PVP Stats</string>
@@ -153,7 +143,9 @@
         Warriors now cannot cast Fire Blade and Ice Blade directly,
         cool-down is required in between both attacks when casting in sequence
     </string>
-
+    <string name="player_profile">Profile</string>
+    <string name="equipment_comp">Compare Equipment</string>
+    <string name="weapon_comp">Compare Weapons</string>
 
 
 </resources>
