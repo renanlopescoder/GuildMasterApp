@@ -25,9 +25,10 @@ class GuildViewModel : ViewModel() {
         }
     }
 
-    fun getEmblemLayers(id: Int, type: String) {
-        api.fetchEmblemLayer(id, type) {emblemLayers ->
-            _emblemLayers.postValue(emblemLayers)
-        }
+    suspend fun getEmblemLayers(id: Int, type: String): List<String> {
+        var result: List<String>? = null
+
+        result = api.fetchEmblemLayers(id, type)
+        return result
     }
 }

@@ -2,10 +2,13 @@ package com.ai.guildmasterapp
 
 import kotlinx.serialization.Serializable
 
+
 object GlobalState {
     var characters: List<String>? = null
     var characterDetail: CharacterDetail? = null
     var guildInfo: GuildInfo? = null
+    var emblem: Emblem? = null
+    var emblemLayer: EmblemLayer? = null
 }
 
 @Serializable
@@ -51,8 +54,8 @@ data class Item(
 // Guild details data class
 @Serializable
 data class GuildInfo(
-    val id: String,
-    val name: String,
+    val guild_id: String,
+    val guild_name: String,
     val tag: String,
     val emblem: Emblem,
 )

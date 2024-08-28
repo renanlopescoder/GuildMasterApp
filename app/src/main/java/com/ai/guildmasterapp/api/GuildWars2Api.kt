@@ -4,9 +4,11 @@ import android.util.Log
 import com.ai.guildmasterapp.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.serialization.json.Json
 import okhttp3.*
 import java.io.IOException
+import kotlin.coroutines.resumeWithException
 
 class GuildWars2Api {
 
@@ -138,8 +140,8 @@ class GuildWars2Api {
     private fun getFallbackGuildInfo(): GuildInfo {
         
         val char =  GuildInfo(
-            id = "8774BBE4-25F8-4515-8557-D7BDE72A7F8A",
-            name = "Team Aggression",
+            guild_id = "8774BBE4-25F8-4515-8557-D7BDE72A7F8A",
+            guild_name = "Team Aggression",
             tag = "TA",
             emblem = Emblem(
                 background_id = 2,
@@ -156,25 +158,24 @@ class GuildWars2Api {
     }
 
 
-    fun getFallbackEmblemLayerBackground(): EmblemLayer {
+    fun getFallbackEmblemLayer(type: String): EmblemLayer {
 
-        val layer = EmblemLayer(
-            id = 2,
-            layers = listOf("https://render.guildwars2.com/file/936BEB492B0D2BD77307FCB10DBEE51AFB5E6C64/59599.png")
-        )
-
-        return layer
-    }
-
-    fun getFallbackEmblemLayerForeground(): EmblemLayer {
-        val layer = EmblemLayer(
-            id = 53,
-            layers = listOf(
-                "https://render.guildwars2.com/file/E8AB2107615E4717FE7E52CB686A0AC2AC5A4275/59955.png",
-                "https://render.guildwars2.com/file/FB6B1500A00C51312A7356551D40635D4372A1B2/59957.png",
-                "https://render.guildwars2.com/file/F81C9299DEB7C46F3B70F83A18AF2868DA34973C/59959.png"
+        lateinit var layer: EmblemLayer
+        when (type) {
+            "backgrounds" -> layer = EmblemLayer(
+                id = 2,
+                layers = listOf("https://render.guildwars2.com/file/936BEB492B0D2BD77307FCB10DBEE51AFB5E6C64/59599.png")
             )
-        )
+
+            "foregrounds" -> layer = EmblemLayer(
+                id = 53,
+                layers = listOf(
+                    "https://render.guildwars2.com/file/E8AB2107615E4717FE7E52CB686A0AC2AC5A4275/59955.png",
+                    "https://render.guildwars2.com/file/FB6B1500A00C51312A7356551D40635D4372A1B2/59957.png",
+                    "https://render.guildwars2.com/file/F81C9299DEB7C46F3B70F83A18AF2868DA34973C/59959.png"
+                )
+            )
+        }
 
         return layer
     }
@@ -230,7 +231,7 @@ class GuildWars2Api {
                 response.body?.string()?.let { jsonResponse ->
                     try {
                         if (jsonResponse.isNotEmpty()) {
-                            val guildInfo = Json.decodeFromString<List<GuildInfo>>(jsonResponse)[0]
+                            val guildInfo: GuildInfo = Json.decodeFromString<GuildInfo>(jsonResponse)
                             callback(guildInfo)
                             GlobalState.guildInfo = guildInfo
                         } else {
@@ -239,10 +240,10 @@ class GuildWars2Api {
                     } catch (e: IOException) {
                         Log.e("GuildWars2Api", "Invalid JSON format: ${e.message}")
                         callback(getFallbackGuildInfo())
-                    } catch (e: Exception) {
+                    } /*catch (e: Exception) {
                         Log.e("GuildWars2Api", "Unexpected error: ${e.message}")
                         callback(getFallbackGuildInfo())
-                    }
+                    }*/
                 } ?: run {
                     callback(getFallbackGuildInfo())
                 }
@@ -257,40 +258,41 @@ class GuildWars2Api {
     }
 
     // Fetches either the background or foreground data for the Emblem.
-    fun fetchEmblemLayer(id: Int, type: String, callback: (List<String>?) -> Unit){
-        val url = "https://api.guildwars2.com/v2/emblem/$type?ids=$id"
-        val request = Request.Builder()
-            .url(url)
-            .build()
+    suspend fun fetchEmblemLayers(id: Int, type: String, ): List<String> {
+        return suspendCancellableCoroutine { continuation ->
+            val url = "https://api.guildwars2.com/v2/emblem/$type?ids=$id"
+            val request = Request.Builder().url(url).build()
 
-        client.newCall(request).enqueue(object : Callback {
-            override fun onResponse(call: Call, response: Response) {
-                response.body?.string()?.let { jsonResponse ->
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    if (continuation.isActive) {
+                        val fallback : List<String> = GuildWars2Api().getFallbackEmblemLayer(type).layers
+                        continuation.resumeWith(Result.success(fallback))
+                    }
+
+                }
+
+                override fun onResponse(call: Call, response: Response) {
                     try {
-                        if (jsonResponse.isNotEmpty()) {
-                            val emblemLayers = Json.decodeFromString<List<EmblemLayer>>(jsonResponse)[0]
-                            callback(emblemLayers.layers)
+                        val jsonResponse = response.body?.string()
+                        if(jsonResponse?.isNotEmpty() == true) {
+                            val emblemLayer = Json.decodeFromString<List<EmblemLayer>>(jsonResponse)
+                            var layers = emblemLayer.firstOrNull()?.layers ?: emptyList()
+                            continuation.resume(layers) {
+                                layers = layers
+                            }
                         } else {
-                            callback(null)
+                            continuation.resumeWith(Result.success(GuildWars2Api().getFallbackEmblemLayer(type).layers))
                         }
-                    } catch (e: IOException) {
-                        Log.e("GuildWars2Api", "Invalid JSON format: ${e.message}")
-                        callback(null)
                     } catch (e: Exception) {
-                        Log.e("GuildWars2Api", "Unexpected error: ${e.message}")
-                        callback(null)
-                    } ?: run {
-                        callback(null)
+                        if(continuation.isActive) {
+                            continuation.resumeWithException(e)
+                        }
                     }
                 }
-            }
+            })
 
-            // If request fails
-            override fun onFailure(call: Call, e: IOException) {
-                Log.e("GuildWars2Api", "API call failed: ${e.message}")
-                callback(null)
-            }
-        })
+        }
 
     }
 

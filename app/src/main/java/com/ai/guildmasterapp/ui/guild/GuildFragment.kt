@@ -14,10 +14,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.ai.guildmasterapp.GuildInfo
 import com.ai.guildmasterapp.databinding.FragmentGuildBinding
-import coil.load
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
+import com.ai.guildmasterapp.GlobalState
 import kotlinx.coroutines.launch
 import com.ai.guildmasterapp.api.GuildWars2Api
 
@@ -49,32 +49,33 @@ class GuildFragment : Fragment() {
         guildViewModel = ViewModelProvider(this).get(GuildViewModel::class.java)
 
         guildViewModel.guildInfo.observe(viewLifecycleOwner, Observer {guildInfo ->
-            updateUI(guildInfo)
+            lifecycleScope.launch {
+                updateUI(guildInfo)
+            }
         })
 
         guildViewModel.getGuildInfo()
     }
 
 
-    private fun updateUI(guildInfo: GuildInfo?){
+    private suspend fun updateUI(guildInfo: GuildInfo?){
 
         guildInfo?.let {
 
-            binding.guildName.text = it.name
+            binding.guildName.text = it.guild_name
             binding.guildTag.text = "[${it.tag}]"
-            // binding.guildEmblemView.load("https://api.guildwars2.com/v2/emblem/${it.emblem.foreground_id}/${it.emblem.background_id}")
 
+            var background: List<String>? = null
+            var foreground: List<String>? = null
+            background = guildViewModel.getEmblemLayers(2, "backgrounds")
+            foreground = guildViewModel.getEmblemLayers(53, "foregrounds")
 
             // Loads emblem image from API call
             lifecycleScope.launch {
-                var background:  List<String>? = GuildWars2Api().getFallbackEmblemLayerBackground().layers
-                var foreground: List<String>? = GuildWars2Api().getFallbackEmblemLayerForeground().layers
-
-                /* background = GuildWars2Api().fetchEmblemLayer(it.emblem.background_id, "backgrounds") { layers -> layers }
-                foreground = GuildWars2Api().fetchEmblemLayer(it.emblem.foreground_id, "foregrounds") { layers -> layers } */
 
                 val emblemLayers = (background ?: emptyList()) + (foreground ?: emptyList())
-                val emblemDrawable = combineEmblemLayers(emblemLayers)
+
+                val emblemDrawable = makeEmblem(emblemLayers)
 
                 binding.guildEmblemView.setImageDrawable(emblemDrawable)
             }
@@ -100,9 +101,16 @@ class GuildFragment : Fragment() {
     }
 
 
+    private fun combineLayers(_background: Unit, _foreground: Unit): List<String> {
+        val background: List<String> = listOf(_background.toString())
+        val foreground: List<String> = listOf(_foreground.toString())
+        return (background ?: emptyList()) + (foreground ?: emptyList())
+    }
+
+
 
     // Combines the multiple layers of the emblem into a BitmapDrawable object
-    private suspend fun combineEmblemLayers(layers: List<String>): Drawable? {
+    private suspend fun makeEmblem(layers: List<String>): Drawable? {
         if (layers.isEmpty()) return null // If the list of URLs are empty
 
         // Load the first image layer to initialize the size of the canvas
@@ -130,20 +138,3 @@ class GuildFragment : Fragment() {
 
 }
 
-
-
-
-
-
-
-
-/* private fun generateEmblemDrawable(emblem: Emblem): Drawable {
-
-    }
-
-
-    private fun getColor(colorID: Int): Int {
-
-
-        return ContextCompat.getColor(requireContext(), colorID)
-    } */
