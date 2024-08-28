@@ -17,6 +17,7 @@ import com.ai.guildmasterapp.databinding.FragmentGuildBinding
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
+import com.ai.guildmasterapp.GlobalState
 import kotlinx.coroutines.launch
 
 
@@ -50,7 +51,8 @@ class GuildFragment : Fragment() {
 
             // Creates a coroutine
             lifecycleScope.launch {
-                updateUI(guildInfo)
+                updateGuildInfo(guildInfo)
+
             }
         })
         // Fetches API data.
@@ -58,7 +60,7 @@ class GuildFragment : Fragment() {
     }
 
 
-    private suspend fun updateUI(guildInfo: GuildInfo?){
+    private suspend fun updateGuildInfo(guildInfo: GuildInfo?){
 
         guildInfo?.let {
             // Assigns the fragment_guild.xml fragment Ids
@@ -79,6 +81,16 @@ class GuildFragment : Fragment() {
                 val emblemDrawable = makeEmblem(emblemLayers)
 
                 binding.guildEmblemView.setImageDrawable(emblemDrawable)
+
+                val testIds = guildViewModel.getItemIds()
+
+                val index = testIds.first()
+
+                val testItemDetails = guildViewModel.getItemDetails(index)
+
+                val exampleItemIcon = makeEmblem(listOf(testItemDetails.icon))
+
+                binding.testItemIcon.setImageDrawable(exampleItemIcon)
             }
 
         }

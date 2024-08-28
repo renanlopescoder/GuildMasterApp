@@ -7,8 +7,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.buildJsonObject
 import okhttp3.*
 import java.io.IOException
+import java.net.URLEncoder
 import kotlin.coroutines.resumeWithException
 
 class GuildWars2Api {
@@ -235,6 +237,7 @@ class GuildWars2Api {
                             val guildInfo: GuildInfo = Json.decodeFromString<GuildInfo>(jsonResponse)
                             callback(guildInfo)
                             GlobalState.guildInfo = guildInfo
+                            GlobalState.emblem = guildInfo.emblem
                         } else {
                             callback(getFallbackGuildInfo())
                         }
@@ -281,9 +284,10 @@ class GuildWars2Api {
                         val jsonResponse = response.body?.string()
                         if(jsonResponse?.isNotEmpty() == true) {
                             val emblemLayer = Json.decodeFromString<List<EmblemLayer>>(jsonResponse)
-                            var layers = emblemLayer.firstOrNull()?.layers ?: emptyList()
-                            continuation.resume(layers) {
-                            }
+                            val layers = emblemLayer.firstOrNull()?.layers ?: emptyList()
+                            GlobalState.emblemLayer = emblemLayer.firstOrNull()
+                            continuation.resumeWith(Result.success(layers))
+
                         } else {
                             continuation.resumeWith(Result.success(GuildWars2Api().getFallbackEmblemLayer(type).layers))
                         }
@@ -300,6 +304,87 @@ class GuildWars2Api {
 
         }
 
+    }
+
+
+    suspend fun fetchItemIds(): List<Int> {
+        return suspendCancellableCoroutine { continuation ->
+            val url = "https://api.guildwars2.com/v2/items"
+            val request = Request.Builder()
+                .url(url)
+                .build()
+
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    if (continuation.isActive) {
+                        continuation.resumeWith(Result.success(emptyList()))
+                    }
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    try {
+                        val jsonResponse = response.body?.string()
+                        if(jsonResponse?.isNotEmpty() == true) {
+                            val itemIds = Json.decodeFromString<List<Int>>(jsonResponse)
+                            continuation.resumeWith(Result.success(itemIds))
+                            GlobalState.itemIDs = itemIds
+                        } else {
+                            continuation.resumeWith(Result.success(emptyList()))
+                        }
+                    } catch (e: Exception) {
+                        if(continuation.isActive) {
+                            continuation.resumeWithException(e)
+                        }
+                    }
+                }
+            })
+
+            continuation.invokeOnCancellation {
+                continuation.cancel()
+            }
+        }
+    }
+
+
+    suspend fun fetchItemDetail(id: Int): ItemDetail? {
+        val json = Json {
+            ignoreUnknownKeys = true
+        }
+        return suspendCancellableCoroutine { continuation ->
+            val url = "https://api.guildwars2.com/v2/items?ids=$id"
+            val request = Request.Builder()
+                .url(url)
+                .build()
+
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    if (continuation.isActive) {
+                        continuation.resumeWith(Result.success(null))
+                    }
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    try {
+                        val jsonResponse = response.body?.string()
+                        if(jsonResponse?.isNotEmpty() == true) {
+                            val itemDetail = json.decodeFromString<List<ItemDetail>>(jsonResponse)
+                            continuation.resumeWith(Result.success(itemDetail.firstOrNull()))
+                        } else {
+                            continuation.resumeWith(Result.success(null))
+                        }
+                    } catch (e: Exception) {
+                        if(continuation.isActive) {
+                            Log.e("GuildWars2Api", "Unexpected error: ${e.message}")
+                            continuation.resumeWithException(e)
+                        }
+                    }
+                }
+            })
+
+            continuation.invokeOnCancellation {
+                continuation.cancel()
+            }
+        }
     }
 
 }

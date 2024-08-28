@@ -9,6 +9,7 @@ object GlobalState {
     var guildInfo: GuildInfo? = null
     var emblem: Emblem? = null
     var emblemLayer: EmblemLayer? = null
+    var itemIDs: List<Int>? = null
 }
 
 @Serializable
@@ -76,4 +77,48 @@ data class Emblem(
 data class EmblemLayer(
     val id: Int,
     val layers: List<String>
+)
+
+
+
+// Global state data class for every item.
+@Serializable
+data class ItemDetail(
+    val name: String,
+    val description: String,
+    val type: String,
+    val level: Int,
+    val rarity: String,
+    val vendor_value: Int,
+    val default_skin: Int,
+    val game_types: List<String>,
+    val flags: List<String>,
+    val restrictions: List<String>,
+    val id: Int,
+    val chat_link: String,
+    val icon: String,
+    val details: Details
+)
+
+@Serializable
+data class Details(
+    val type: String,
+    val weight_class: String,
+    val defense: Int,
+    val infusion_slots: List<String>, // Assuming this is a list of strings; change if necessary
+    val attribute_adjustment: Double,
+    val infix_upgrade: InfixUpgrade?,
+
+)
+
+@Serializable
+data class InfixUpgrade(
+    val id: Int,
+    val attributes: List<Attribute>
+)
+
+@Serializable
+data class Attribute(
+    val attribute: String,
+    val modifier: Int
 )
