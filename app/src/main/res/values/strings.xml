@@ -1,8 +1,5 @@
-<resources>
-
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">GuildMasterApp</string>
-
-    <string name="character_selection">Select Character</string>
 
     <!-- Screen titles -->
     <string name="title_home">Home</string>
@@ -53,6 +50,44 @@
     <string name="crafting_icon_description">crafting icon</string>
     <string name="quest_icon">quest icon</string>
     <string name="learning_icon_description">Learning Icon</string>
+
+    <string name="character_selection">Select Character</string>
+    <string name="clear_all">Clear All</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="overall_pvp_stats_title">Overall PVP Stats</string>
+    <string name="wins_vs_losses">Wins/Losses</string>
+    <string name="rank">Rank</string>
+    <string name="rank_points">Rank Points</string>
+    <string name="rank_rollovers">Rank rollovers</string>
+    <string name="pvp_aggregate">Total PVP Stats</string>
+    <string name="pvp_aggregate_win_count">Wins: 6</string>
+    <string name="pvp_professions">Professions</string>
+    <string name="pvp_professions_wins_count">Wins: 3</string>
+    <string name="pvp_ladder">Ranked/Unranked</string>
+    <string name="pvp_professions_wins">Wins: 0</string>
+    <string name="pvp_professions_losses">Losses: 0</string>
+    <string name="pvp_professions_desertions">Desertions: 0</string>
+    <string name="pvp_professions_byes">Byes: 0</string>
+    <string name="pvp_professions_forfeits">Forfeits: 0</string>
+    <string-array name="pvp_spinner_items">
+        <item>Professions</item>
+        <item>Ranked/Unranked</item>
+    </string-array>
+    <string-array name="professions_spinner_items">
+        <item>You vs Mesmer</item>
+        <item>You vs Guardian</item>
+        <item>You vs Necromancer</item>
+        <item>You vs Ranger</item>
+        <item>You vs Elementalist</item>
+        <item>You vs Warrior</item>
+        <item>You vs Thief</item>
+        <item>You vs Engineer</item>
+    </string-array>
+    <string-array name="ladder_spinner_items" tools:ignore="ExtraTranslation">
+        <item>Ranked</item>
+        <item>UnRanked</item>
+    </string-array>
+
 
 
 
