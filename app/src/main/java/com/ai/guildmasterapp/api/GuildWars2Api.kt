@@ -223,7 +223,7 @@ class GuildWars2Api {
 
     fun fetchGuildInfo(callback: (GuildInfo?) -> Unit) {
         val request = Request.Builder()
-            .url("https://api.guildwars2.com/v1/guild_details?guild_id=8774BBE4-25F8-4515-8557-D7BDE72A7F8A") // Hard coded fetch request
+            .url("https://api.guildwars2.com/v1/guild_details?guild_name=Battlecross") // Hard coded fetch request
             .build()
 
         // API request for guild information
