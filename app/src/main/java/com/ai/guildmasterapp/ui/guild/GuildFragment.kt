@@ -17,9 +17,7 @@ import com.ai.guildmasterapp.databinding.FragmentGuildBinding
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
-import com.ai.guildmasterapp.GlobalState
 import kotlinx.coroutines.launch
-import com.ai.guildmasterapp.api.GuildWars2Api
 
 
 class GuildFragment : Fragment() {
@@ -44,16 +42,18 @@ class GuildFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        super.onViewCreated(view, savedInstanceState)
+        super.onViewCreated(view, savedInstanceState) // Calls parent class function
 
         guildViewModel = ViewModelProvider(this).get(GuildViewModel::class.java)
 
         guildViewModel.guildInfo.observe(viewLifecycleOwner, Observer {guildInfo ->
+
+            // Creates a coroutine
             lifecycleScope.launch {
                 updateUI(guildInfo)
             }
         })
-
+        // Fetches API data.
         guildViewModel.getGuildInfo()
     }
 
@@ -61,14 +61,15 @@ class GuildFragment : Fragment() {
     private suspend fun updateUI(guildInfo: GuildInfo?){
 
         guildInfo?.let {
-
+            // Assigns the fragment_guild.xml fragment Ids
             binding.guildName.text = it.guild_name
             binding.guildTag.text = "[${it.tag}]"
 
+            // Initializes the background & foreground layers
             var background: List<String>? = null
             var foreground: List<String>? = null
-            background = guildViewModel.getEmblemLayers(2, "backgrounds")
-            foreground = guildViewModel.getEmblemLayers(53, "foregrounds")
+            background = guildViewModel.getEmblemLayers(it.emblem.background_id, "backgrounds")
+            foreground = guildViewModel.getEmblemLayers(it.emblem.foreground_id, "foregrounds")
 
             // Loads emblem image from API call
             lifecycleScope.launch {
@@ -99,14 +100,6 @@ class GuildFragment : Fragment() {
         // Returns the drawable object cast as a bitmap
         return (result as? BitmapDrawable)?.bitmap
     }
-
-
-    private fun combineLayers(_background: Unit, _foreground: Unit): List<String> {
-        val background: List<String> = listOf(_background.toString())
-        val foreground: List<String> = listOf(_foreground.toString())
-        return (background ?: emptyList()) + (foreground ?: emptyList())
-    }
-
 
 
     // Combines the multiple layers of the emblem into a BitmapDrawable object

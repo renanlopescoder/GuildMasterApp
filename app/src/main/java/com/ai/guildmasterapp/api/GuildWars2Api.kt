@@ -4,6 +4,7 @@ import android.util.Log
 import com.ai.guildmasterapp.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.serialization.json.Json
 import okhttp3.*
@@ -240,10 +241,7 @@ class GuildWars2Api {
                     } catch (e: IOException) {
                         Log.e("GuildWars2Api", "Invalid JSON format: ${e.message}")
                         callback(getFallbackGuildInfo())
-                    } /*catch (e: Exception) {
-                        Log.e("GuildWars2Api", "Unexpected error: ${e.message}")
-                        callback(getFallbackGuildInfo())
-                    }*/
+                    }
                 } ?: run {
                     callback(getFallbackGuildInfo())
                 }
@@ -254,16 +252,19 @@ class GuildWars2Api {
                 callback(getFallbackGuildInfo())
             }
         })
-
     }
 
     // Fetches either the background or foreground data for the Emblem.
     suspend fun fetchEmblemLayers(id: Int, type: String, ): List<String> {
-        return suspendCancellableCoroutine { continuation ->
-            val url = "https://api.guildwars2.com/v2/emblem/$type?ids=$id"
-            val request = Request.Builder().url(url).build()
 
+        // Allows coroutine to be cancelled properly
+        return suspendCancellableCoroutine { continuation ->
+            val url = "https://api.guildwars2.com/v2/emblem/$type?ids=$id" // Initializes URL using the function parameters
+            val request = Request.Builder().url(url).build() // builds the Request object.
+
+            // Client creates a new call
             client.newCall(request).enqueue(object : Callback {
+               // If the call fails it will use fallback data.
                 override fun onFailure(call: Call, e: IOException) {
                     if (continuation.isActive) {
                         val fallback : List<String> = GuildWars2Api().getFallbackEmblemLayer(type).layers
@@ -271,15 +272,17 @@ class GuildWars2Api {
                     }
 
                 }
-
+                // This call will return a single element array of a JSON object
                 override fun onResponse(call: Call, response: Response) {
+
+                    // Tries to parse through JSON object
+                    // Returns the fallback data if it catches an error.
                     try {
                         val jsonResponse = response.body?.string()
                         if(jsonResponse?.isNotEmpty() == true) {
                             val emblemLayer = Json.decodeFromString<List<EmblemLayer>>(jsonResponse)
                             var layers = emblemLayer.firstOrNull()?.layers ?: emptyList()
                             continuation.resume(layers) {
-                                layers = layers
                             }
                         } else {
                             continuation.resumeWith(Result.success(GuildWars2Api().getFallbackEmblemLayer(type).layers))
@@ -291,6 +294,9 @@ class GuildWars2Api {
                     }
                 }
             })
+            continuation.invokeOnCancellation {
+                continuation.cancel()
+            }
 
         }
 
