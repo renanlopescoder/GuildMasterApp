@@ -86,7 +86,7 @@ class GuildFragment : Fragment() {
 
                 val index = testIds[0]
 
-                val testItemDetails = guildViewModel.getItemDetails(index)
+                val testItemDetails = guildViewModel.getItemDetails(24)
 
                 val exampleItemIcon = makeEmblem(listOf(testItemDetails.icon))
 

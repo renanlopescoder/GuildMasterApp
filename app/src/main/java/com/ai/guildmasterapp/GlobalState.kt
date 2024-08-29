@@ -93,6 +93,7 @@ data class ItemType(
 @Serializable
 data class Weapons(
     val name: String,
+    val description: String = "",
     val type: String,
     val rarity: String,
     val vendor_value: Int,
@@ -102,6 +103,7 @@ data class Weapons(
     val id: Int,
     val chat_link: String,
     val icon: String,
+    val details: WeaponDetails,
 
 )
 
@@ -113,12 +115,35 @@ data class WeaponDetails(
     val min_power: Int,
     val max_power: Int,
     val defense: Int,
+    val infusion_slots: List<String>,
     val attribute_adjustment: Double,
 )
 
 
 
+// Consumable related data classes
+@Serializable
+data class Consumable(
+    val name: String,
+    val description: String = "",
+    val type: String,
+    val rarity: String,
+    val vendor_value: Int,
+    val game_types: List<String>,
+    val flags: List<String>,
+    val restrictions: List<String>,
+    val id: Int,
+    val chat_link: String,
+    val icon: String,
+    val details: ConsumableDetails,
+)
 
+
+// Details for Consumable item
+@Serializable
+data class ConsumableDetails(
+    val type: String,
+)
 
 
 
@@ -131,7 +156,6 @@ data class WeaponDetails(
 @Serializable
 data class ItemDetail(
     val name: String,
-
     val type: String,
     val level: Int,
     val rarity: String,

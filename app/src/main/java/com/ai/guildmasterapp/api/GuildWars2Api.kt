@@ -365,12 +365,12 @@ class GuildWars2Api {
                         val jsonResponse = response.body?.string()
                         if(jsonResponse?.isNotEmpty() == true) {
 
-                            var weapons: Weapons? = null
+                            var consumable: Consumable? = null
                             // Reads through JSON to determine item type.
                             val itemType = json.decodeFromString<List<ItemType>>(jsonResponse)
-                            if(itemType.isNotEmpty() && itemType.get(0).type == "Weapon") {
+                            if(itemType.isNotEmpty() && itemType.get(0).type == "Consumable") {
 
-                                weapons = json.decodeFromString<List<Weapons>>(jsonResponse)[0]
+                                consumable = json.decodeFromString<List<Consumable>>(jsonResponse)[0]
                             }
                             val itemDetail = json.decodeFromString<List<ItemDetail>>(jsonResponse)
                             continuation.resumeWith(Result.success(itemDetail.firstOrNull()))
