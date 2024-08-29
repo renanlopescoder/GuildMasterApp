@@ -81,11 +81,57 @@ data class EmblemLayer(
 
 
 
-// Global state data class for every item.
+// Data class for every item
+// Stores item name & type
+@Serializable
+data class ItemType(
+    val name: String,
+    val type: String
+)
+
+// Weapons related data classes
+@Serializable
+data class Weapons(
+    val name: String,
+    val type: String,
+    val rarity: String,
+    val vendor_value: Int,
+    val game_types: List<String>,
+    val flags: List<String>,
+    val restrictions: List<String>,
+    val id: Int,
+    val chat_link: String,
+    val icon: String,
+
+)
+
+// Details for weapons
+@Serializable
+data class WeaponDetails(
+    val type: String,
+    val damage_type: String,
+    val min_power: Int,
+    val max_power: Int,
+    val defense: Int,
+    val attribute_adjustment: Double,
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
 @Serializable
 data class ItemDetail(
     val name: String,
-    val description: String,
+
     val type: String,
     val level: Int,
     val rarity: String,
@@ -103,11 +149,9 @@ data class ItemDetail(
 @Serializable
 data class Details(
     val type: String,
-    val weight_class: String,
     val defense: Int,
     val infusion_slots: List<String>, // Assuming this is a list of strings; change if necessary
     val attribute_adjustment: Double,
-    val infix_upgrade: InfixUpgrade?,
 
 )
 

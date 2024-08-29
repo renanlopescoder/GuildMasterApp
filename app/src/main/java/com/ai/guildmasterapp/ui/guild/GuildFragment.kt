@@ -84,7 +84,7 @@ class GuildFragment : Fragment() {
 
                 val testIds = guildViewModel.getItemIds()
 
-                val index = testIds.first()
+                val index = testIds[0]
 
                 val testItemDetails = guildViewModel.getItemDetails(index)
 

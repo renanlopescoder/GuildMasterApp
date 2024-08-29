@@ -4,13 +4,10 @@ import android.util.Log
 import com.ai.guildmasterapp.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.buildJsonObject
 import okhttp3.*
 import java.io.IOException
-import java.net.URLEncoder
 import kotlin.coroutines.resumeWithException
 
 class GuildWars2Api {
@@ -346,7 +343,7 @@ class GuildWars2Api {
     }
 
 
-    suspend fun fetchItemDetail(id: Int): ItemDetail? {
+    suspend fun fetchItemDetails(id: Int): ItemDetail? {
         val json = Json {
             ignoreUnknownKeys = true
         }
@@ -367,6 +364,14 @@ class GuildWars2Api {
                     try {
                         val jsonResponse = response.body?.string()
                         if(jsonResponse?.isNotEmpty() == true) {
+
+                            var weapons: Weapons? = null
+                            // Reads through JSON to determine item type.
+                            val itemType = json.decodeFromString<List<ItemType>>(jsonResponse)
+                            if(itemType.isNotEmpty() && itemType.get(0).type == "Weapon") {
+
+                                weapons = json.decodeFromString<List<Weapons>>(jsonResponse)[0]
+                            }
                             val itemDetail = json.decodeFromString<List<ItemDetail>>(jsonResponse)
                             continuation.resumeWith(Result.success(itemDetail.firstOrNull()))
                         } else {

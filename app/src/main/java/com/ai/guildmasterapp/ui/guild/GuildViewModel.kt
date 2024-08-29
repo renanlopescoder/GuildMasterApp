@@ -41,7 +41,7 @@ class GuildViewModel : ViewModel() {
     // Returns an ItemDetail data class
     suspend fun getItemDetails(id: Int): ItemDetail {
         var result: ItemDetail? = null
-        result = api.fetchItemDetail(id)
+        result = api.fetchItemDetails(id)
         return result!!
     }
 }
