@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 object GlobalState {
     var characters: List<String>? = null
     var characterDetail: CharacterDetail? = null
+    var equipmentStats: List<EquipmentStats>? = null
 }
 
 @Serializable
@@ -27,7 +28,20 @@ data class Equipment(
     val slot: String,
     val binding: String? = null,
     val bound_to: String? = null,
-    val dyes: List<Int?>? = null
+    val dyes: List<Int?>? = null,
+)
+
+@Serializable
+data class EquipmentStats(
+    val id: Int,
+    val name: String,
+    val attributes: List<Attribute?>? = null,
+)
+
+@Serializable
+data class Attribute(
+    val name: String,
+    val value: String
 )
 
 @Serializable

@@ -1,17 +1,14 @@
 package com.ai.guildmasterapp.api
 
 import android.util.Log
+import com.ai.guildmasterapp.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
-import com.ai.guildmasterapp.GlobalState
-import com.ai.guildmasterapp.CharacterDetail
-import com.ai.guildmasterapp.Equipment
-import com.ai.guildmasterapp.Item
-import com.ai.guildmasterapp.Bag
+import okhttp3.Call
 
 class GuildWars2Api {
 
@@ -61,14 +58,24 @@ class GuildWars2Api {
         val json = Json{ignoreUnknownKeys = true }
 
         client.newCall(request).enqueue(object : okhttp3.Callback {
-            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+            override fun onResponse(call: Call, response: okhttp3.Response) {
                 response.body?.string()?.let { jsonResponse ->
-                    Log.d("JSON RESPONSE", jsonResponse.toString())
+                    Log.d("JSON RESPONSE", jsonResponse)
                     try {
                         if (jsonResponse.isNotEmpty()) {
                             val characterDetails = json.decodeFromString<List<CharacterDetail>>(jsonResponse)[0]
                             callback(characterDetails)
                             GlobalState.characterDetail = characterDetails
+
+                            val charDet = GlobalState.characterDetail!!
+
+                            val validSlots = setOf("Helm", "Coat", "Boots", "Gloves", "Leggings", "Shoulders")
+
+                            charDet.equipment.forEach { equipment ->
+                                if (equipment.slot in validSlots) {
+                                    fetchEquipmentStats(equipment.id)
+                                }
+                            }
                         } else {
                             callback(getFallbackCharacterDetails())
                         }
@@ -84,7 +91,7 @@ class GuildWars2Api {
                 }
             }
 
-            override fun onFailure(call: okhttp3.Call, e: IOException) {
+            override fun onFailure(call: Call, e: IOException) {
                 Log.e("GuildWars2Api", "API call failed: ${e.message}")
                 callback(getFallbackCharacterDetails())
             }
@@ -149,7 +156,7 @@ class GuildWars2Api {
             .build()
 
         client.newCall(request).enqueue(object : okhttp3.Callback {
-            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+            override fun onResponse(call: Call, response: okhttp3.Response) {
                 response.body?.string()?.let { jsonResponse ->
                     try {
                         if (jsonResponse.isNotEmpty()) {
@@ -172,12 +179,63 @@ class GuildWars2Api {
                 }
             }
 
-            override fun onFailure(call: okhttp3.Call, e: IOException) {
+            override fun onFailure(call: Call, e: IOException) {
                 Log.e("GuildWars2Api", "API call failed: ${e.message}")
                 callback(listOf("lopescodex", "AI Squad"))
                 GlobalState.characters = listOf("lopescodex", "AI Squad")
             }
         })
+    }
+
+    fun fetchEquipmentStats(equipmentID: Int) {
+        //Log.d("Equipment ID","$equipmentID")
+
+
+        val request = Request.Builder()
+            .url("https://api.guildwars2.com/v2/items/$equipmentID")
+            .build()
+
+        val json = Json{ignoreUnknownKeys = true }
+
+        client.newCall(request).enqueue(object : okhttp3.Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onResponse(call: Call, response: okhttp3.Response) {
+                response.body?.string()?.let { jsonResponse ->
+                    Log.d("JSON RESPONSE", jsonResponse)
+                    if (jsonResponse.isNotEmpty()) {
+                        val es = json.decodeFromString<List<EquipmentStats>>(jsonResponse)
+//                        GlobalState.equipmentStats = es
+                    }
+                    //try {
+//                    if (jsonResponse.isNotEmpty()) {
+//                        val characterDetails = json.decodeFromString<List<CharacterDetail>>(jsonResponse)[0]
+//                        callback(characterDetails)
+//                        GlobalState.characterDetail = characterDetails
+//                                } else {
+//                                    callback(getFallbackCharacterDetails())
+//                                }
+//                                } catch (e: IOException) {
+//                                    Log.e("GuildWars2Api", "Invalid JSON format: ${e.message}")
+//                                    callback(getFallbackCharacterDetails())
+//                                } catch (e: Exception) {
+//                                    Log.e("GuildWars2Api", "Unexpected error: ${e.message}")
+//                                    callback(getFallbackCharacterDetails())
+//                                }
+//                                } ?: run {
+//                                    callback(getFallbackCharacterDetails())
+//                                }
+                    }
+                }
+            })
+//        override fun onFailure(call: okhttp3.Call, e: IOException) {
+//        Log.e("GuildWars2Api", "API call failed: ${e.message}")
+//        //callback(getFallbackCharacterDetails())
+//        }
+//        })
+
     }
 }
 

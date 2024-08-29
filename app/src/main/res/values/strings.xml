@@ -23,7 +23,6 @@
     <string name="title_about">About</string>
 
 
-
     <!-- Image descriptions -->
     <string name="backArrow">Back</string>
     <string name="profile_pic">Profile Picture</string>
@@ -49,7 +48,7 @@
 
     <string name="clear_all">Clear All</string>
     <string name="save_changes">Save Changes</string>
-    <string name="overall_pvp_stats_title">Overall PVP Stats</string>
+    <string name="overall_pvp_stats_title">Overall Account PVP Stats</string>
     <string name="wins_vs_losses">Wins/Losses</string>
     <string name="rank">Rank</string>
     <string name="rank_points">Rank Points</string>
@@ -69,14 +68,14 @@
         <item>Ranked/Unranked</item>
     </string-array>
     <string-array name="professions_spinner_items">
-        <item>You vs Mesmer</item>
-        <item>You vs Guardian</item>
-        <item>You vs Necromancer</item>
-        <item>You vs Ranger</item>
-        <item>You vs Elementalist</item>
-        <item>You vs Warrior</item>
-        <item>You vs Thief</item>
-        <item>You vs Engineer</item>
+        <item>Mesmer</item>
+        <item>Guardian</item>
+        <item>Necromancer</item>
+        <item>Ranger</item>
+        <item>Elementalist</item>
+        <item>Warrior</item>
+        <item>Thief</item>
+        <item>Engineer</item>
     </string-array>
     <string-array name="ladder_spinner_items"
                   tools:ignore="ExtraTranslation">
@@ -85,12 +84,9 @@
     </string-array>
 
 
-
-
     <!-- Drawer Menu string values -->
     <string name="sample_username">User Name</string>
     <string name="sample_email">user@example.com</string>
-
 
 
     <!-- Placeholder texts for fragments -->
@@ -103,7 +99,6 @@
     <string name="crafting_temp_text">This is the Crafting fragment</string>
     <string name="my_profile_temp_text">This is the My Profile fragment</string>
     <string name="about_temp_text">This is the About fragment</string>
-
 
 
     <!-- Notifications fragment string values -->
@@ -147,8 +142,7 @@
     <string name="equipment_comp">Compare Equipment</string>
     <string name="weapon_comp">Compare Weapons</string>
     <string name="equip_build_calc">Equipment Build Calculator</string>
-    <string name="power_attribute">Power:</string>
-    <string name="power_value">59</string>
+    <string name="power_attribute">"Power: "</string>
     <string name="toughness_attribute">"Toughness: "</string>
     <string name="precision_attribute">"Precision: "</string>
     <string name="vitality_attribute">"Vitality: "</string>
@@ -156,7 +150,7 @@
     <string name="condition_attribute">"Condition Damage: "</string>
     <string name="expertise_attribute">"Expertise: "</string>
     <string name="ferocity_attribute">"Ferocity: "</string>
-    <string name="healing_power_attribute">Healing Power:</string>
+    <string name="healing_power_attribute">"Healing Power: "</string>
     <string name="equipment_title">Equipment</string>
     <string name="attributes_title">Attributes</string>
     <string name="shoulder_slot">Shoulder slot</string>

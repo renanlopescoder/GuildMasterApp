@@ -1,5 +1,6 @@
 package com.ai.guildmasterapp.ui.dashboard
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.MotionEvent
@@ -24,14 +25,19 @@ class OverviewFragment : Fragment(R.layout.fragment_dashboard_overview) {
 
 
         //Set Cards to respond when being clicked on
-        setCardListeners(profileCard)
-        setCardListeners(compareEquipmentCard)
-        setCardListeners(compareWeaponsCard)
+        setCardVisualListeners(profileCard)
+        setCardVisualListeners(compareEquipmentCard)
+        setCardVisualListeners(compareWeaponsCard)
+
+        compareEquipmentCard.setOnClickListener {
+            val navigationIntent = Intent(requireContext(),CompareEquipment::class.java)
+            startActivity(navigationIntent)
+        }
 
     }
 
 //    @SuppressLint("ClickableViewAccessibility")
-    private fun setCardListeners(cardView1: CardView)
+    private fun setCardVisualListeners(cardView1: CardView)
     {
         cardView1.setOnTouchListener { _, event ->
             when (event.action)

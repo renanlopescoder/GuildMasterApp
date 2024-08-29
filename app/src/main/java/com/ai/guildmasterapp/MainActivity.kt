@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        supportActionBar?.hide()
+
 
 
         drawerLayout = findViewById(R.id.drawer_layout) // Initializes drawerLayout
