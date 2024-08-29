@@ -31,8 +31,7 @@ class DashBoard_Activity : FragmentActivity()
     @SuppressLint("MissingInflatedId")
 
     fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?
     ): View?{
         val view = inflater.inflate(R.layout.fragment_dashboard,container, false)
 

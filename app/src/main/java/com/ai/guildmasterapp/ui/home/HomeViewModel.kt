@@ -8,7 +8,7 @@ import com.ai.guildmasterapp.GlobalState
 class HomeViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment " + GlobalState.characterDetail?.name
+        value = "Character: " + GlobalState.characterDetail?.name + " Player PVP Rank: " + GlobalState.pvpStats?.pvp_rank
     }
     val text: LiveData<String> = _text
 }
