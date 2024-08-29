@@ -49,8 +49,18 @@ class CharacterSelectionActivity : AppCompatActivity() {
         }
 
         selectButton.setOnClickListener {
-            val navigationIntent = Intent(this, MainActivity::class.java)
-            startActivity(navigationIntent)
+            val api = GuildWars2Api()
+            api.getPvpStats { pvpStats ->
+                runOnUiThread {
+                    if (pvpStats != null) {
+                        val navigationIntent = Intent(this, MainActivity::class.java)
+                        startActivity(navigationIntent)
+                    } else {
+                        Toast.makeText(this, "Failed to fetch PvP stats", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
         }
     }
 
@@ -60,7 +70,7 @@ class CharacterSelectionActivity : AppCompatActivity() {
                 radius = 16f
                 layoutParams = LinearLayout.LayoutParams(
                     200,
-                    280
+                    300
                 ).apply {
                     setMargins(16, 0, 16, 0) // Space between the card icons
                 }
