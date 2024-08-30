@@ -1,12 +1,71 @@
 package com.ai.guildmasterapp.ui.dashboard
 
 import android.annotation.SuppressLint
-import android.icu.number.Precision
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
+import com.ai.guildmasterapp.GlobalState
 import com.ai.guildmasterapp.R
+import com.squareup.picasso.Picasso
+
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
+
+//Delete After Testing
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import java.net.SocketTimeoutException
+import java.util.concurrent.TimeUnit
+
+
+@Serializable
+data class Item(
+    val id: Int = 0,
+    val name: String = "",
+    val description: String = "",
+    val type: String = "",
+    val level: Int = 0,
+    val rarity: String = "",
+    val vendor_value: Int = 0,
+    val default_skin: Int = 0,
+    val game_types: List<String>,
+    val flags: List<String>,
+    val restrictions: List<String>,
+    val chat_link: String = "",
+    val icon: String = "",
+    val details: ItemDetails
+)
+@Serializable
+data class ItemDetails(
+    val type: String = "",
+    val damage_type: String= "",
+    val min_power: Int = 0,
+    val max_power: Int = 0,
+    val defense: Int = 0,
+    val infusion_slots: List<String>,
+    val attribute_adjustment: Double = 0.0,
+    val infix_upgrade: InfixUpgrade?,
+    val suffix_item_id: Int? = 0,
+    val secondary_suffix_item_id: String?
+)
+@Serializable
+data class InfixUpgrade(
+    val id: Int,
+    val attributes: List<Attribute>
+)
+@Serializable
+data class Attribute(
+    val attribute: String,
+    val modifier: Int
+)
+
+
 
 class CompareEquipment : AppCompatActivity() {
 
@@ -26,6 +85,15 @@ class CompareEquipment : AppCompatActivity() {
     private lateinit var expertiseAttribute: TextView
     private lateinit var ferocityAttribute: TextView
     private lateinit var healingPowerAttribute: TextView
+
+    // DELETE AFTER TESTING
+    val client = OkHttpClient.Builder()
+        .connectTimeout(30, TimeUnit.SECONDS)
+        .readTimeout(30,TimeUnit.SECONDS)
+        .writeTimeout(30,TimeUnit.SECONDS)
+        .build()
+
+    val itemList = mutableListOf<Item>()
 
 
     @SuppressLint("MissingInflatedId")
@@ -55,16 +123,66 @@ class CompareEquipment : AppCompatActivity() {
         expertiseAttribute = findViewById(R.id.expertise_attr)
         ferocityAttribute = findViewById(R.id.ferocity_attr)
         healingPowerAttribute = findViewById(R.id.healing_power_attr)
+    ////////////////////////////////////////////////////////////////
+    //------------------DELETE AFTER TESTING----------------------//
+    ////////////////////////////////////////////////////////////////
 
-        setPower(59)
-        setToughness(37)
-        setPrecision(41)
-        setVitality(37)
-        setConcentration(0)
-        setConditionDamage(0)
-        setExpertise(0)
-        setFerocity(0)
-        setHealingPower(0)
+
+        val player = GlobalState.characterDetail
+
+        val armorList = listOf(
+            "Helm",
+            "Shoulder",
+            "Coat",
+            "Boots",
+            "Gloves",
+            "Leggings"
+        )
+
+        val playerEquipment = player?.equipment
+
+        CoroutineScope(Dispatchers.IO).launch {
+            for (item in playerEquipment!!) {
+                if (item.slot in armorList)
+                fetchAndAddItem(item.id)
+            }
+
+            runOnUiThread {
+                itemList.forEach{item ->
+
+                    when (item.details.type) {
+                        "Helm" -> {
+                            loadImageWithPicasso(helmImage,item.icon)
+                        }
+                        "Shoulder" -> {
+                            loadImageWithPicasso(shoulderImage,item.icon)
+                        }
+                        "Coat" -> {
+                            loadImageWithPicasso(chestImage,item.icon)
+                        }
+                        "Boots" -> {
+                            loadImageWithPicasso(feetImage,item.icon)
+                        }
+                        "Gloves" -> {
+                            loadImageWithPicasso(handsImage,item.icon)
+                        }
+                        "Leggings" -> {
+                            loadImageWithPicasso(legsImage,item.icon)
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+
+    /////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////
+
+
+
     }
     private fun returnToMain() {
         finish()
@@ -113,6 +231,49 @@ class CompareEquipment : AppCompatActivity() {
     private fun setHealingPower(newHealingPower: Int){
         val healingPowerString = getString(R.string.healing_power_attribute) + newHealingPower.toString()
         healingPowerAttribute.text = healingPowerString
+    }
+
+    suspend fun fetchAndAddItem(itemId: Int) {
+        val maxRetries = 3
+        var currentAttempt = 0
+
+        val json = Json{ignoreUnknownKeys = true}
+        while (currentAttempt < maxRetries) {
+            try {
+                val request = Request.Builder()
+                    .url("https://api.guildwars2.com/v2/items/$itemId")
+                    .build()
+
+                client.newCall(request).execute().use { response ->
+                    if (!response.isSuccessful) {
+                        println("Failed to fetch item with id $itemId: ${response.message}")
+                        return@use
+                    }
+
+                    response.body?.string()?.let { jsonString ->
+                        try {
+                            val item = json.decodeFromString<Item>(jsonString)
+                            itemList.add(item)
+                        } catch (e: Exception) {
+                            println("Failed to parse item JSON: ${e.message}")
+                        }
+                    } ?: println("Empty response body for item with id $itemId")
+                }
+
+                break // Exit loop if successful
+            } catch (e: SocketTimeoutException) {
+                currentAttempt++
+                if (currentAttempt >= maxRetries) {
+                    println("Failed to fetch item after $maxRetries attempts")
+                    throw e
+                }
+            }
+        }
+    }
+
+    private fun loadImageWithPicasso(imageView: ImageView, url: String) {
+        Log.d("GLIDE", "$url")
+        Picasso.get().load(url).into(imageView)
     }
 
 }
