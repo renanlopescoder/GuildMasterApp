@@ -18,6 +18,7 @@ import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
 import com.ai.guildmasterapp.GlobalState
+import com.ai.guildmasterapp.R
 import com.ai.guildmasterapp.api.GuildWars2Api
 import kotlinx.coroutines.launch
 
@@ -68,6 +69,16 @@ class GuildFragment : Fragment() {
             // Assigns the fragment_guild.xml fragment Ids
             binding.guildName.text = it.guild_name
             binding.guildTag.text = "[${it.tag}]"
+            binding.guildMembersTitle.text = "Members"
+            binding.guildMembersOnline.text = "3/6 online"
+            binding.guildDiscussionsTitle.text = "Discussions"
+            binding.guildDiscussionsUnread.text = "2 unread"
+            binding.guildExamplePost1Title.text = "Can I get some help with…"
+            binding.guildExamplePost1.text = "The Boss: 10 minutes ago…"
+            binding.guildExamplePost2Title.text ="Looking for group"
+            binding.guildExamplePost2.text = "Jon Ice: 40 minutes ago…"
+            binding.guildExamplePost3Title.text = "Crafters needed"
+            binding.guildExamplePost3.text = "Glorious Sun: 7/29/24"
 
             // Initializes the background & foreground layers for the guild emblem
             var background: List<String>? = null

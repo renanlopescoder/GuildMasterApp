@@ -155,5 +155,11 @@
     <!-- image Content description -->
     <string name="guild_emblem_image">Guild Emblem</string>
 
+    <string name="guild_members_title">Members</string>
+    <string name="guild_discussions_title">Discussions</string>
+    <string name="guild_temp_text_1">Can I get some help with…</string>
+    <string name="guild_temp_text_2">Looking for group</string>
+    <string name="guild_temp_text_3">Crafters needed</string>
+
 
 </resources>
