@@ -11,11 +11,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.*
 import com.ai.guildmasterapp.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
 import com.ai.guildmasterapp.GlobalState
+import com.ai.guildmasterapp.api.GuildWars2Api
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
@@ -23,20 +26,24 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private var api = GuildWars2Api()
+    private var globalState = GlobalState
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        supportActionBar?.hide() // Removes the action bar from the view.
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        supportActionBar?.hide()
-
+        supportActionBar?.hide() // Removes the action bar from the view.
 
         drawerLayout = findViewById(R.id.drawer_layout) // Initializes drawerLayout
 
-
+        // Begins coroutine to fetch all the item IDs
+        lifecycleScope.launch {
+            // fetches a list of almost every item ID in the game and stores it in the global state
+            getItemIds()
+        }
 
        val bottomNavView: BottomNavigationView = binding.navViewBottomMenu // Navigation for bottom menu items
 
@@ -59,6 +66,8 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         bottomNavView.setupWithNavController(navController)
+
+
 
         // Handles bottom menu item clicks, navigates to the appropriate page
         bottomNavView.setOnItemSelectedListener { item ->
@@ -173,4 +182,13 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
+    // Stores a list of ints for every item ID in the game in the global state.
+    private suspend fun getItemIds() {
+
+        api.fetchItemIds()
+
+    }
+
+
 }

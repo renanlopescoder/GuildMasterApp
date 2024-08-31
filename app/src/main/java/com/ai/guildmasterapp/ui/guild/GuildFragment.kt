@@ -18,6 +18,7 @@ import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
 import com.ai.guildmasterapp.GlobalState
+import com.ai.guildmasterapp.api.GuildWars2Api
 import kotlinx.coroutines.launch
 
 
@@ -45,6 +46,7 @@ class GuildFragment : Fragment() {
 
         super.onViewCreated(view, savedInstanceState) // Calls parent class function
 
+        // Initializes Guild View Model variable
         guildViewModel = ViewModelProvider(this).get(GuildViewModel::class.java)
 
         guildViewModel.guildInfo.observe(viewLifecycleOwner, Observer {guildInfo ->
@@ -67,30 +69,24 @@ class GuildFragment : Fragment() {
             binding.guildName.text = it.guild_name
             binding.guildTag.text = "[${it.tag}]"
 
-            // Initializes the background & foreground layers
+            // Initializes the background & foreground layers for the guild emblem
             var background: List<String>? = null
             var foreground: List<String>? = null
             background = guildViewModel.getEmblemLayers(it.emblem.background_id, "backgrounds")
             foreground = guildViewModel.getEmblemLayers(it.emblem.foreground_id, "foregrounds")
 
-            // Loads emblem image from API call
+
+            // Begins a Coroutine
             lifecycleScope.launch {
 
+                // Combines the list of URLs for the background and foreground layers
                 val emblemLayers = (background ?: emptyList()) + (foreground ?: emptyList())
 
+                // Loads emblem image from API call
                 val emblemDrawable = makeEmblem(emblemLayers)
 
-                binding.guildEmblemView.setImageDrawable(emblemDrawable)
+                binding.guildEmblemView.setImageDrawable(emblemDrawable) // Initializes guild emblem icon
 
-                val testIds = guildViewModel.getItemIds()
-
-                val index = testIds[0]
-
-                val testItemDetails = guildViewModel.getItemDetails(24)
-
-                val exampleItemIcon = makeEmblem(listOf(testItemDetails.icon))
-
-                binding.testItemIcon.setImageDrawable(exampleItemIcon)
             }
 
         }
