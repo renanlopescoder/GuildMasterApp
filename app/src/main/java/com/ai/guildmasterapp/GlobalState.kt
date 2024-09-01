@@ -2,6 +2,7 @@ package com.ai.guildmasterapp
 
 import kotlinx.serialization.Serializable
 
+
 object GlobalState {
     var characters: List<String>? = null
     var characterDetail: CharacterDetail? = null
@@ -86,7 +87,7 @@ data class Equipment(
     val slot: String,
     val binding: String? = null,
     val bound_to: String? = null,
-    val dyes: List<Int?>? = null
+    val dyes: List<Int?>? = null,
 )
 
 @Serializable

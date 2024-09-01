@@ -1,7 +1,10 @@
 package com.ai.guildmasterapp
 
 
+import android.app.Notification.Action
 import android.os.Bundle
+import android.view.Window
+import androidx.appcompat.app.ActionBar
 
 import android.content.Intent
 
@@ -16,6 +19,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.*
 import com.ai.guildmasterapp.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
+import com.ai.guildmasterapp.GlobalState
 import com.ai.guildmasterapp.api.GuildWars2Api
 import kotlinx.coroutines.launch
 
@@ -31,10 +35,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        supportActionBar?.hide() // Removes the action bar from the view.
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        supportActionBar?.hide() // Removes the action bar from the view.
+
+
 
         drawerLayout = findViewById(R.id.drawer_layout) // Initializes drawerLayout
 

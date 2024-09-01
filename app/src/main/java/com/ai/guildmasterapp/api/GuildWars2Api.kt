@@ -1,12 +1,12 @@
 package com.ai.guildmasterapp.api
 
+import android.provider.Settings.Global
 import android.util.Log
 import com.ai.guildmasterapp.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.serialization.json.Json
-import okhttp3.*
 import java.io.IOException
 import com.ai.guildmasterapp.GlobalState
 import com.ai.guildmasterapp.CharacterDetail
@@ -28,6 +28,8 @@ import com.ai.guildmasterapp.LadderStats
 
 
 import kotlin.coroutines.resumeWithException
+import okhttp3.Call
+import okhttp3.*
 
 class GuildWars2Api {
 
@@ -77,8 +79,8 @@ class GuildWars2Api {
         val docRef = firestore.collection("users").document(uid)
         docRef.get()
             .addOnSuccessListener { document ->
-                val apiKey = document.getString("apiKey")
-                callback(apiKey)
+                    val apiKey = document.getString("apiKey")
+                    callback(apiKey)
             }
     }
 
@@ -88,7 +90,7 @@ class GuildWars2Api {
             .build()
 
         client.newCall(request).enqueue(object : okhttp3.Callback {
-            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+            override fun onResponse(call: Call, response: okhttp3.Response) {
                 response.body?.string()?.let { jsonResponse ->
                     try {
                         if (jsonResponse.isNotEmpty()) {
@@ -110,7 +112,7 @@ class GuildWars2Api {
                 }
             }
 
-            override fun onFailure(call: okhttp3.Call, e: IOException) {
+            override fun onFailure(call: Call, e: IOException) {
                 Log.e("GuildWars2Api", "API call failed: ${e.message}")
                 callback(getFallbackCharacterDetails())
             }
@@ -341,7 +343,7 @@ class GuildWars2Api {
             .build()
 
         client.newCall(request).enqueue(object : okhttp3.Callback {
-            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+            override fun onResponse(call: Call, response: okhttp3.Response) {
                 response.body?.string()?.let { jsonResponse ->
                     try {
                         if (jsonResponse.isNotEmpty()) {
@@ -364,7 +366,7 @@ class GuildWars2Api {
                 }
             }
 
-            override fun onFailure(call: okhttp3.Call, e: IOException) {
+            override fun onFailure(call: Call, e: IOException) {
                 Log.e("GuildWars2Api", "API call failed: ${e.message}")
                 callback(listOf("lopescodex", "AI Squad"))
                 GlobalState.characters = listOf("lopescodex", "AI Squad")
