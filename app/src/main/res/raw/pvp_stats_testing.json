@@ -23,6 +23,55 @@
       "desertions": 0,
       "byes": 0,
       "forfeits": 0
+    },
+    "mesmer": {
+      "wins": 3,
+      "losses": 7,
+      "desertions": 0,
+      "byes": 0,
+      "forfeits": 0
+    },
+    "necromancer": {
+      "wins": 3,
+      "losses": 7,
+      "desertions": 0,
+      "byes": 0,
+      "forfeits": 0
+    },
+    "warrior": {
+      "wins": 3,
+      "losses": 7,
+      "desertions": 0,
+      "byes": 0,
+      "forfeits": 0
+    },
+    "ranger": {
+      "wins": 3,
+      "losses": 7,
+      "desertions": 0,
+      "byes": 0,
+      "forfeits": 0
+    },
+    "thief": {
+      "wins": 3,
+      "losses": 7,
+      "desertions": 0,
+      "byes": 0,
+      "forfeits": 0
+    },
+    "engineer": {
+      "wins": 3,
+      "losses": 7,
+      "desertions": 0,
+      "byes": 0,
+      "forfeits": 0
+    },
+    "revenant": {
+      "wins": 3,
+      "losses": 7,
+      "desertions": 0,
+      "byes": 0,
+      "forfeits": 0
     }
   },
   "ladders": {
