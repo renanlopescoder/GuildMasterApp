@@ -7,6 +7,7 @@ object GlobalState {
     var characters: List<String>? = null
     var characterDetail: CharacterDetail? = null
     var guildInfo: GuildInfo? = null
+    var guildMembers: List<GuildMember>? = null
     var itemIDs: List<Int>? = null
 
     // Stores respective item from the game & their details using the item ID as the key.
@@ -63,6 +64,14 @@ data class GuildInfo(
     val guild_name: String,
     val tag: String,
     val emblem: Emblem,
+)
+
+// Data class for Guild members
+@Serializable
+data class GuildMember(
+    val name: String,
+    val rank: String,
+    val joined: String
 )
 
 // Stores information for guild emblem.

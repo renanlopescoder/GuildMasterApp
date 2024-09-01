@@ -4,8 +4,6 @@ import android.util.Log
 import com.ai.guildmasterapp.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.serialization.json.Json
 import okhttp3.*
@@ -171,6 +169,22 @@ class GuildWars2Api {
 
         GlobalState.guildInfo = char
         return char
+    }
+
+    // Mock data for Guild members recycler list
+    fun getFallbackGuildMembers(): MutableList<GuildMember> {
+
+        val members = mutableListOf<GuildMember>(
+            GuildMember("Renan", "Leader", "2024-07-22"),
+            GuildMember("Jesse", "Officer", "2024-07-29"),
+            GuildMember("Kennan", "Member", "2024-08-15"),
+            GuildMember("Jane", "Member", "2024-08-29"),
+            GuildMember("John", "Officer", "2024-07-17"),
+            GuildMember("Mike", "Member", "2024-08-05"),
+        )
+
+        GlobalState.guildMembers = members
+        return members
     }
 
 

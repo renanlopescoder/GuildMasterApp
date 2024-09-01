@@ -12,14 +12,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.ai.guildmasterapp.GuildInfo
-import com.ai.guildmasterapp.databinding.FragmentGuildBinding
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
-import com.ai.guildmasterapp.GlobalState
+import com.ai.guildmasterapp.GuildInfo
 import com.ai.guildmasterapp.R
 import com.ai.guildmasterapp.api.GuildWars2Api
+import com.ai.guildmasterapp.databinding.FragmentGuildBinding
 import kotlinx.coroutines.launch
 
 
@@ -60,6 +62,17 @@ class GuildFragment : Fragment() {
         })
         // Fetches API data.
         guildViewModel.getGuildInfo()
+
+        // When the discussion post titles are clicked on, the app will navigate to the community fragment.
+        binding.guildExamplePost1Title.setOnClickListener {
+            findNavController().navigate(R.id.navigation_community)
+        }
+        binding.guildExamplePost2Title.setOnClickListener {
+            findNavController().navigate(R.id.navigation_community)
+        }
+        binding.guildExamplePost3Title.setOnClickListener {
+            findNavController().navigate(R.id.navigation_community)
+        }
     }
 
 
@@ -79,6 +92,14 @@ class GuildFragment : Fragment() {
             binding.guildExamplePost2.text = "Jon Ice: 40 minutes ago…"
             binding.guildExamplePost3Title.text = "Crafters needed"
             binding.guildExamplePost3.text = "Glorious Sun: 7/29/24"
+
+            // Mock data for guild members
+            val members = GuildWars2Api().getFallbackGuildMembers()
+
+            // Set up RecyclerView with a grid layout of 2 columns
+            val adapter = GuildMemberAdapter(members)
+            binding.guildMembersRecycler.adapter = adapter
+            binding.guildMembersRecycler.layoutManager = GridLayoutManager(requireContext(),3)
 
             // Initializes the background & foreground layers for the guild emblem
             var background: List<String>? = null
