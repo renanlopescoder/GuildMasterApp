@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.ai.guildmasterapp.R
 //import android.widget.PopupWindow
 import android.widget.ImageButton
+import com.ai.guildmasterapp.GlobalState
 //import androidx.constraintlayout.widget.ConstraintLayout
 import com.ai.guildmasterapp.databinding.FragmentDashboardBinding
 
@@ -49,6 +50,8 @@ class DashboardFragment : Fragment() {
         pvpToggleButton = root.findViewById(R.id.dashboard_pvp_toggle)
         filterButton = root.findViewById(R.id.filter_button)
 
+        setDashboardGreeting()
+
 
         //Initialize Dashboard with Overview Fragment
         childFragmentManager.beginTransaction()
@@ -75,9 +78,6 @@ class DashboardFragment : Fragment() {
         }
 
 
-//        //THIS FUNCTION CALL IS FOR TESTING ONLY
-        setDashboardGreeting("Warrior")
-
 
 //        //This brings up the popup window
 //        filterButton.setOnClickListener{
@@ -93,8 +93,11 @@ class DashboardFragment : Fragment() {
         _binding = null
     }
 
-    private fun setDashboardGreeting(usersClass: String) {
-        "Hello, \n$usersClass !".also { dashboardGreeting.text = it }
+    private fun setDashboardGreeting() {
+        val userProfession = GlobalState.characterDetail?.profession
+        if (userProfession != null) {
+            "Hello, \n$userProfession".also { dashboardGreeting.text = it }
+        }
     }
 
     private fun setProfileImage(usersProfilePic: Int) {
