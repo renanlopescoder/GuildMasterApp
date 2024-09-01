@@ -72,8 +72,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:text="@string/about_button"
-                        android:radius="100dp"
-                />
+                        android:radius="100dp"/>
 
                 <Button
                         android:id="@+id/button_log_out"
@@ -81,9 +80,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:text="@string/log_out_button"
-
-                />
+                        android:text="@string/log_out_button"/>
 
             </LinearLayout>
 

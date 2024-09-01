@@ -60,6 +60,11 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.11.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
+    // Coil image loading library integration
+    implementation("io.coil-kt:coil:2.3.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
     // Core Moshi library
     implementation ("com.squareup.moshi:moshi:1.15.0")
     // Moshi Kotlin support (optional, but recommended for Kotlin projects)

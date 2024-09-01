@@ -1,11 +1,12 @@
 package com.ai.guildmasterapp.api
 
 import android.util.Log
+import com.ai.guildmasterapp.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.serialization.json.Json
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import okhttp3.*
 import java.io.IOException
 import com.ai.guildmasterapp.GlobalState
 import com.ai.guildmasterapp.CharacterDetail
@@ -26,6 +27,7 @@ import com.ai.guildmasterapp.Ladders
 import com.ai.guildmasterapp.LadderStats
 
 
+import kotlin.coroutines.resumeWithException
 
 class GuildWars2Api {
 
@@ -75,8 +77,8 @@ class GuildWars2Api {
         val docRef = firestore.collection("users").document(uid)
         docRef.get()
             .addOnSuccessListener { document ->
-                    val apiKey = document.getString("apiKey")
-                    callback(apiKey)
+                val apiKey = document.getString("apiKey")
+                callback(apiKey)
             }
     }
 
@@ -238,6 +240,66 @@ class GuildWars2Api {
         return char
     }
 
+
+    private fun getFallbackGuildInfo(): GuildInfo {
+
+        val char = GuildInfo(
+            guild_id = "8774BBE4-25F8-4515-8557-D7BDE72A7F8A",
+            guild_name = "Team Aggression",
+            tag = "TA",
+            emblem = Emblem(
+                background_id = 2,
+                foreground_id = 53,
+                flags = listOf(""),
+                background_color_id = 673,
+                foreground_primary_color_id = 473,
+                foreground_secondary_color_id = 443
+            )
+        )
+
+        GlobalState.guildInfo = char
+        return char
+    }
+
+    // Mock data for Guild members recycler list
+    fun getFallbackGuildMembers(): MutableList<GuildMember> {
+
+        val members = mutableListOf<GuildMember>(
+            GuildMember("Renan", "Leader", "2024-07-22"),
+            GuildMember("Jesse", "Officer", "2024-07-29"),
+            GuildMember("Kennan", "Member", "2024-08-15"),
+            GuildMember("Jane", "Member", "2024-08-29"),
+            GuildMember("John", "Officer", "2024-07-17"),
+            GuildMember("Mike", "Member", "2024-08-05"),
+        )
+
+        GlobalState.guildMembers = members
+        return members
+    }
+
+
+    fun getFallbackEmblemLayer(type: String): EmblemLayer {
+
+        lateinit var layer: EmblemLayer
+        when (type) {
+            "backgrounds" -> layer = EmblemLayer(
+                id = 2,
+                layers = listOf("https://render.guildwars2.com/file/936BEB492B0D2BD77307FCB10DBEE51AFB5E6C64/59599.png")
+            )
+
+            "foregrounds" -> layer = EmblemLayer(
+                id = 53,
+                layers = listOf(
+                    "https://render.guildwars2.com/file/E8AB2107615E4717FE7E52CB686A0AC2AC5A4275/59955.png",
+                    "https://render.guildwars2.com/file/FB6B1500A00C51312A7356551D40635D4372A1B2/59957.png",
+                    "https://render.guildwars2.com/file/F81C9299DEB7C46F3B70F83A18AF2868DA34973C/59959.png"
+                )
+            )
+        }
+
+        return layer
+    }
+
     private fun getFallbackPvPStats(): PvPStats {
         val fallbackPvPStats = PvPStats(
             pvp_rank = 23,
@@ -309,5 +371,213 @@ class GuildWars2Api {
             }
         })
     }
+
+
+    fun fetchGuildInfo(callback: (GuildInfo?) -> Unit) {
+        val request = Request.Builder()
+            .url("https://api.guildwars2.com/v1/guild_details?guild_name=Battlecross") // Hard coded fetch request
+            .build()
+
+        // API request for guild information
+        client.newCall(request).enqueue(object : Callback {
+            override fun onResponse(call: Call, response: Response) {
+                response.body?.string()?.let { jsonResponse ->
+                    try {
+                        if (jsonResponse.isNotEmpty()) {
+                            val guildInfo: GuildInfo = Json.decodeFromString<GuildInfo>(jsonResponse)
+                            callback(guildInfo)
+                            GlobalState.guildInfo = guildInfo
+                        } else {
+                            callback(getFallbackGuildInfo())
+                        }
+                    } catch (e: IOException) {
+                        Log.e("GuildWars2Api", "Invalid JSON format: ${e.message}")
+                        callback(getFallbackGuildInfo())
+                    }
+                } ?: run {
+                    callback(getFallbackGuildInfo())
+                }
+            }
+
+            // If request fails
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("GuildWars2Api", "API call failed: ${e.message}")
+                callback(getFallbackGuildInfo())
+            }
+        })
+    }
+
+    // Fetches either the background or foreground data for the Emblem.
+    suspend fun fetchEmblemLayers(id: Int, type: String ): List<String> {
+
+        // Allows coroutine to be cancelled properly
+        return suspendCancellableCoroutine { continuation ->
+            val url =
+                "https://api.guildwars2.com/v2/emblem/$type?ids=$id" // Initializes URL using the function parameters
+            val request = Request.Builder().url(url).build() // builds the Request object.
+
+            // Client creates a new call
+            client.newCall(request).enqueue(object : Callback {
+                // If the call fails it will use fallback data.
+                override fun onFailure(call: Call, e: IOException) {
+                    if (continuation.isActive) {
+                        val fallback: List<String> = GuildWars2Api().getFallbackEmblemLayer(type).layers
+                        continuation.resumeWith(Result.success(fallback))
+                    }
+
+                }
+
+                // This call will return a single element array of a JSON object
+                override fun onResponse(call: Call, response: Response) {
+
+                    // Tries to parse through JSON object
+                    // Returns the fallback data if it catches an error.
+                    try {
+                        val jsonResponse = response.body?.string()
+                        if (jsonResponse?.isNotEmpty() == true) {
+                            val emblemLayer = Json.decodeFromString<List<EmblemLayer>>(jsonResponse)
+                            val layers = emblemLayer.firstOrNull()?.layers ?: emptyList()
+
+                            continuation.resumeWith(Result.success(layers))
+
+                        } else {
+                            continuation.resumeWith(Result.success(GuildWars2Api().getFallbackEmblemLayer(type).layers))
+                        }
+                    } catch (e: Exception) {
+                        if (continuation.isActive) {
+                            continuation.resumeWithException(e)
+                        }
+                    }
+                }
+            })
+            continuation.invokeOnCancellation {
+                continuation.cancel()
+            }
+
+        }
+
+    }
+
+    // Fetches a list of almost every item id in the game
+    suspend fun fetchItemIds(){
+        return suspendCancellableCoroutine { continuation ->
+            val url = "https://api.guildwars2.com/v2/items"
+            val request = Request.Builder()
+                .url(url)
+                .build()
+
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    if (continuation.isActive) {
+                        continuation.resumeWith(Result.success(Unit))
+                    }
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    try {
+                        val jsonResponse = response.body?.string()
+                        if (jsonResponse?.isNotEmpty() == true) {
+                            val itemIds = Json.decodeFromString<List<Int>>(jsonResponse)
+                            continuation.resumeWith(Result.success(Unit))
+                            GlobalState.itemIDs = itemIds
+                        } else {
+                            continuation.resumeWith(Result.success(Unit))
+                        }
+                    } catch (e: Exception) {
+                        if (continuation.isActive) {
+                            continuation.resumeWithException(e)
+                        }
+                    }
+                }
+            })
+
+            continuation.invokeOnCancellation {
+                continuation.cancel()
+            }
+        }
+    }
+
+    // fetches item detail, determines it's type and then stores it in the respective global state map
+    // Returns ItemType data class
+    suspend fun fetchItemDetails(id: Int): ItemType? {
+
+        var result: ItemType? = null
+
+        val customJson = Json {
+            ignoreUnknownKeys = true
+        }
+
+        val url = "https://api.guildwars2.com/v2/items?ids=$id"
+
+        return suspendCancellableCoroutine { continuation ->
+
+            val request = Request.Builder()
+                .url(url)
+                .build()
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    if (continuation.isActive) {
+                        continuation.resumeWithException(e)
+                    }
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    try {
+                        val jsonResponse = response.body?.string()
+
+                        if (jsonResponse?.isNotEmpty() == true) {
+
+                            var weapon: Weapon? = null
+                            var consumable: Consumable? = null
+                            var backItem: BackItem? = null
+                            var armor: Armor? = null
+                            // Reads through JSON to determine item type.
+                            val itemType = customJson.decodeFromString<List<ItemType>>(jsonResponse)
+                            if (itemType.isNotEmpty()) {
+
+                                result = itemType[0]
+                                when (itemType[0].type) {
+                                    "Weapon" -> {
+                                        weapon = customJson.decodeFromString<List<Weapon>>(jsonResponse)[0]
+                                        GlobalState.weaponMap[id] = weapon
+                                    }
+
+                                    "Consumable" -> {
+                                        consumable = customJson.decodeFromString<List<Consumable>>(jsonResponse)[0]
+                                        GlobalState.consumableMap[id] = consumable
+                                    }
+
+                                    "Back" -> {
+                                        backItem = customJson.decodeFromString<List<BackItem>>(jsonResponse)[0]
+                                        GlobalState.backItemMap[id] = backItem
+                                    }
+
+                                    "Armor" -> {
+                                        armor = customJson.decodeFromString<List<Armor>>(jsonResponse)[0]
+                                        GlobalState.armorMap[id] = armor
+                                    }
+                                }
+                            }
+
+                            continuation.resumeWith(Result.success(result))
+
+                        }
+                    } catch (e: Exception) {
+                        if (continuation.isActive) {
+                            continuation.resumeWithException(e)
+                        }
+                    }
+                }
+            })
+
+            continuation.invokeOnCancellation {
+                continuation.cancel()
+            }
+        }
+
+    }
 }
+
+
+
 
