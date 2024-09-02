@@ -10,16 +10,8 @@
             android:title="@string/title_messages"/>
 
     <item
-            android:id="@+id/navigation_news"
-            android:title="@string/title_news"/>
-
-    <item
             android:id="@+id/navigation_pvp_history"
             android:title="@string/title_pvp_history"/>
-
-    <item
-            android:id="@+id/navigation_friends"
-            android:title="@string/title_friends"/>
 
     <item
             android:id="@+id/navigation_guild"

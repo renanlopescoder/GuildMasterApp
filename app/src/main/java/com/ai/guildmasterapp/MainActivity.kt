@@ -62,8 +62,8 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications,
-                R.id.navigation_messages, R.id.navigation_menu, R.id.navigation_news, R.id.navigation_pvp_history,
+                R.id.navigation_dashboard, R.id.navigation_notifications,
+                R.id.navigation_messages, R.id.navigation_menu, R.id.navigation_pvp_history,
                 R.id.navigation_guild, R.id.navigation_community, R.id.navigation_crafting, R.id.navigation_my_profile,
                 R.id.navigation_about
             )
@@ -85,16 +85,16 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(R.id.navigation_dashboard)
                     true
                 }
-                R.id.navigation_home -> {
-                    navController.navigate(R.id.navigation_home)
-                    true
-                }
                 R.id.navigation_notifications -> {
                     navController.navigate(R.id.navigation_notifications)
                     true
                 }
                 R.id.navigation_messages -> {
                     navController.navigate(R.id.navigation_messages)
+                    true
+                }
+                R.id.navigation_my_profile -> {
+                    navController.navigate(R.id.navigation_my_profile)
                     true
                 }
                 else -> false
@@ -115,11 +115,6 @@ class MainActivity : AppCompatActivity() {
                     drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }
-                R.id.navigation_news -> {
-                    navController.navigate(R.id.navigation_news)
-                    drawerLayout.closeDrawer(GravityCompat.START)
-                    true
-                }
                 R.id.navigation_pvp_history -> {
                     navController.navigate(R.id.navigation_pvp_history)
                     drawerLayout.closeDrawer(GravityCompat.START)
@@ -127,11 +122,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.navigation_pvp_history -> {
                     navController.navigate(R.id.navigation_pvp_history)
-                    drawerLayout.closeDrawer(GravityCompat.START)
-                    true
-                }
-                R.id.navigation_friends -> {
-                    navController.navigate(R.id.navigation_friends)
                     drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }

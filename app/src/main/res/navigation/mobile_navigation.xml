@@ -4,13 +4,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/mobile_navigation"
-        app:startDestination="@+id/navigation_home">
+        app:startDestination="@+id/navigation_dashboard">
 
-    <fragment
-            android:id="@+id/navigation_home"
-            android:name="com.ai.guildmasterapp.ui.home.HomeFragment"
-            android:label="@string/title_home"
-            tools:layout="@layout/fragment_home"/>
 
     <fragment
             android:id="@+id/navigation_dashboard"
@@ -31,22 +26,10 @@
             tools:layout="@layout/fragment_messages"/>
 
     <fragment
-            android:id="@+id/navigation_news"
-            android:name="com.ai.guildmasterapp.ui.news.NewsFragment"
-            android:label="@string/title_news"
-            tools:layout="@layout/fragment_news"/>
-
-    <fragment
             android:id="@+id/navigation_pvp_history"
             android:name="com.ai.guildmasterapp.ui.pvp_history.PvpHistoryFragment"
             android:label="@string/title_pvp_history"
             tools:layout="@layout/fragment_pvp_history"/>
-
-    <fragment
-            android:id="@+id/navigation_friends"
-            android:name="com.ai.guildmasterapp.ui.friends.FriendsFragment"
-            android:label="@string/title_friends"
-            tools:layout="@layout/fragment_friends"/>
 
     <fragment
             android:id="@+id/navigation_guild"
