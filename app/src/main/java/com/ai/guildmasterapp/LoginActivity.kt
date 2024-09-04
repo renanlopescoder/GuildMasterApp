@@ -41,6 +41,7 @@ class LoginActivity : AppCompatActivity() {
         loginButton.setOnClickListener {
             val email = emailInput.text.toString().trim()
             val password = passwordInput.text.toString().trim()
+            Log.d("LOGIN","TESTING")
 
             if (email.isEmpty()) {
                 Log.w("LoginActivity", "Email is empty")
