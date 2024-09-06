@@ -1,5 +1,6 @@
 package com.ai.guildmasterapp
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -10,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.ai.guildmasterapp.api.GuildWars2Api
 import com.ai.guildmasterapp.CharacterDetail
+import pl.droidsonroids.gif.GifImageView
+import pl.droidsonroids.gif.GifDrawable
+
 
 class CharacterSelectionActivity : AppCompatActivity() {
 
@@ -38,6 +42,11 @@ class CharacterSelectionActivity : AppCompatActivity() {
         selectedCharacterProfession = findViewById(R.id.selected_character_profession)
         selectButton = findViewById(R.id.selectButton)
 
+
+        val gifImageView = findViewById<GifImageView>(R.id.backgroundImage)
+        val gifDrawable = GifDrawable(resources, R.drawable.ice_3)
+        gifImageView.setImageDrawable(gifDrawable)
+
         // FETCH API DATA
         val api = GuildWars2Api()
         api.getCharacters { characters ->
@@ -49,8 +58,8 @@ class CharacterSelectionActivity : AppCompatActivity() {
         }
 
         selectButton.setOnClickListener {
-            val api = GuildWars2Api()
-            api.getPvpStats { pvpStats ->
+            val guildWarsApi = GuildWars2Api()
+            guildWarsApi.getPvpStats { pvpStats ->
                 runOnUiThread {
                     if (pvpStats != null) {
                         val navigationIntent = Intent(this, MainActivity::class.java)
@@ -137,16 +146,21 @@ class CharacterSelectionActivity : AppCompatActivity() {
 
 
     private fun showSelectedCharacter(characterName: String, characterImageResId: Int) {
+        val loader = LoaderDialogFragment()
+        loader.isCancelable = false
+        loader.show(supportFragmentManager, "LoaderDialog")
 
         selectedCharacterName.text = characterName
-        selectedCharacterOverlay.visibility = View.VISIBLE
-        val fadeInAnimation = AnimationUtils.loadAnimation(this, android.R.anim.fade_in)
-        selectedCharacterOverlay.startAnimation(fadeInAnimation)
+
 
         val api = GuildWars2Api()
         api.getCharacterDetails(characterName) { detail ->
             runOnUiThread {
                 if (detail != null) {
+                    selectedCharacterOverlay.visibility = View.VISIBLE
+                    val fadeInAnimation = AnimationUtils.loadAnimation(this, android.R.anim.fade_in)
+                    selectedCharacterOverlay.startAnimation(fadeInAnimation)
+
                     selectedCharacterLevel.text = "Level: ${detail.level}"
                     selectedCharacterRace.text = "Race: ${detail.race}"
                     selectedCharacterGender.text = "Gender: ${detail.gender}"
@@ -161,6 +175,7 @@ class CharacterSelectionActivity : AppCompatActivity() {
                     } else {
                         selectedCharacterImage.setImageResource(characterImageResId)
                     }
+                    loader.dismiss()
                 } else {
                     Toast.makeText(this, "Failed to load character details", Toast.LENGTH_SHORT).show()
                 }

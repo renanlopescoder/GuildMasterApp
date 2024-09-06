@@ -63,7 +63,6 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
     // Coil image loading library integration
-    implementation("io.coil-kt:coil:2.3.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
@@ -77,5 +76,9 @@ dependencies {
 
     implementation("com.squareup.picasso:picasso:2.71828")
 
+    implementation("io.coil-kt:coil:2.4.0")
+    implementation("io.coil-kt:coil-gif:2.4.0")
+
+    implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.29")
 }
 
