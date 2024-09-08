@@ -1,11 +1,14 @@
 package com.ai.guildmasterapp.api
 
+import android.provider.Settings.Global
 import android.util.Log
 import com.ai.guildmasterapp.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.serialization.json.Json
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import java.io.IOException
 import com.ai.guildmasterapp.GlobalState
 import com.ai.guildmasterapp.CharacterDetail
@@ -75,7 +78,6 @@ class GuildWars2Api {
         val firestore = FirebaseFirestore.getInstance()
 
         val docRef = firestore.collection("users").document(uid)
-
         docRef.get()
             .addOnSuccessListener { document ->
                     val apiKey = document.getString("apiKey")
@@ -91,6 +93,7 @@ class GuildWars2Api {
         client.newCall(request).enqueue(object : Callback {
             override fun onResponse(call: Call, response: Response) {
                 response.body?.string()?.let { jsonResponse ->
+
                     try {
                         if (jsonResponse.isNotEmpty()) {
                             val characterDetails = Json.decodeFromString<List<CharacterDetail>>(jsonResponse)[0]
@@ -123,12 +126,14 @@ class GuildWars2Api {
             .url("https://api.guildwars2.com/v2/pvp/stats?access_token=$apiKey")
             .build()
 
-        client.newCall(request).enqueue(object : Callback {
-            override fun onResponse(call: Call, response: Response) {
+        val json = Json{ignoreUnknownKeys = true }
+
+        client.newCall(request).enqueue(object : okhttp3.Callback {
+            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
                 response.body?.string()?.let { jsonResponse ->
                     try {
                         if (jsonResponse.isNotEmpty()) {
-                            val pvpStats = Json.decodeFromString<PvPStats>(jsonResponse)
+                            val pvpStats = json.decodeFromString<PvPStats>(jsonResponse)
                             callback(pvpStats)
                             GlobalState.pvpStats = pvpStats
                         } else {
@@ -146,12 +151,13 @@ class GuildWars2Api {
                 }
             }
 
-            override fun onFailure(call: Call, e: IOException) {
+            override fun onFailure(call: okhttp3.Call, e: IOException) {
                 Log.e("GuildWars2Api", "API call failed: ${e.message}")
                 callback(getFallbackPvPStats())
             }
         })
     }
+
 
     private fun getFallbackCharacterDetails(): CharacterDetail {
         val char = CharacterDetail(

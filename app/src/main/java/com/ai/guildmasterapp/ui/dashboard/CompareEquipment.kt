@@ -1,30 +1,32 @@
-@file:Suppress("UNUSED_EXPRESSION")
-
 package com.ai.guildmasterapp.ui.dashboard
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.res.Resources
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.ImageView
-import android.widget.TextView
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.animation.doOnEnd
 import com.ai.guildmasterapp.GlobalState
 import com.ai.guildmasterapp.R
+import com.ai.guildmasterapp.databinding.ActivityMainBinding
+import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken
 import com.squareup.picasso.Picasso
-
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import kotlinx.serialization.Serializable
-
-//Delete After Testing
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.internal.platform.android.AndroidLogHandler.setLevel
+import java.io.InputStream
 import java.net.SocketTimeoutException
 import java.util.concurrent.TimeUnit
+import java.io.InputStreamReader
 
 
 @Serializable
@@ -34,38 +36,26 @@ data class Item(
     val description: String = "",
     val type: String = "",
     val level: Int = 0,
-    val rarity: String = "",
-    val vendor_value: Int = 0,
-    val default_skin: Int = 0,
-    val game_types: List<String>,
-    val flags: List<String>,
-    val restrictions: List<String>,
-    val chat_link: String = "",
     val icon: String = "",
     val details: ItemDetails
 )
+
 @Serializable
 data class ItemDetails(
     val type: String = "",
-    val damage_type: String= "",
-    val min_power: Int = 0,
-    val max_power: Int = 0,
     val defense: Int = 0,
-    val infusion_slots: List<String>,
     val attribute_adjustment: Double = 0.0,
-    val infix_upgrade: InfixUpgrade?,
-    val suffix_item_id: Int? = 0,
-    val secondary_suffix_item_id: String?
-)
+    val infix_upgrade: InfixUpgrade? = null
+    )
 @Serializable
 data class InfixUpgrade(
-    val id: Int,
-    val attributes: List<Attribute>
+    val id: Int = 0,
+    val attributes: List<Attribute>? = null
 )
 @Serializable
 data class Attribute(
-    val attribute: String,
-    val modifier: Int
+    val attribute: String = "",
+    val modifier: Int = 0
 )
 
 @Serializable
@@ -82,18 +72,72 @@ data class CharacterAttributes(
     var healingPower: Int = 0
 )
 
+class ItemAdapter(context: Context, private val itemList: List<Item>) :
+    ArrayAdapter<Item>(context, 0, itemList), Filterable {
+
+    private var filteredItemList: List<Item> = itemList
+
+    override fun getCount(): Int {
+        return filteredItemList.size
+    }
+
+    override fun getItem(position: Int): Item? {
+        return filteredItemList[position]
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        val view = convertView ?: LayoutInflater.from(context).inflate(
+            R.layout.list_item, parent, false
+        )
+
+        val item = getItem(position)
+        val textView = view.findViewById<TextView>(R.id.text)
+        val subTextView = view.findViewById<TextView>(R.id.subtext)
+
+        textView.text = item?.name
+        subTextView.text = "Level: ${item?.level.toString()}"
 
 
+        return view
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val filterResults = FilterResults()
+                if (constraint.isNullOrEmpty()) {
+                    filterResults.values = itemList
+                    filterResults.count = itemList.size
+                } else {
+                    val filteredList = itemList.filter {
+                        it.name.contains(constraint, ignoreCase = true)
+                    }
+                    filterResults.values = filteredList
+                    filterResults.count = filteredList.size
+                }
+                return filterResults
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                filteredItemList = results?.values as List<Item>
+                notifyDataSetChanged()
+            }
+        }
+    }
+}
 
 class CompareEquipment : AppCompatActivity() {
 
+    // Armor Icons
     private lateinit var helmImage: ImageView
     private lateinit var shoulderImage: ImageView
     private lateinit var chestImage: ImageView
     private lateinit var handsImage: ImageView
     private lateinit var legsImage: ImageView
     private lateinit var feetImage: ImageView
-    // Text Views
+
+    // Attributes
     private lateinit var defenseAttribute: TextView
     private lateinit var powerAttribute: TextView
     private lateinit var toughnessAttribute: TextView
@@ -105,14 +149,41 @@ class CompareEquipment : AppCompatActivity() {
     private lateinit var ferocityAttribute: TextView
     private lateinit var healingPowerAttribute: TextView
 
-    // DELETE AFTER TESTING
+    // Loading Screen
+    private lateinit var loadingScreen: ConstraintLayout
+    private lateinit var continuePrompt: TextView
+    private lateinit var loadingBar: ProgressBar
+
+    //Popup Window
+    private lateinit var helmList: List<Item>
+    private lateinit var helms: List<String>
+    private lateinit var shoulders: List<String>
+    private lateinit var coats: List<String>
+    private lateinit var hands: List<String>
+    private lateinit var leggings: List<String>
+    private lateinit var feet: List<String>
+
+    private lateinit var adapter : ArrayAdapter<String>
+
+
+    // This is a list of strings that is used to sort any equipment the character has DO NOT CHANGE
+    val armorList = listOf(
+        "Helm",
+        "Shoulders",
+        "Coat",
+        "Boots",
+        "Gloves",
+        "Leggings"
+    )
+
+
     val client = OkHttpClient.Builder()
         .connectTimeout(30, TimeUnit.SECONDS)
-        .readTimeout(30,TimeUnit.SECONDS)
-        .writeTimeout(30,TimeUnit.SECONDS)
+        .readTimeout(30, TimeUnit.SECONDS)
+        .writeTimeout(30, TimeUnit.SECONDS)
         .build()
 
-    val itemList = mutableListOf<Item>()
+    private val itemList = mutableListOf<Item>()
     var baseAttributes = CharacterAttributes()
 
 
@@ -145,116 +216,121 @@ class CompareEquipment : AppCompatActivity() {
         ferocityAttribute = findViewById(R.id.ferocity_attr)
         healingPowerAttribute = findViewById(R.id.healing_power_attr)
 
+        loadingScreen = findViewById(R.id.loading_screen)
+        continuePrompt = findViewById(R.id.continue_prompt)
+        loadingBar = findViewById(R.id.splashscreen_loadingbar)
+///////////////////////////////////////////////////////////////////////////////////////////////
+//      TESTING ONLY
+        helms = listOf("Abaddon's Mask", "Bloodstone Visage", "Dragon's Mask")
+        shoulders = listOf("Ancient Canthan Spaulders", "Deathly Pauldrons", "Foe fire Mantle")
+        coats = listOf("Coat", "Coat Coat")
+        hands = listOf("hands", "hands hands")
+        leggings = listOf("legs", "leggings", "legs hands")
+        feet = listOf("feet", "foot", "toes", "heel","feet", "foot", "toes", "heel","feet", "foot", "toes", "heel","feet", "foot", "toes", "heel","feet", "foot", "toes", "heel","feet", "foot", "toes", "heel","feet", "foot", "toes", "heel")
 
-//        This is a list of strings that is used to sort any equipment the character has DO NOT CHANGE
-        val armorList = listOf(
-            "Helm",
-            "Shoulders",
-            "Coat",
-            "Boots",
-            "Gloves",
-            "Leggings"
-        )
 
-//      Using Coroutines to divide the logic and the UI
-        CoroutineScope(Dispatchers.IO).launch {
-            // Loop through all the items in the characters equipment and if the item.slot matches a string from the armorList, fecth the items details and add to itemList
-            for (item in GlobalState.characterDetail?.equipment!!) {
-                if (item.slot in armorList) {
-                    fetchAndAddItem(item.id)
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+        CoroutineScope(Dispatchers.Main).launch {
+            withContext(Dispatchers.IO) {
+                for (item in GlobalState.characterDetail?.equipment!!) {
+                    if (item.slot in armorList) {
+                        fetchAndAddItem(item.id)
+                    }
                 }
-            }
-
 
 //      Calculate the base attributes based on the characters level and store them in baseAttributes
-            var baseAttributes = GlobalState?.characterDetail?.level?.let { calculateBaseAttributes(it) }
+                val baseAttributes = GlobalState.characterDetail?.level?.let { calculateBaseAttributes(it) }
 
+                helmList = loadHelms(this@CompareEquipment,R.raw.helm)
 
-            var characterAttributes = CharacterAttributes()
+                val characterAttributes = CharacterAttributes()
 
-            for (item in itemList) {
-                when (item.details.type) {
-                    "Helm" -> {
-                        val helmAttributes: CharacterAttributes = calculateInfixUpgrades(item)
-                        addAttributes(characterAttributes, helmAttributes)
-                    }
+                for (item in itemList) {
+                    when (item.details.type) {
+                        "Helm" -> {
+                            val helmAttributes: CharacterAttributes = calculateInfixUpgrades(item)
+                            addAttributes(characterAttributes, helmAttributes)
+                        }
 
-                    "Shoulders" -> {
-                        val shouldersAttributes: CharacterAttributes = calculateInfixUpgrades(item)
-                        addAttributes(characterAttributes, shouldersAttributes)
-                    }
+                        "Shoulders" -> {
+                            val shouldersAttributes: CharacterAttributes = calculateInfixUpgrades(item)
+                            addAttributes(characterAttributes, shouldersAttributes)
+                        }
 
-                    "Coat" -> {
-                        val coatAttributes: CharacterAttributes = calculateInfixUpgrades(item)
-                        addAttributes(characterAttributes, coatAttributes)
-                    }
+                        "Coat" -> {
+                            val coatAttributes: CharacterAttributes = calculateInfixUpgrades(item)
+                            addAttributes(characterAttributes, coatAttributes)
+                        }
 
-                    "Boots" -> {
-                        val bootsAttributes: CharacterAttributes = calculateInfixUpgrades(item)
-                        addAttributes(characterAttributes, bootsAttributes)
-                    }
+                        "Boots" -> {
+                            val bootsAttributes: CharacterAttributes = calculateInfixUpgrades(item)
+                            addAttributes(characterAttributes, bootsAttributes)
+                        }
 
-                    "Gloves" -> {
-                        val glovesAttributes: CharacterAttributes = calculateInfixUpgrades(item)
-                        addAttributes(characterAttributes, glovesAttributes)
-                    }
+                        "Gloves" -> {
+                            val glovesAttributes: CharacterAttributes = calculateInfixUpgrades(item)
+                            addAttributes(characterAttributes, glovesAttributes)
+                        }
 
-                    "Leggings" -> {
-                        val legsAttributes: CharacterAttributes = calculateInfixUpgrades(item)
-                        addAttributes(characterAttributes, legsAttributes)
+                        "Leggings" -> {
+                            val legsAttributes: CharacterAttributes = calculateInfixUpgrades(item)
+                            addAttributes(characterAttributes, legsAttributes)
+                        }
                     }
                 }
-            }
 
-            if (baseAttributes != null) {
-                addAttributes(characterAttributes, baseAttributes)
-            }
+                if (baseAttributes != null) addAttributes(characterAttributes, baseAttributes)
 
 //      Calculate the defense by adding all the equipments defense values together, and add toughness from baseAttributes
-            if (characterAttributes != null) {
                 characterAttributes.defense = (calculateInitialDefense() + baseAttributes?.toughness!!)
-            }
 
-            runOnUiThread {
+                runOnUiThread {
 
 //              Loop through itemList and match the item to the Equipment slot, update image using Picasso
-                itemList.forEach { item ->
-                    when (item.details.type) {
-                        "Helm" -> loadImageWithPicasso(helmImage, item.icon)
-                        "Shoulders" -> loadImageWithPicasso(shoulderImage, item.icon)
-                        "Coat" -> loadImageWithPicasso(chestImage, item.icon)
-                        "Boots" -> loadImageWithPicasso(feetImage, item.icon)
-                        "Gloves" -> loadImageWithPicasso(handsImage, item.icon)
-                        "Leggings" -> loadImageWithPicasso(legsImage, item.icon)
+                    itemList.forEach { item ->
+                        when (item.details.type) {
+                            "Helm" -> loadImageWithPicasso(helmImage, item.icon)
+                            "Shoulders" -> loadImageWithPicasso(shoulderImage, item.icon)
+                            "Coat" -> loadImageWithPicasso(chestImage, item.icon)
+                            "Boots" -> loadImageWithPicasso(feetImage, item.icon)
+                            "Gloves" -> loadImageWithPicasso(handsImage, item.icon)
+                            "Leggings" -> loadImageWithPicasso(legsImage, item.icon)
+                        }
                     }
-                }
 
 //              Set all attributes from the characterAttributes
-                setDefense(characterAttributes.defense)
-                setPower(characterAttributes.power)
-                setToughness(characterAttributes.toughness)
-                setPrecision(characterAttributes.precision)
-                setVitality(characterAttributes.vitality)
-                setConcentration(characterAttributes.concentration)
-                setConditionDamage(characterAttributes.conditionDamage)
-                setExpertise(characterAttributes.expertise)
-                setFerocity(characterAttributes.ferocity)
-                setHealingPower(characterAttributes.healingPower)
+                    setDefense(characterAttributes.defense)
+                    setPower(characterAttributes.power)
+                    setToughness(characterAttributes.toughness)
+                    setPrecision(characterAttributes.precision)
+                    setVitality(characterAttributes.vitality)
+                    setConcentration(characterAttributes.concentration)
+                    setConditionDamage(characterAttributes.conditionDamage)
+                    setExpertise(characterAttributes.expertise)
+                    setFerocity(characterAttributes.ferocity)
+                    setHealingPower(characterAttributes.healingPower)
 
+                    allowToContinue()
+
+                    helmImage.setOnClickListener { showPopupWindow(helmList, it as ImageView) }
+                    shoulderImage.setOnClickListener { showPopupWindow(helmList, shoulderImage) }
+                    chestImage.setOnClickListener { showPopupWindow(helmList, chestImage) }
+                    handsImage.setOnClickListener { showPopupWindow(helmList, handsImage) }
+                    legsImage.setOnClickListener { showPopupWindow(helmList, legsImage) }
+                    feetImage.setOnClickListener { showPopupWindow(helmList, feetImage) }
+                }
             }
-
         }
-
-
     }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private fun returnToMain() {
+    fun returnToMain() {
         finish()
     }
 
-    private fun calculateInitialDefense(): Int{
+    private fun calculateInitialDefense(): Int {
         var totalEquipmentDefense: Int = 0
 
         for (item in itemList) {
@@ -264,52 +340,52 @@ class CompareEquipment : AppCompatActivity() {
         return totalEquipmentDefense
     }
 
-    private fun setDefense(newDefense: Int){
+    private fun setDefense(newDefense: Int) {
         val defenseString = getString(R.string.defense_attr) + newDefense.toString()
         defenseAttribute.text = defenseString
     }
 
-    private fun setPower(newPower: Int){
+    private fun setPower(newPower: Int) {
         val powerString = getString(R.string.power_attribute) + newPower.toString()
         powerAttribute.text = powerString
     }
 
-    private fun setToughness(newToughness: Int){
+    private fun setToughness(newToughness: Int) {
         val toString = getString(R.string.toughness_attribute) + newToughness.toString()
         toughnessAttribute.text = toString
     }
 
-    private fun setPrecision(newPrecision: Int){
+    private fun setPrecision(newPrecision: Int) {
         val precisionString = getString(R.string.precision_attribute) + newPrecision.toString()
         precisionAttribute.text = precisionString
     }
 
-    private fun setVitality(newVitality: Int){
+    private fun setVitality(newVitality: Int) {
         val vitalityString = getString(R.string.vitality_attribute) + newVitality.toString()
         vitalityAttribute.text = vitalityString
     }
 
-    private fun setConcentration(newConcentration: Int){
+    private fun setConcentration(newConcentration: Int) {
         val concentrationString = getString(R.string.concentration_attribute) + newConcentration.toString()
         concentrationAttribute.text = concentrationString
     }
 
-    private fun setConditionDamage(newConditionDamage: Int){
+    private fun setConditionDamage(newConditionDamage: Int) {
         val conditionString = getString(R.string.condition_attribute) + newConditionDamage.toString()
         conditionDamageAttribute.text = conditionString
     }
 
-    private fun setExpertise(newExpertise: Int){
+    private fun setExpertise(newExpertise: Int) {
         val expertiseString = getString(R.string.expertise_attribute) + newExpertise.toString()
         expertiseAttribute.text = expertiseString
     }
 
-    private fun setFerocity(newFerocity: Int){
+    private fun setFerocity(newFerocity: Int) {
         val ferocityString = getString(R.string.ferocity_attribute) + newFerocity.toString()
         ferocityAttribute.text = ferocityString
     }
 
-    private fun setHealingPower(newHealingPower: Int){
+    private fun setHealingPower(newHealingPower: Int) {
         val healingPowerString = getString(R.string.healing_power_attribute) + newHealingPower.toString()
         healingPowerAttribute.text = healingPowerString
     }
@@ -318,7 +394,7 @@ class CompareEquipment : AppCompatActivity() {
         val maxRetries = 3
         var currentAttempt = 0
 
-        val json = Json{ignoreUnknownKeys = true}
+        val json = Json { ignoreUnknownKeys = true }
         while (currentAttempt < maxRetries) {
             try {
                 val request = Request.Builder()
@@ -353,11 +429,10 @@ class CompareEquipment : AppCompatActivity() {
     }
 
     private fun loadImageWithPicasso(imageView: ImageView, url: String) {
-        Log.d("Picasso", "$url")
         Picasso.get().load(url).into(imageView)
     }
 
-    private fun calculateBaseAttributes(level: Int): CharacterAttributes{
+    private fun calculateBaseAttributes(level: Int): CharacterAttributes {
 
         val baseAttributes = CharacterAttributes()
 
@@ -399,11 +474,11 @@ class CompareEquipment : AppCompatActivity() {
         return baseAttributes
     }
 
-    private fun calculateInfixUpgrades(item: Item): CharacterAttributes{
+    private fun calculateInfixUpgrades(item: Item): CharacterAttributes {
 
         val equipmentAttribute = CharacterAttributes()
 
-        item.details.infix_upgrade?.attributes?.forEach{ attributeModifier ->
+        item.details.infix_upgrade?.attributes?.forEach { attributeModifier ->
             when (attributeModifier.attribute) {
                 "Precision" -> equipmentAttribute.precision += attributeModifier.modifier
                 "Toughness" -> equipmentAttribute.toughness += attributeModifier.modifier
@@ -419,7 +494,7 @@ class CompareEquipment : AppCompatActivity() {
         return equipmentAttribute
     }
 
-    private fun addAttributes(attr1: CharacterAttributes, attr2: CharacterAttributes ){
+    private fun addAttributes(attr1: CharacterAttributes, attr2: CharacterAttributes) {
         attr1.defense += attr2.defense
         attr1.power += attr2.power
         attr1.toughness += attr2.toughness
@@ -433,4 +508,101 @@ class CompareEquipment : AppCompatActivity() {
     }
 
 
+
+    private fun allowToContinue(){
+
+        loadingBar.isIndeterminate = false
+        loadingBar.max = 100     // Set max value for the progress bar
+
+        loadingBar.visibility = View.VISIBLE
+        loadingBar.progress = 0  // Ensure progress starts at 0
+
+
+        // Create a ValueAnimator to animate the progress over 3 seconds (3000ms)
+        val animator = ValueAnimator.ofInt(0, 100)
+        animator.duration = 3000 // 3 seconds duration
+
+        // Update the ProgressBar's progress on every animation frame
+        animator.addUpdateListener { animation ->
+            val progress = animation.animatedValue as Int
+            loadingBar.progress = progress
+        }
+
+        // When the animation ends, hide the progress bar and show the continue prompt
+        animator.doOnEnd {
+            loadingBar.visibility = View.GONE
+            continuePrompt.visibility = View.VISIBLE
+
+            // Set click listener for the loading screen
+            loadingScreen.setOnClickListener {
+                loadingScreen.visibility = View.GONE
+            }
+        }
+
+        // Start the animation
+        animator.start()
+    }
+
+    private fun showPopupWindow(equipmentList: List<Item>, icon: ImageView) {
+
+        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val popupView = inflater.inflate(R.layout.popup_equipment_selection, null)
+
+
+
+        val popupWindow = PopupWindow(
+            popupView,
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            true
+        )
+
+        val listView: ListView = popupView.findViewById(R.id.equipment_list)
+        val searchView: SearchView = popupView.findViewById(R.id.search_view)
+
+        val adapter = ItemAdapter(this, equipmentList)
+        listView.adapter = adapter
+
+        listView.setOnItemClickListener { parent: AdapterView<*>, view: View, position: Int, id: Long ->
+            val selectedItem = adapter.getItem(position)
+            // Handle the selected item here
+            selectedItem?.icon.let{
+                if (it != null) {
+                    loadImageWithPicasso(icon, it)
+                }
+            }
+            Toast.makeText(this, "Clicked: ${selectedItem?.name}", Toast.LENGTH_SHORT).show()
+            popupWindow.dismiss()
+        }
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                adapter.filter.filter(newText)
+                return false
+            }
+        })
+
+        popupWindow.showAtLocation(findViewById(R.id.equipment_build_calc), Gravity.CENTER, 0, 0)
+    }
+
+    fun loadHelms(context: Context, fileName: Int): List<Item> {
+        val helmList = mutableListOf<Item>()
+
+        val json = Json{ ignoreUnknownKeys = true }
+        try {
+            val inputStream: InputStream = context.resources.openRawResource(fileName)
+            val jsonString = inputStream.bufferedReader().use { it.readText() }
+            helmList.addAll(json.decodeFromString(jsonString))
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return helmList
+    }
+
+
 }
+
