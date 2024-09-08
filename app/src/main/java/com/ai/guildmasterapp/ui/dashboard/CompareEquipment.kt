@@ -132,7 +132,7 @@ class CompareEquipment : AppCompatActivity() {
 
         val armorList = listOf(
             "Helm",
-            "Shoulder",
+            "Shoulders",
             "Coat",
             "Boots",
             "Gloves",
@@ -144,7 +144,7 @@ class CompareEquipment : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             for (item in playerEquipment!!) {
                 if (item.slot in armorList)
-                fetchAndAddItem(item.id)
+                    fetchAndAddItem(item.id)
             }
 
             runOnUiThread {
@@ -154,7 +154,7 @@ class CompareEquipment : AppCompatActivity() {
                         "Helm" -> {
                             loadImageWithPicasso(helmImage,item.icon)
                         }
-                        "Shoulder" -> {
+                        "Shoulders" -> {
                             loadImageWithPicasso(shoulderImage,item.icon)
                         }
                         "Coat" -> {

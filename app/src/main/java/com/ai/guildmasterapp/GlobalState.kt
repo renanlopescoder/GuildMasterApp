@@ -150,7 +150,8 @@ data class EmblemLayer(
 data class ItemType(
     val name: String,
     val type: String,
-    val id: Int
+    val id: Int,
+    val icon: String
 )
 
 // Weapons related data classes

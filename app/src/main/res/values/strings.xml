@@ -12,7 +12,7 @@
     <string name="title_guild">Guild</string>
     <string name="title_community">Community</string>
     <string name="title_crafting">Crafting</string>
-    <string name="title_my_profile">My Profile</string>
+    <string name="title_my_profile">Profile</string>
     <string name="title_login">Login</string>
     <string name="title_signup">Sign Up</string>
     <string name="title_about">About</string>
@@ -166,6 +166,26 @@
     <string name="guild_temp_text_1">Can I get some help with…</string>
     <string name="guild_temp_text_2">Looking for group</string>
     <string name="guild_temp_text_3">Crafters needed</string>
+
+
+    <!-- Guild fragment string values -->
+
+    <!-- image Content description -->
+    <string name="profile_background_image">Profile fragment background</string>
+    <string name="profile_character_image">Character Image</string>
+
+    <string name="profile_attributes">Attributes</string>
+    <string name="profile_armor_title">Armor</string>
+    <string name="profile_weapon_title">Weapons</string>
+    <string name="profile_attribute_default_stat">100</string>
+    <string name="profile_attribute_power">Power</string>
+    <string name="profile_attribute_precision">Precision</string>
+    <string name="profile_attribute_toughness">Toughness</string>
+    <string name="profile_attribute_vitality">Vitality</string>
+    <string name="profile_name_title">Name:</string>
+    <string name="profile_race_title">Race:</string>
+    <string name="profile_profession_title">Profession:</string>
+    <string name="profile_level_title">Level:</string>
 
 
 </resources>

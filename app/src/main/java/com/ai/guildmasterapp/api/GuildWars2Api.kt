@@ -533,6 +533,7 @@ class GuildWars2Api {
                             var consumable: Consumable? = null
                             var backItem: BackItem? = null
                             var armor: Armor? = null
+
                             // Reads through JSON to determine item type.
                             val itemType = customJson.decodeFromString<List<ItemType>>(jsonResponse)
                             if (itemType.isNotEmpty()) {
