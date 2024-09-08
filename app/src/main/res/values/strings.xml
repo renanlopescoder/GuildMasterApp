@@ -174,7 +174,15 @@
     <string name="guild_temp_text_2">Looking for group</string>
     <string name="guild_temp_text_3">Crafters needed</string>
     <string name="defense_attr">"Defense: "</string>
+    <string name="splashscreen_title">Discover the Power of Your Gear with Our Build Calculator!</string>
+    <string name="splashscreen_message">Explore how different armor pieces can transform your attributes.
+        Just click on any armor piece, select your desired gear, and instantly see the impact on your stats. Unleash your potential and optimize your build for ultimate performance!
+    </string>
+    <string name="prompt">Touch anywhere to continue...</string>
+    <string name="search_equipment">"Search "</string>
+    <string name="item_level" tools:ignore="ExtraTranslation">"Level: "</string>
+    <string name="level">"Level: "</string>
 
 
->>>>>>> Stashed changes
+    >>>>>>> Stashed changes
 </resources>

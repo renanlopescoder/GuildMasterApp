@@ -61,7 +61,7 @@ class GuildWars2Api {
         client.newCall(request).enqueue(object : okhttp3.Callback {
             override fun onResponse(call: Call, response: okhttp3.Response) {
                 response.body?.string()?.let { jsonResponse ->
-                    Log.d("JSON RESPONSE", jsonResponse)
+
                     try {
                         if (jsonResponse.isNotEmpty()) {
                             val characterDetails = json.decodeFromString<List<CharacterDetail>>(jsonResponse)[0]
@@ -89,8 +89,7 @@ class GuildWars2Api {
         })
     }
 
-<<<<<<< Updated upstream
-=======
+
     fun fetchPvpDetails(apiKey: String, callback: (PvPStats?) -> Unit) {
         val request = Request.Builder()
             .url("https://api.guildwars2.com/v2/pvp/stats?access_token=$apiKey")
@@ -128,7 +127,7 @@ class GuildWars2Api {
         })
     }
 
->>>>>>> Stashed changes
+
     private fun getFallbackCharacterDetails(): CharacterDetail {
         val char =  CharacterDetail(
                 name = "Lopescodex",
@@ -181,8 +180,7 @@ class GuildWars2Api {
     }
 
 
-<<<<<<< Updated upstream
-=======
+
     private fun getFallbackGuildInfo(): GuildInfo {
 
         val char = GuildInfo(
@@ -199,8 +197,9 @@ class GuildWars2Api {
             )
         )
 
-        GlobalState.guildInfo = char
         return char
+
+
     }
 
     // Mock data for Guild members recycler list
@@ -290,7 +289,7 @@ class GuildWars2Api {
 
 
 
->>>>>>> Stashed changes
+
     private fun fetchCharacters(apiKey: String, callback: (List<String>?) -> Unit) {
         val request = Request.Builder()
             .url("https://api.guildwars2.com/v2/characters?access_token=$apiKey")

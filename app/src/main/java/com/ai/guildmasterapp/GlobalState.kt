@@ -4,6 +4,8 @@ import kotlinx.serialization.Serializable
 
 
 object GlobalState {
+    var guildMembers: MutableList<GuildMember>? = null
+    var pvpStats: PvPStats? = null
     var characters: List<String>? = null
     var characterDetail: CharacterDetail? = null
 }
@@ -45,10 +47,9 @@ data class Item(
     val binding: String? = null,
     val bound_to: String? = null,
     val dyes: List<Int?>? = null
-<<<<<<< Updated upstream
 )
-=======
-)
+
+
 
 
 // Guild details data class
@@ -289,4 +290,4 @@ data class LadderStats(
     val byes: Int,
     val forfeits: Int
 )
->>>>>>> Stashed changes
+
