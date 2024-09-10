@@ -182,6 +182,14 @@
     <string name="search_equipment">"Search "</string>
     <string name="item_level" tools:ignore="ExtraTranslation">"Level: "</string>
     <string name="level">"Level: "</string>
+    <string name="name">Item Name</string>
+    <string name="item_attributes">ItemAttributes</string>
+    <string name="item_weightclass">Item weightclass</string>
+    <string name="slot">Armor slot</string>
+    <string name="flags">Flags</string>
+    <string name="item_value">1</string>
+    <string name="item_description">Description</string>
+    <string name="item_defense">Defense: </string>
 
 
     >>>>>>> Stashed changes
