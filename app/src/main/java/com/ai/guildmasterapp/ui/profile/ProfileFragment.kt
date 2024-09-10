@@ -1,9 +1,13 @@
 package com.ai.guildmasterapp.ui.profile
 
+import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.ai.guildmasterapp.api.GuildWars2Api
@@ -12,6 +16,8 @@ import coil.load
 import com.ai.guildmasterapp.Equipment
 import com.ai.guildmasterapp.GlobalState
 import com.ai.guildmasterapp.ItemType
+import com.ai.guildmasterapp.R
+import com.ai.guildmasterapp.R.id.profile_answer_1
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -35,9 +41,25 @@ class ProfileFragment : Fragment() {
         // Inflate the layout using FragmentMyProfileBinding
         _binding = FragmentMyProfileBinding.inflate(inflater, container, false)
 
-        lifecycleScope.launch {
+        binding.profileQuestion1.setOnClickListener {
+            lifecycleScope.launch {
 
-            displayBackstory()
+                val characterBackstory = GlobalState.characterDetail?.backstory
+
+                val backstory = api.fetchBackstoryAnswer(characterBackstory?.get(0)!!)
+                displayBackstory(backstory!!.description)
+            }
+        }
+
+        binding.profileAnswer1.setOnClickListener {
+            lifecycleScope.launch {
+
+                val characterBackstory = GlobalState.characterDetail?.backstory
+
+                val backstory = api.fetchBackstoryAnswer(characterBackstory?.get(0)!!)
+                displayBackstory(backstory!!.description)
+            }
+
         }
 
         displayCharacterDetails()
@@ -49,16 +71,37 @@ class ProfileFragment : Fragment() {
 
 
 
-    private suspend fun displayBackstory() {
+    @SuppressLint("MissingInflatedId")
+    private fun displayBackstory(backstory: String) {
 
-        val characterBackstory = GlobalState.characterDetail?.backstory
+
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_backstory, null)
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+
+        val dialog = dialogBuilder.create()
+
+        val backstoryTextView = dialogView.findViewById<TextView>(R.id.profile_answer_1)
+        val closeButton = dialogView.findViewById<Button>(R.id.backstory_close_button)
+
+        // Set the player's backstory text
+        backstoryTextView.text = backstory
+
+        // Close the dialog when the button is clicked
+        closeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        // Show the dialog
+        dialog.show()
+        /*val characterBackstory = GlobalState.characterDetail?.backstory
 
 
         val backstory = api.fetchBackstoryAnswer(characterBackstory?.get(0)!!)
 
         binding.profileAnswer1.text = backstory?.description
 
-        /*characterBackstory?.forEach {answer ->
+        characterBackstory?.forEach {answer ->
             val backstory = api.fetchBackstoryAnswer(answer!!)
 
 
