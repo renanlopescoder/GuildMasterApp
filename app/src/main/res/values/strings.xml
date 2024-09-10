@@ -154,6 +154,7 @@
     <string name="hands_slot">Hands slot</string>
     <string name="legs_slot">Legs slot</string>
     <string name="feet_slot">Feet slot</string>
+    <string name="weapon_slot">Weapon slot</string>
 
 
     <!-- Guild fragment string values -->
@@ -168,15 +169,24 @@
     <string name="guild_temp_text_3">Crafters needed</string>
 
 
-    <!-- Guild fragment string values -->
+    <!-- Profile fragment string values -->
 
     <!-- image Content description -->
     <string name="profile_background_image">Profile fragment background</string>
     <string name="profile_character_image">Character Image</string>
 
     <string name="profile_attributes">Attributes</string>
-    <string name="profile_armor_title">Armor</string>
-    <string name="profile_weapon_title">Weapons</string>
+    <string name="profile_backstory_title">Backstory</string>
+    <string name="profile_question_1">Question 1</string>
+    <string name="profile_answer_1">Answer 1</string>
+    <string name="profile_question_2">Question 2</string>
+    <string name="profile_answer_2">Answer 2</string>
+    <string name="profile_question_3">Question 3</string>
+    <string name="profile_answer_3">Answer 3</string>
+    <string name="profile_question_4">Question 4</string>
+    <string name="profile_answer_4">Answer 4</string>
+    <string name="profile_question_5">Question 5</string>
+    <string name="profile_answer_5">Answer 5</string>
     <string name="profile_attribute_default_stat">100</string>
     <string name="profile_attribute_power">Power</string>
     <string name="profile_attribute_precision">Precision</string>

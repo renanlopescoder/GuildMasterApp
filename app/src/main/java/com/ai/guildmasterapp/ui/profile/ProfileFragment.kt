@@ -5,15 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.ai.guildmasterapp.api.GuildWars2Api
-import com.ai.guildmasterapp.databinding.FragmentMyProfileBinding.inflate
 import com.ai.guildmasterapp.databinding.FragmentMyProfileBinding
 import coil.load
 import com.ai.guildmasterapp.Equipment
 import com.ai.guildmasterapp.GlobalState
 import com.ai.guildmasterapp.ItemType
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 
@@ -37,30 +36,56 @@ class ProfileFragment : Fragment() {
         _binding = FragmentMyProfileBinding.inflate(inflater, container, false)
 
         lifecycleScope.launch {
-            displayEquipments(GlobalState.characterDetail!!.equipment)
+
+            displayBackstory()
         }
+
+        displayCharacterDetails()
+
+        displayAttributes()
 
         return binding.root
     }
 
-    private suspend fun displayEquipments(equipment: List<Equipment>) {
 
-        equipment.forEach {
 
-            var item : ItemType? = null
-            if(it.id != 97730) {
-                item = api.fetchItemDetails(it.id)
-            }
+    private suspend fun displayBackstory() {
 
-            when(it.slot) {
-                "Helm" -> binding.profileEquipmentHelm.load(item?.icon)
-                "Coat" -> binding.profileEquipmentCoat.load(item?.icon)
-                "Boots" -> binding.profileEquipmentBoots.load(item?.icon)
-                "Leggings" -> binding.profileEquipmentLeggings.load(item?.icon)
-                "WeaponA1" -> binding.profileWeaponA1.load(item?.icon)
-            }
-        }
+        val characterBackstory = GlobalState.characterDetail?.backstory
+
+
+        val backstory = api.fetchBackstoryAnswer(characterBackstory?.get(0)!!)
+
+        binding.profileAnswer1.text = backstory?.description
+
+        /*characterBackstory?.forEach {answer ->
+            val backstory = api.fetchBackstoryAnswer(answer!!)
+
+
+        }*/
     }
+
+
+    private fun displayCharacterDetails() {
+        binding.profileName.text = GlobalState.characterDetail?.name
+        binding.profileRace.text = GlobalState.characterDetail?.race
+        binding.profileLevel.text = GlobalState.characterDetail?.level.toString()
+        binding.profileProfession.text = GlobalState.characterDetail?.profession
+    }
+
+
+    private fun displayAttributes() {
+        val playerLevel : Int = GlobalState.characterDetail!!.level
+        val baseStat = (playerLevel.toFloat() / 80) * 1000
+
+        binding.profileAttributePowerStat.text = baseStat.toInt().toString()
+        binding.profileAttributePrecisionStat.text = baseStat.toInt().toString()
+        binding.profileAttributeToughnessStat.text = baseStat.toInt().toString()
+        binding.profileAttributeVitalityStat.text = baseStat.toInt().toString()
+
+    }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

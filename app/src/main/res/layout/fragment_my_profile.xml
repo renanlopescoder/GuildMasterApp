@@ -12,7 +12,7 @@
             android:contentDescription="@string/profile_background_image"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@drawable/profile_background"
+            android:src="@drawable/profile_background_2"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -57,11 +57,11 @@
             app:layout_constraintTop_toBottomOf="@id/profile_title_card_view"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_margin="16dp"
+            android:layout_margin="8dp"
             android:layout_marginBottom="50dp"
             app:cardElevation="4dp"
             app:cardCornerRadius="20dp"
-            app:cardBackgroundColor="#4CF3FFFF"
+            app:cardBackgroundColor="#9CF3FFFF"
             android:layout_marginStart="16dp">
 
 
@@ -73,170 +73,138 @@
                 android:orientation="horizontal">
 
 
-            <!-- Armor column -->
+
             <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_gravity="start"
-                    android:paddingHorizontal="5dp">
+                    android:paddingEnd="20dp">
 
-                <!-- Armor title -->
+
                 <TextView
-                        android:id="@+id/profile_armor_title"
+                        android:id="@+id/profile_backstory_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
-                        android:text="@string/profile_armor_title"
+                        android:text="@string/profile_backstory_title"
+                        android:textSize="25sp"
                         android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:paddingHorizontal="40dp"/>
+
+
+                <TextView
+                        android:id="@+id/profile_question_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_question_1"
+                        android:textSize="16sp"
+                        android:textColor="@color/maroon"
+                        android:textStyle="italic"
+                        android:paddingVertical="12dp"
+                        android:paddingHorizontal="12dp"/>
+
+
+                <TextView
+                        android:id="@+id/profile_answer_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/profile_answer_1"
+                        android:textSize="12sp"
+                        android:textColor="@color/black"
+                />
+
+
+                <TextView
+                        android:id="@+id/profile_question_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_question_2"
                         android:textSize="20sp"
-                        android:textStyle="bold"/>
+                        android:textColor="@color/maroon"
+                        android:textStyle="italic"
+                        android:paddingVertical="12dp"
+                        android:paddingHorizontal="12dp"/>
 
-                <!-- Armor icons -->
-                <ImageView
-                        android:id="@+id/profile_equipment_helm"
-                        android:contentDescription="@string/helm_slot"
-                        android:layout_width="81dp"
-                        android:layout_height="81dp"
-                        android:layout_marginBottom="10dp"
-                        android:src="@drawable/equipment_helm_icon"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:clickable="true"
-                        android:focusable="true"/>
 
-                <ImageView
-                        android:id="@+id/profile_equipment_shoulders"
-                        android:contentDescription="@string/shoulder_slot"
-                        android:layout_width="81dp"
-                        android:layout_height="81dp"
-                        android:layout_marginBottom="10dp"
-                        android:src="@drawable/equipment_shoulder_icon"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:clickable="true"
-                        android:focusable="true"/>
-                <ImageView
-                        android:id="@+id/profile_equipment_coat"
-                        android:contentDescription="@string/chest_slot"
-                        android:layout_width="81dp"
-                        android:layout_height="81dp"
-                        android:layout_marginBottom="10dp"
-                        android:src="@drawable/equipment_chest_icon"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:clickable="true"
-                        android:focusable="true"/>
-                <ImageView
-                        android:id="@+id/profile_equipment_gloves"
-                        android:contentDescription="@string/hands_slot"
-                        android:layout_width="81dp"
-                        android:layout_height="81dp"
-                        android:layout_marginBottom="10dp"
-                        android:src="@drawable/equipment_hand_icon"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:clickable="true"
-                        android:focusable="true"/>
-                <ImageView
-                        android:id="@+id/profile_equipment_leggings"
-                        android:contentDescription="@string/legs_slot"
-                        android:layout_width="81dp"
-                        android:layout_height="81dp"
-                        android:layout_marginBottom="10dp"
-                        android:src="@drawable/equipment_leg_icon"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:clickable="true"
-                        android:focusable="true"/>
-                <ImageView
-                        android:id="@+id/profile_equipment_boots"
-                        android:contentDescription="@string/feet_slot"
-                        android:layout_width="81dp"
-                        android:layout_height="81dp"
-                        android:layout_marginBottom="10dp"
-                        android:src="@drawable/equipment_feet_icon"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:clickable="true"
-                        android:focusable="true"/>
+                <TextView
+                        android:id="@+id/profile_answer_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_answer_2"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                <TextView
+                        android:id="@+id/profile_question_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_question_3"
+                        android:textSize="20sp"
+                        android:textColor="@color/maroon"
+                        android:textStyle="italic"
+                        android:paddingVertical="12dp"
+                        android:paddingHorizontal="12dp"/>
+
+
+                <TextView
+                        android:id="@+id/profile_answer_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_answer_3"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+
+                <TextView
+                        android:id="@+id/profile_question_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_question_4"
+                        android:textSize="20sp"
+                        android:textColor="@color/maroon"
+                        android:textStyle="italic"
+                        android:paddingVertical="12dp"
+                        android:paddingHorizontal="12dp"/>
+
+
+                <TextView
+                        android:id="@+id/profile_answer_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_answer_4"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+
+                <TextView
+                        android:id="@+id/profile_question_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_question_5"
+                        android:textSize="20sp"
+                        android:textColor="@color/maroon"
+                        android:textStyle="italic"
+                        android:paddingVertical="12dp"
+                        android:paddingHorizontal="12dp"/>
+
+
+                <TextView
+                        android:id="@+id/profile_answer_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_answer_5"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+
 
             </LinearLayout>
 
-
-            <!-- Weapon Column -->
-            <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="start"
-                    android:paddingHorizontal="5dp">
-
-                <!-- Weapon Title -->
-                <TextView
-                        android:id="@+id/profile_weapon_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
-                        android:text="@string/profile_weapon_title"
-                        android:textColor="@color/black"
-                        android:textSize="20sp"
-                        android:textStyle="bold"/>
-
-                <!-- Weapon Icons -->
-                <ImageView
-                        android:id="@+id/profile_weapon_a1"
-                        android:contentDescription="@string/hands_slot"
-                        android:layout_width="81dp"
-                        android:layout_height="81dp"
-                        android:layout_marginBottom="10dp"
-                        android:src="@drawable/equipment_hand_icon"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:clickable="true"
-                        android:focusable="true"/>
-
-                <ImageView
-                        android:id="@+id/profile_weapon_a2"
-                        android:contentDescription="@string/hands_slot"
-                        android:layout_width="81dp"
-                        android:layout_height="81dp"
-                        android:layout_marginBottom="10dp"
-                        android:src="@drawable/equipment_hand_icon"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:clickable="true"
-                        android:focusable="true"/>
-
-                <ImageView
-                        android:id="@+id/profile_weapon_b1"
-                        android:contentDescription="@string/hands_slot"
-                        android:layout_width="81dp"
-                        android:layout_height="81dp"
-                        android:layout_marginBottom="10dp"
-                        android:src="@drawable/equipment_hand_icon"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:clickable="true"
-                        android:focusable="true"/>
-
-                <ImageView
-                        android:id="@+id/profile_weapon_b2"
-                        android:contentDescription="@string/hands_slot"
-                        android:layout_width="81dp"
-                        android:layout_height="81dp"
-                        android:layout_marginBottom="10dp"
-                        android:src="@drawable/equipment_hand_icon"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:clickable="true"
-                        android:focusable="true"/>
-
-            </LinearLayout>
 
 
             <!-- Profile pic & attributes column -->
             <LinearLayout
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -244,7 +212,7 @@
                 <!-- Profile Pic -->
                 <ImageView
                         android:id="@+id/profile_character_image"
-                        android:layout_width="wrap_content"
+                        android:layout_width="150dp"
                         android:layout_height="300dp"
                         android:layout_marginTop="25dp"
                         android:layout_gravity="center"
@@ -271,7 +239,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/profile_attributes"
-                                android:textSize="25sp"
+                                android:textSize="20sp"
                                 android:textColor="@color/black"
                                 android:textStyle="bold"
                                 android:layout_marginStart="20dp"/>
@@ -281,7 +249,7 @@
                                 android:layout_height="match_parent"
                                 app:cardElevation="12dp"
                                 app:cardCornerRadius="5dp"
-                                app:cardBackgroundColor="#8CF3DDCC">
+                                app:cardBackgroundColor="#8CF3BBCC">
 
                             <LinearLayout
                                     android:layout_width="match_parent"
@@ -299,7 +267,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="@string/profile_attribute_power"
-                                            android:textSize="20sp"
+                                            android:textSize="16sp"
                                             android:textColor="@color/black"
                                             android:textStyle="italic"
                                             android:textAlignment="textStart"
@@ -310,7 +278,7 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:text="@string/profile_attribute_default_stat"
-                                            android:textSize="20sp"
+                                            android:textSize="16sp"
                                             android:textColor="@color/black"
                                             android:textAlignment="textEnd"
                                             android:paddingEnd="12dp"/>
@@ -328,7 +296,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="@string/profile_attribute_precision"
-                                            android:textSize="20sp"
+                                            android:textSize="16sp"
                                             android:textColor="@color/black"
                                             android:textStyle="italic"
                                             android:textAlignment="textStart"
@@ -339,7 +307,7 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:text="@string/profile_attribute_default_stat"
-                                            android:textSize="20sp"
+                                            android:textSize="16sp"
                                             android:textColor="@color/black"
                                             android:textAlignment="textEnd"
                                             android:paddingEnd="12dp"/>
@@ -357,7 +325,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="@string/profile_attribute_toughness"
-                                            android:textSize="20sp"
+                                            android:textSize="16sp"
                                             android:textColor="@color/black"
                                             android:textStyle="italic"
                                             android:textAlignment="textStart"
@@ -368,7 +336,7 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:text="@string/profile_attribute_default_stat"
-                                            android:textSize="20sp"
+                                            android:textSize="16sp"
                                             android:textColor="@color/black"
                                             android:textAlignment="textEnd"
                                             android:paddingEnd="12dp"/>
@@ -386,7 +354,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="@string/profile_attribute_vitality"
-                                            android:textSize="20sp"
+                                            android:textSize="16sp"
                                             android:textColor="@color/black"
                                             android:textStyle="italic"
                                             android:textAlignment="textStart"
@@ -397,7 +365,7 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:text="@string/profile_attribute_default_stat"
-                                            android:textSize="20sp"
+                                            android:textSize="16sp"
                                             android:textColor="@color/black"
                                             android:textAlignment="textEnd"
                                             android:paddingEnd="12dp"/>
@@ -421,7 +389,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/profile_name_title"
-                                    android:textSize="20sp"
+                                    android:textSize="16sp"
                                     android:textColor="@color/black"
                                     android:textStyle="italic"
                                     android:textAlignment="textStart"
@@ -432,7 +400,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Name"
-                                    android:textSize="20sp"
+                                    android:textSize="16sp"
                                     android:textColor="@color/black"
                                     android:textAlignment="textEnd"
                                     android:paddingEnd="12dp"/>
@@ -451,7 +419,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/profile_race_title"
-                                    android:textSize="20sp"
+                                    android:textSize="16sp"
                                     android:textColor="@color/black"
                                     android:textStyle="italic"
                                     android:textAlignment="textStart"
@@ -462,7 +430,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Race"
-                                    android:textSize="20sp"
+                                    android:textSize="16sp"
                                     android:textColor="@color/black"
                                     android:textAlignment="textEnd"
                                     android:paddingEnd="12dp"/>
@@ -481,7 +449,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/profile_level_title"
-                                    android:textSize="20sp"
+                                    android:textSize="16sp"
                                     android:textColor="@color/black"
                                     android:textStyle="italic"
                                     android:textAlignment="textStart"
@@ -492,7 +460,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Level"
-                                    android:textSize="20sp"
+                                    android:textSize="16sp"
                                     android:textColor="@color/black"
                                     android:textAlignment="textEnd"
                                     android:paddingEnd="12dp"/>
@@ -511,7 +479,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/profile_profession_title"
-                                    android:textSize="20sp"
+                                    android:textSize="16sp"
                                     android:textColor="@color/black"
                                     android:textStyle="italic"
                                     android:textAlignment="textStart"
@@ -522,7 +490,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Thief"
-                                    android:textSize="20sp"
+                                    android:textSize="16sp"
                                     android:textColor="@color/black"
                                     android:textAlignment="textEnd"
                                     android:paddingEnd="12dp"/>
@@ -543,4 +511,7 @@
 
     </androidx.cardview.widget.CardView>
 
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+

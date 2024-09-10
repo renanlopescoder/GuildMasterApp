@@ -107,6 +107,22 @@ data class Item(
 )
 
 
+@Serializable
+data class BackstoryAnswers(
+    val id: String,
+    val title: String,
+    val description: String,
+    val journal: String,
+    val question: Int
+)
+
+@Serializable
+data class BackstoryQuestion(
+    val id: Int,
+    val title: String,
+    val description: String
+)
+
 // Guild details data class
 @Serializable
 data class GuildInfo(
