@@ -12,13 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.ai.guildmasterapp.api.GuildWars2Api
 import com.ai.guildmasterapp.databinding.FragmentMyProfileBinding
-import coil.load
-import com.ai.guildmasterapp.Equipment
 import com.ai.guildmasterapp.GlobalState
-import com.ai.guildmasterapp.ItemType
 import com.ai.guildmasterapp.R
-import com.ai.guildmasterapp.R.id.profile_answer_1
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 
@@ -46,8 +41,9 @@ class ProfileFragment : Fragment() {
 
                 val characterBackstory = GlobalState.characterDetail?.backstory
 
-                val backstory = api.fetchBackstoryAnswer(characterBackstory?.get(0)!!)
-                displayBackstory(backstory!!.description)
+                val backstoryAnswers = api.fetchBackstoryAnswer(characterBackstory?.get(0)!!)
+                val backstoryQuestion = api.fetchBackstoryQuestions(backstoryAnswers!!.question)
+                displayBackstory(backstoryAnswers.description, backstoryQuestion!!.description)
             }
         }
 
@@ -56,8 +52,101 @@ class ProfileFragment : Fragment() {
 
                 val characterBackstory = GlobalState.characterDetail?.backstory
 
-                val backstory = api.fetchBackstoryAnswer(characterBackstory?.get(0)!!)
-                displayBackstory(backstory!!.description)
+                val backstoryAnswers = api.fetchBackstoryAnswer(characterBackstory?.get(0)!!)
+                val backstoryQuestion = api.fetchBackstoryQuestions(backstoryAnswers!!.question)
+                displayBackstory(backstoryAnswers.description, backstoryQuestion!!.description)
+            }
+
+        }
+
+        binding.profileQuestion2.setOnClickListener {
+            lifecycleScope.launch {
+
+                val characterBackstory = GlobalState.characterDetail?.backstory
+
+                val backstoryAnswers = api.fetchBackstoryAnswer(characterBackstory?.get(1)!!)
+                val backstoryQuestion = api.fetchBackstoryQuestions(backstoryAnswers!!.question)
+                displayBackstory(backstoryAnswers.description, backstoryQuestion!!.description)
+            }
+        }
+
+        binding.profileAnswer2.setOnClickListener {
+            lifecycleScope.launch {
+
+                val characterBackstory = GlobalState.characterDetail?.backstory
+
+                val backstoryAnswers = api.fetchBackstoryAnswer(characterBackstory?.get(1)!!)
+                val backstoryQuestion = api.fetchBackstoryQuestions(backstoryAnswers!!.question)
+                displayBackstory(backstoryAnswers.description, backstoryQuestion!!.description)
+            }
+
+        }
+
+        binding.profileQuestion3.setOnClickListener {
+            lifecycleScope.launch {
+
+                val characterBackstory = GlobalState.characterDetail?.backstory
+
+                val backstoryAnswers = api.fetchBackstoryAnswer(characterBackstory?.get(2)!!)
+                val backstoryQuestion = api.fetchBackstoryQuestions(backstoryAnswers!!.question)
+                displayBackstory(backstoryAnswers.description, backstoryQuestion!!.description)
+            }
+        }
+
+        binding.profileAnswer3.setOnClickListener {
+            lifecycleScope.launch {
+
+                val characterBackstory = GlobalState.characterDetail?.backstory
+
+                val backstoryAnswers = api.fetchBackstoryAnswer(characterBackstory?.get(2)!!)
+                val backstoryQuestion = api.fetchBackstoryQuestions(backstoryAnswers!!.question)
+                displayBackstory(backstoryAnswers.description, backstoryQuestion!!.description)
+            }
+
+        }
+
+        binding.profileQuestion4.setOnClickListener {
+            lifecycleScope.launch {
+
+                val characterBackstory = GlobalState.characterDetail?.backstory
+
+                val backstoryAnswers = api.fetchBackstoryAnswer(characterBackstory?.get(3)!!)
+                val backstoryQuestion = api.fetchBackstoryQuestions(backstoryAnswers!!.question)
+                displayBackstory(backstoryAnswers.description, backstoryQuestion!!.description)
+            }
+        }
+
+        binding.profileAnswer4.setOnClickListener {
+            lifecycleScope.launch {
+
+                val characterBackstory = GlobalState.characterDetail?.backstory
+
+                val backstoryAnswers = api.fetchBackstoryAnswer(characterBackstory?.get(3)!!)
+                val backstoryQuestion = api.fetchBackstoryQuestions(backstoryAnswers!!.question)
+                displayBackstory(backstoryAnswers.description, backstoryQuestion!!.description)
+            }
+
+        }
+
+        binding.profileQuestion5.setOnClickListener {
+            lifecycleScope.launch {
+
+                val characterBackstory = GlobalState.characterDetail?.backstory
+
+                val backstoryAnswers = api.fetchBackstoryAnswer(characterBackstory?.get(4)!!)
+                val backstoryQuestion = api.fetchBackstoryQuestions(backstoryAnswers!!.question)
+                displayBackstory(backstoryAnswers.description, backstoryQuestion!!.description)
+            }
+        }
+
+        binding.profileAnswer5.setOnClickListener {
+            lifecycleScope.launch {
+
+                val characterBackstory = GlobalState.characterDetail?.backstory
+
+                val backstoryAnswers = api.fetchBackstoryAnswer(characterBackstory?.get(4)!!)
+                val backstoryQuestion = api.fetchBackstoryQuestions(backstoryAnswers!!.question)
+                displayBackstory(backstoryAnswers.description, backstoryQuestion!!.description)
             }
 
         }
@@ -72,7 +161,7 @@ class ProfileFragment : Fragment() {
 
 
     @SuppressLint("MissingInflatedId")
-    private fun displayBackstory(backstory: String) {
+    private fun displayBackstory(answer: String, question: String) {
 
 
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_backstory, null)
@@ -81,11 +170,13 @@ class ProfileFragment : Fragment() {
 
         val dialog = dialogBuilder.create()
 
-        val backstoryTextView = dialogView.findViewById<TextView>(R.id.profile_answer_1)
+        val backstoryQuestion = dialogView.findViewById<TextView>(R.id.profile_question_1)
+        val backstoryAnswer = dialogView.findViewById<TextView>(R.id.profile_answer_1)
         val closeButton = dialogView.findViewById<Button>(R.id.backstory_close_button)
 
         // Set the player's backstory text
-        backstoryTextView.text = backstory
+        backstoryAnswer.text = answer
+        backstoryQuestion.text = question
 
         // Close the dialog when the button is clicked
         closeButton.setOnClickListener {
@@ -94,18 +185,7 @@ class ProfileFragment : Fragment() {
 
         // Show the dialog
         dialog.show()
-        /*val characterBackstory = GlobalState.characterDetail?.backstory
 
-
-        val backstory = api.fetchBackstoryAnswer(characterBackstory?.get(0)!!)
-
-        binding.profileAnswer1.text = backstory?.description
-
-        characterBackstory?.forEach {answer ->
-            val backstory = api.fetchBackstoryAnswer(answer!!)
-
-
-        }*/
     }
 
 

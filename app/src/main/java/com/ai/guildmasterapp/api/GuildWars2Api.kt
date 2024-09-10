@@ -1,6 +1,5 @@
 package com.ai.guildmasterapp.api
 
-import android.provider.Settings.Global
 import android.util.Log
 import com.ai.guildmasterapp.*
 import com.google.firebase.auth.FirebaseAuth
@@ -349,6 +348,17 @@ class GuildWars2Api {
     }
 
 
+    private fun getFallbackBackstoryQuestion(): BackstoryQuestion {
+        val fallbackBackstoryQuestion = BackstoryQuestion(
+            id = -1,
+            title = "Question",
+            description = "Failed to retrieve question."
+        )
+
+        return fallbackBackstoryQuestion
+    }
+
+
 
     private fun fetchCharacters(apiKey: String, callback: (List<String>?) -> Unit) {
         val request = Request.Builder()
@@ -644,6 +654,60 @@ class GuildWars2Api {
             }
 
         }
+    }
+
+
+
+    suspend fun fetchBackstoryQuestions(id: Int): BackstoryQuestion? {
+        var result: BackstoryQuestion? = null
+
+        val customJson = Json {
+            ignoreUnknownKeys = true
+        }
+
+        return suspendCancellableCoroutine { continuation ->
+
+            val request = Request.Builder()
+                .url("https://api.guildwars2.com/v2/backstory/questions/$id")
+                .build()
+
+            client.newCall(request).enqueue(object : Callback {
+
+                override fun onFailure(call: Call, e: IOException) {
+                    if (continuation.isActive) {
+                        continuation.resumeWithException(e)
+                    }
+                }
+
+
+                override fun onResponse(call: Call, response: Response) {
+
+                    try {
+                        val jsonResponse = response.body?.string()
+
+                        if (jsonResponse?.isNotEmpty() == true) {
+                            val backstoryQuestion = customJson.decodeFromString<BackstoryQuestion>(jsonResponse)
+                            result = backstoryQuestion
+                        } else {
+                            result = getFallbackBackstoryQuestion()
+                        }
+
+                        continuation.resumeWith(Result.success(result))
+
+                    } catch (e: Exception) {
+                        if (continuation.isActive) {
+                            continuation.resumeWithException(e)
+                        }
+                    }
+                }
+            })
+
+            continuation.invokeOnCancellation {
+                continuation.cancel()
+            }
+
+        }
+
     }
 
 
