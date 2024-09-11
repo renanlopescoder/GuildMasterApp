@@ -1,14 +1,12 @@
 package com.ai.guildmasterapp
 
 
-import android.app.Notification.Action
 import android.os.Bundle
-import android.view.Window
-import androidx.appcompat.app.ActionBar
 
 import android.content.Intent
 
 import android.widget.Button
+import android.widget.TextView
 
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -19,7 +17,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.*
 import com.ai.guildmasterapp.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
-import com.ai.guildmasterapp.GlobalState
 import com.ai.guildmasterapp.api.GuildWars2Api
 import kotlinx.coroutines.launch
 
@@ -52,7 +49,6 @@ class MainActivity : AppCompatActivity() {
 
        val bottomNavView: BottomNavigationView = binding.navViewBottomMenu // Navigation for bottom menu items
 
-
         val navView: NavigationView = binding.navViewDrawerMenu // Navigation for drawer menu items
 
         // Host fragment to navigate between screens
@@ -79,7 +75,19 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.navigation_menu -> {
                     drawerLayout.openDrawer(GravityCompat.START)  // Opens side menu
-                    true
+
+                    // Initializes variables for the textViews in the nav_drawer_header_main.xml
+                    val headerNameView = navView.findViewById<TextView>(R.id.nav_header_name)
+                    val headerRaceView = navView.findViewById<TextView>(R.id.nav_header_race)
+
+                    // Stores the name & race of the selected character
+                    val characterName = globalState.characterDetail?.name
+                    val characterRace = globalState.characterDetail?.race
+
+                    // Sets the text for the TextViews
+                    headerNameView.text = characterName
+                    headerRaceView.text = "Race: " + characterRace
+                        true
                 }
                 R.id.navigation_dashboard -> {
                     navController.navigate(R.id.navigation_dashboard)
@@ -101,6 +109,7 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+
 
         // When a drawer menu item is selected, it navigates to the appropriate page and closes the menu
         navView.setNavigationItemSelectedListener { item ->
