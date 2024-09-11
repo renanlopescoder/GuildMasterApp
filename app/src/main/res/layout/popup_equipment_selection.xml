@@ -8,8 +8,7 @@
         android:backgroundTint="#D9FFFFFF"
         android:orientation="vertical"
         android:padding="16dp"
-        android:layout_margin="16dp"
->
+        android:layout_margin="16dp">
     <SearchView
             android:id="@+id/search_view"
             android:layout_width="match_parent"
