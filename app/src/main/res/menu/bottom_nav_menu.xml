@@ -4,26 +4,31 @@
     <item
             android:id="@+id/navigation_menu"
             android:icon="@drawable/ic_menu_black_24dp"
-            android:title="@string/title_menu"/>
+            android:title="@string/title_menu"
+            android:fontFamily="times"/>
 
     <item
             android:id="@+id/navigation_notifications"
             android:icon="@drawable/ic_notifications_black_24dp"
-            android:title="@string/title_notifications"/>
+            android:title="@string/title_notifications"
+            android:fontFamily="times"/>
 
     <item
             android:id="@+id/navigation_dashboard"
             android:icon="@drawable/ic_dashboard_black_24dp"
-            android:title="@string/title_dashboard"/>
+            android:title="@string/title_dashboard"
+            android:fontFamily="times"/>
 
     <item
             android:id="@+id/navigation_messages"
             android:icon="@drawable/ic_message_black_24dp"
-            android:title="@string/title_messages"/>
+            android:title="@string/title_messages"
+            android:fontFamily="times"/>
 
     <item
             android:id="@+id/navigation_my_profile"
             android:icon="@drawable/ic_menu_profile"
-            android:title="@string/title_my_profile"/>
+            android:title="@string/title_my_profile"
+            android:fontFamily="times"/>
 
 </menu>

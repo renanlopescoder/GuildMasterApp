@@ -43,6 +43,7 @@
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:text="@string/title_my_profile"
+                android:fontFamily="times"
                 android:paddingHorizontal="40dp"/>
 
     </androidx.cardview.widget.CardView>
@@ -90,6 +91,7 @@
                         android:textSize="25sp"
                         android:textColor="@color/black"
                         android:textStyle="bold"
+                        android:fontFamily="times"
                         android:paddingHorizontal="40dp"/>
 
 
@@ -101,6 +103,7 @@
                         android:textSize="20sp"
                         android:textColor="@color/maroon"
                         android:textStyle="italic"
+                        android:fontFamily="times"
                         android:paddingVertical="12dp"/>
 
 
@@ -110,7 +113,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/profile_answer_1"
                         android:textSize="16sp"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black"
+                        android:fontFamily="times" />
 
 
                 <TextView
@@ -121,6 +125,7 @@
                         android:textSize="20sp"
                         android:textColor="@color/maroon"
                         android:textStyle="italic"
+                        android:fontFamily="times"
                         android:paddingVertical="12dp"/>
 
 
@@ -130,7 +135,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/profile_answer_2"
                         android:textSize="16sp"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black"
+                        android:fontFamily="times" />
 
                 <TextView
                         android:id="@+id/profile_question_3"
@@ -140,6 +146,7 @@
                         android:textSize="20sp"
                         android:textColor="@color/maroon"
                         android:textStyle="italic"
+                        android:fontFamily="times"
                         android:paddingVertical="12dp"/>
 
 
@@ -149,6 +156,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/profile_answer_3"
                         android:textSize="16sp"
+                        android:fontFamily="times"
                         android:textColor="@color/black"/>
 
 
@@ -160,6 +168,7 @@
                         android:textSize="20sp"
                         android:textColor="@color/maroon"
                         android:textStyle="italic"
+                        android:fontFamily="times"
                         android:paddingVertical="12dp"/>
 
 
@@ -169,6 +178,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/profile_answer_4"
                         android:textSize="16sp"
+                        android:fontFamily="times"
                         android:textColor="@color/black"/>
 
 
@@ -180,6 +190,7 @@
                         android:textSize="20sp"
                         android:textColor="@color/maroon"
                         android:textStyle="italic"
+                        android:fontFamily="times"
                         android:paddingVertical="12dp"/>
 
 
@@ -189,6 +200,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/profile_answer_5"
                         android:textSize="16sp"
+                        android:fontFamily="times"
                         android:textColor="@color/black"/>
 
 
@@ -197,6 +209,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:text="@string/profile_equipment_button"
+                        android:fontFamily="times"
                         android:layout_marginVertical="8dp"
                         style="@style/AppTheme.Button"/>
 
@@ -206,6 +219,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/profile_guild_button"
                         android:layout_marginBottom="8dp"
+                        android:fontFamily="times"
                         style="@style/AppTheme.Button"/>
 
 
@@ -254,6 +268,7 @@
                                 android:textSize="20sp"
                                 android:textColor="@color/black"
                                 android:textStyle="bold"
+                                android:fontFamily="times"
                                 android:layout_marginStart="20dp"/>
 
                         <androidx.cardview.widget.CardView
@@ -282,6 +297,7 @@
                                             android:textSize="16sp"
                                             android:textColor="@color/black"
                                             android:textStyle="italic"
+                                            android:fontFamily="times"
                                             android:textAlignment="textStart"
                                             android:layout_marginStart="12dp"/>
 
@@ -291,6 +307,7 @@
                                             android:layout_height="wrap_content"
                                             android:text="@string/profile_attribute_default_stat"
                                             android:textSize="16sp"
+                                            android:fontFamily="times"
                                             android:textColor="@color/black"
                                             android:textAlignment="textEnd"
                                             android:paddingEnd="12dp"/>
@@ -311,6 +328,7 @@
                                             android:textSize="16sp"
                                             android:textColor="@color/black"
                                             android:textStyle="italic"
+                                            android:fontFamily="times"
                                             android:textAlignment="textStart"
                                             android:layout_marginStart="12dp"/>
 
@@ -320,6 +338,7 @@
                                             android:layout_height="wrap_content"
                                             android:text="@string/profile_attribute_default_stat"
                                             android:textSize="16sp"
+                                            android:fontFamily="times"
                                             android:textColor="@color/black"
                                             android:textAlignment="textEnd"
                                             android:paddingEnd="12dp"/>
@@ -337,6 +356,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="@string/profile_attribute_toughness"
+                                            android:fontFamily="times"
                                             android:textSize="16sp"
                                             android:textColor="@color/black"
                                             android:textStyle="italic"
@@ -349,6 +369,7 @@
                                             android:layout_height="wrap_content"
                                             android:text="@string/profile_attribute_default_stat"
                                             android:textSize="16sp"
+                                            android:fontFamily="times"
                                             android:textColor="@color/black"
                                             android:textAlignment="textEnd"
                                             android:paddingEnd="12dp"/>
@@ -369,6 +390,7 @@
                                             android:textSize="16sp"
                                             android:textColor="@color/black"
                                             android:textStyle="italic"
+                                            android:fontFamily="times"
                                             android:textAlignment="textStart"
                                             android:layout_marginStart="12dp"/>
 
@@ -378,6 +400,7 @@
                                             android:layout_height="wrap_content"
                                             android:text="@string/profile_attribute_default_stat"
                                             android:textSize="16sp"
+                                            android:fontFamily="times"
                                             android:textColor="@color/black"
                                             android:textAlignment="textEnd"
                                             android:paddingEnd="12dp"/>
@@ -404,6 +427,7 @@
                                     android:textSize="16sp"
                                     android:textColor="@color/black"
                                     android:textStyle="italic"
+                                    android:fontFamily="times"
                                     android:textAlignment="textStart"
                                     android:layout_marginStart="12dp"/>
 
@@ -412,6 +436,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Name"
+                                    android:fontFamily="times"
                                     android:textSize="16sp"
                                     android:textColor="@color/black"
                                     android:textAlignment="textEnd"
@@ -434,6 +459,7 @@
                                     android:textSize="16sp"
                                     android:textColor="@color/black"
                                     android:textStyle="italic"
+                                    android:fontFamily="times"
                                     android:textAlignment="textStart"
                                     android:layout_marginStart="12dp"/>
 
@@ -442,6 +468,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Race"
+                                    android:fontFamily="times"
                                     android:textSize="16sp"
                                     android:textColor="@color/black"
                                     android:textAlignment="textEnd"
@@ -464,6 +491,7 @@
                                     android:textSize="16sp"
                                     android:textColor="@color/black"
                                     android:textStyle="italic"
+                                    android:fontFamily="times"
                                     android:textAlignment="textStart"
                                     android:layout_marginStart="12dp"/>
 
@@ -472,6 +500,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Level"
+                                    android:fontFamily="times"
                                     android:textSize="16sp"
                                     android:textColor="@color/black"
                                     android:textAlignment="textEnd"
@@ -494,6 +523,7 @@
                                     android:textSize="16sp"
                                     android:textColor="@color/black"
                                     android:textStyle="italic"
+                                    android:fontFamily="times"
                                     android:textAlignment="textStart"
                                     android:layout_marginStart="12dp"/>
 
@@ -501,11 +531,12 @@
                                     android:id="@+id/profile_profession"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Thief"
+                                    android:text="Warrior"
                                     android:textSize="16sp"
+                                    android:fontFamily="times"
                                     android:textColor="@color/black"
                                     android:textAlignment="textEnd"
-                                    android:paddingEnd="12dp"/>
+                                    android:paddingEnd="10dp"/>
 
                         </LinearLayout>
 

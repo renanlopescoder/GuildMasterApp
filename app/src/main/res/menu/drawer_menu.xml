@@ -3,31 +3,38 @@
 
     <item
             android:id="@+id/navigation_dashboard"
-            android:title="@string/title_dashboard"/>
+            android:title="@string/title_dashboard"
+            android:fontFamily="times"/>
 
     <item
             android:id="@+id/navigation_messages"
-            android:title="@string/title_messages"/>
+            android:title="@string/title_messages"
+            android:fontFamily="times"/>
 
     <item
             android:id="@+id/navigation_pvp_history"
-            android:title="@string/title_pvp_history"/>
+            android:title="@string/title_pvp_history"
+            android:fontFamily="times"/>
 
     <item
             android:id="@+id/navigation_guild"
-            android:title="@string/title_guild"/>
+            android:title="@string/title_guild"
+            android:fontFamily="times"/>
 
     <item
             android:id="@+id/navigation_community"
-            android:title="@string/title_community"/>
+            android:title="@string/title_community"
+            android:fontFamily="times"/>
 
     <item
             android:id="@+id/navigation_crafting"
-            android:title="@string/title_crafting"/>
+            android:title="@string/title_crafting"
+            android:fontFamily="times"/>
 
     <item
             android:id="@+id/navigation_my_profile"
-            android:title="@string/title_my_profile"/>
+            android:title="@string/title_my_profile"
+            android:fontFamily="times"/>
 
 </menu>
 

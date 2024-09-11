@@ -21,6 +21,7 @@
             android:text="@string/profile_question_1"
             android:textSize="16sp"
             android:textColor="@color/black"
+            android:fontFamily="times"
             android:textStyle="italic"
             android:paddingVertical="12dp"
             android:paddingHorizontal="12dp"/>
@@ -31,6 +32,7 @@
             android:layout_height="wrap_content"
             android:text="@string/profile_answer_1"
             android:textSize="12sp"
-            android:textColor="@color/shadow_black"/>
+            android:textColor="@color/shadow_black"
+            android:fontFamily="times" />
 
 </LinearLayout>
