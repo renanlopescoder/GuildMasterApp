@@ -1,6 +1,5 @@
 package com.ai.guildmasterapp.ui.profile
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
@@ -13,15 +12,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.ai.guildmasterapp.api.GuildWars2Api
-import com.ai.guildmasterapp.databinding.FragmentMyProfileBinding
+import com.ai.guildmasterapp.databinding.FragmentProfileBinding
 import com.ai.guildmasterapp.GlobalState
+import com.ai.guildmasterapp.LoaderDialogFragment
 import com.ai.guildmasterapp.R
 import com.ai.guildmasterapp.ui.dashboard.CompareEquipment
 import kotlinx.coroutines.launch
 
 
 class ProfileFragment : Fragment() {
-    private var _binding: FragmentMyProfileBinding? = null
+    private var _binding: FragmentProfileBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -37,13 +37,13 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout using FragmentMyProfileBinding
-        _binding = FragmentMyProfileBinding.inflate(inflater, container, false)
+        _binding = FragmentProfileBinding.inflate(inflater, container, false)
 
         val characterBackstory = GlobalState.characterDetail?.backstory // Initializes backstory instance
 
         // Sets the question & answer textViews to show a portion of the backstory
         lifecycleScope.launch {
-            setBackstoryAnswers(characterBackstory)
+            setBackstory(characterBackstory)
         }
 
 
@@ -146,7 +146,12 @@ class ProfileFragment : Fragment() {
     }
 
 
-    private suspend fun setBackstoryAnswers(backstories: List<String?>?) {
+    private suspend fun setBackstory(backstories: List<String?>?) {
+
+        val loader = LoaderDialogFragment() // Initializes Loading dialog
+        loader.isCancelable = false
+        loader.show(childFragmentManager,"loader") // Displays dialog
+
 
         // Stores the answer for each character backstory
         val answer1 = api.fetchBackstoryAnswer(backstories?.get(0)!!)
@@ -176,6 +181,8 @@ class ProfileFragment : Fragment() {
         binding.profileQuestion3.text = question3?.description?.substring(0, 18) + "..."
         binding.profileQuestion4.text = question4?.description?.substring(0, 17) + "..."
         binding.profileQuestion5.text = question5?.description?.substring(0, 18) + "..."
+
+        loader.dismiss() // Closes loading dialog after the data is fetched
     }
 
 

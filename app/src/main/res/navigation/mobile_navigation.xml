@@ -53,7 +53,7 @@
             android:id="@+id/navigation_my_profile"
             android:name="com.ai.guildmasterapp.ui.profile.ProfileFragment"
             android:label="@string/title_my_profile"
-            tools:layout="@layout/fragment_my_profile"/>
+            tools:layout="@layout/fragment_profile"/>
 
     <fragment
             android:id="@+id/navigation_about"

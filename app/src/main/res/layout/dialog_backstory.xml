@@ -4,7 +4,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="20dp"
+        android:background="@drawable/transparent_logo">
 
     <Button
             android:id="@+id/backstory_close_button"
@@ -19,7 +20,7 @@
             android:layout_height="wrap_content"
             android:text="@string/profile_question_1"
             android:textSize="16sp"
-            android:textColor="@color/maroon"
+            android:textColor="@color/black"
             android:textStyle="italic"
             android:paddingVertical="12dp"
             android:paddingHorizontal="12dp"/>
@@ -30,6 +31,6 @@
             android:layout_height="wrap_content"
             android:text="@string/profile_answer_1"
             android:textSize="12sp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/shadow_black"/>
 
 </LinearLayout>
