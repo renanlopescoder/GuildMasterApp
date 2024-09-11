@@ -41,6 +41,11 @@ class ProfileFragment : Fragment() {
 
         val characterBackstory = GlobalState.characterDetail?.backstory // Initializes backstory instance
 
+        // Sets the question & answer textViews to show a portion of the backstory
+        lifecycleScope.launch {
+            setBackstoryAnswers(characterBackstory)
+        }
+
 
         // Displays backstory dialog window when the question or answer textView is clicked.
         binding.profileQuestion1.setOnClickListener {
@@ -138,6 +143,39 @@ class ProfileFragment : Fragment() {
         displayAttributes() // Displays the character's base stats
 
         return binding.root
+    }
+
+
+    private suspend fun setBackstoryAnswers(backstories: List<String?>?) {
+
+        // Stores the answer for each character backstory
+        val answer1 = api.fetchBackstoryAnswer(backstories?.get(0)!!)
+        val answer2 = api.fetchBackstoryAnswer(backstories[1]!!)
+        val answer3 = api.fetchBackstoryAnswer(backstories[2]!!)
+        val answer4 = api.fetchBackstoryAnswer(backstories[3]!!)
+        val answer5 = api.fetchBackstoryAnswer(backstories[4]!!)
+
+        // Stores the question for each character backstory
+        val question1 = api.fetchBackstoryQuestions(answer1!!.question)
+        val question2 = api.fetchBackstoryQuestions(answer2!!.question)
+        val question3 = api.fetchBackstoryQuestions(answer3!!.question)
+        val question4 = api.fetchBackstoryQuestions(answer4!!.question)
+        val question5 = api.fetchBackstoryQuestions(answer5!!.question)
+
+
+        // Sets the text for the profileAnswer textViews
+        binding.profileAnswer1.text = answer1.description.substring(0, 18) + "..."
+        binding.profileAnswer2.text = answer2.description.substring(0, 20) + "..."
+        binding.profileAnswer3.text = answer3.description.substring(0, 20) + "..."
+        binding.profileAnswer4.text = answer4.description.substring(0, 21) + "..."
+        binding.profileAnswer5.text = answer5.description.substring(0, 20) + "..."
+
+        // Sets the text for the profileQuestion textViews
+        binding.profileQuestion1.text = question1?.description?.substring(0, 18) + "..."
+        binding.profileQuestion2.text = question2?.description?.substring(0, 16) + "..."
+        binding.profileQuestion3.text = question3?.description?.substring(0, 18) + "..."
+        binding.profileQuestion4.text = question4?.description?.substring(0, 17) + "..."
+        binding.profileQuestion5.text = question5?.description?.substring(0, 18) + "..."
     }
 
 
