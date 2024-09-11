@@ -20,7 +20,11 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.Request
+<<<<<<< Updated upstream
 import java.io.InputStream
+=======
+import okhttp3.internal.platform.android.AndroidLogHandler.setLevel
+>>>>>>> Stashed changes
 import java.net.SocketTimeoutException
 import java.util.concurrent.TimeUnit
 
@@ -45,8 +49,16 @@ data class ItemDetails(
     val weight_class: String = "",
     val defense: Int = 0,
     val attribute_adjustment: Double = 0.0,
+<<<<<<< Updated upstream
     val infix_upgrade: InfixUpgrade? = null
     )
+=======
+    val infix_upgrade: InfixUpgrade?,
+    val suffix_item_id: Int? = 0,
+    val secondary_suffix_item_id: String?,
+    var attribute_adjustment_object: AttributeAdjustment? = null
+)
+>>>>>>> Stashed changes
 @Serializable
 data class InfixUpgrade(
     val id: Int = 0,
@@ -59,6 +71,22 @@ data class Attribute(
 )
 
 @Serializable
+<<<<<<< Updated upstream
+=======
+data class AttributeAdjustment(
+    val id: Int = 0,
+    val name: String = " ",
+    val attributes: List<AdjustmentAttributes>
+)
+@Serializable
+data class AdjustmentAttributes(
+    val attribute: String = " ",
+    val multiplier: Double = 0.0,
+    val value: Int = 0
+)
+
+@Serializable
+>>>>>>> Stashed changes
 data class CharacterAttributes(
     var defense: Int = 0,
     var power: Int = 0,
@@ -71,6 +99,11 @@ data class CharacterAttributes(
     var ferocity: Int = 0,
     var healingPower: Int = 0
 )
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
 
 class ItemAdapter(context: Context, private val itemList: List<Item>) :
     ArrayAdapter<Item>(context, 0, itemList), Filterable {
@@ -180,8 +213,12 @@ class CompareEquipment : AppCompatActivity() {
     private lateinit var handsImage: ImageView
     private lateinit var legsImage: ImageView
     private lateinit var feetImage: ImageView
+<<<<<<< Updated upstream
 
     // Attributes
+=======
+    // Text Views
+>>>>>>> Stashed changes
     private lateinit var defenseAttribute: TextView
     private lateinit var powerAttribute: TextView
     private lateinit var toughnessAttribute: TextView
@@ -217,8 +254,13 @@ class CompareEquipment : AppCompatActivity() {
         .writeTimeout(30, TimeUnit.SECONDS)
         .build()
 
+<<<<<<< Updated upstream
     private val itemList = mutableListOf<Item>()
     var baseAttributes = CharacterAttributes()
+=======
+    val itemList = mutableListOf<Item>()
+    var baseAttributes = CharacterAttributes
+>>>>>>> Stashed changes
 
 
     @SuppressLint("MissingInflatedId")
@@ -258,15 +300,27 @@ class CompareEquipment : AppCompatActivity() {
         CoroutineScope(Dispatchers.Main).launch {
             withContext(Dispatchers.IO) {
 
+<<<<<<< Updated upstream
                 for (item in GlobalState.characterDetail?.equipment!!) {
                     if (item.slot in armorTypes) {
                         fetchAndAddItem(item.id)
                     }
                 }
+=======
+        val armorList = listOf(
+            "Helm",
+            "Shoulders",
+            "Coat",
+            "Boots",
+            "Gloves",
+            "Leggings"
+        )
+>>>>>>> Stashed changes
 
 //              Calculate the base attributes based on the characters level and store them in baseAttributes
                 val baseAttributes = GlobalState.characterDetail?.level?.let { calculateBaseAttributes(it) }
 
+<<<<<<< Updated upstream
                 // Will be deleted once firestore is up and running with the data
                 helmList = loadHelms(this@CompareEquipment,R.raw.helm)
 
@@ -290,6 +344,87 @@ class CompareEquipment : AppCompatActivity() {
                             "Boots" -> loadImageWithPicasso(feetImage, item.icon)
                             "Gloves" -> loadImageWithPicasso(handsImage, item.icon)
                             "Leggings" -> loadImageWithPicasso(legsImage, item.icon)
+=======
+        CoroutineScope(Dispatchers.IO).launch {
+            for (item in playerEquipment!!) {
+                if (item.slot in armorList) {fetchAndAddItem(item.id)
+                }
+            }
+
+            for (item in itemList) {
+                item.details.infix_upgrade?.id?.let { fetchAttributeAdjustments(it,item) }
+            }
+
+            var baseAttributes = calculateBaseAttributes(player.level)
+
+            //loop through each attribute, in each piece of equipment.
+
+            for (item in itemList) {
+                item.details.attribute_adjustment_object?.name?.forEach { _ ->
+                    when (item.details.attribute_adjustment_object?.name) {
+                        "Power" -> { println(item.details.attribute_adjustment_object?.name)
+
+                        }
+                        "Toughness" -> {println(item.details.attribute_adjustment_object?.name)
+
+                        }
+                        "Precision" -> {println(item.details.attribute_adjustment_object?.name)
+
+                        }
+                        "Vitality" -> {println(item.details.attribute_adjustment_object?.name)
+
+                        }
+                        "BoonDuration" -> {println(item.details.attribute_adjustment_object?.name)
+
+                        }
+                        "ConditionDamage" -> {println(item.details.attribute_adjustment_object?.name)
+
+                        }
+                        "ConditionDuration" -> {println(item.details.attribute_adjustment_object?.name)
+
+                        }
+                        "CritDamage" -> {println(item.details.attribute_adjustment_object?.name)
+
+                        }
+                        "Healing" -> {println(item.details.attribute_adjustment_object?.name)
+
+                        }
+
+                    }
+                }
+
+            }
+
+            baseAttributes.defense = calculateInitialDefense();
+
+
+
+
+
+
+            runOnUiThread {
+                itemList.forEach{item ->
+
+                    when (item.details.type) {
+                        "Helm" -> {
+                            loadImageWithPicasso(helmImage,item.icon)
+                        }
+                        "Shoulders" -> {
+                            loadImageWithPicasso(shoulderImage,item.icon)
+
+                        }
+                        "Coat" -> {
+                            loadImageWithPicasso(chestImage,item.icon)
+                        }
+                        "Boots" -> {
+                            loadImageWithPicasso(feetImage,item.icon)
+                        }
+                        "Gloves" -> {
+                            loadImageWithPicasso(handsImage,item.icon)
+                        }
+                        "Leggings" -> {
+                            loadImageWithPicasso(legsImage,item.icon)
+>>>>>>> Stashed changes
                         }
                     }
 
@@ -307,7 +442,15 @@ class CompareEquipment : AppCompatActivity() {
                     legsImage.setOnClickListener { showPopupWindow(helmList, legsImage) }
                     feetImage.setOnClickListener { showPopupWindow(helmList, feetImage) }
                 }
+
+                setDefense(baseAttributes.defense)
+                setPower(baseAttributes.power)
+                setToughness(baseAttributes.toughness)
+                setPrecision(baseAttributes.precision)
+                setVitality(baseAttributes.vitality)
+
             }
+
         }
     }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -317,7 +460,11 @@ class CompareEquipment : AppCompatActivity() {
         finish()
     }
 
+<<<<<<< Updated upstream
     private fun calculateInitialDefense(): Int {
+=======
+    private fun calculateInitialDefense(): Int{
+>>>>>>> Stashed changes
         var totalEquipmentDefense: Int = 0
 
         for (item in itemList) {
@@ -325,6 +472,19 @@ class CompareEquipment : AppCompatActivity() {
         }
 
         return totalEquipmentDefense
+<<<<<<< Updated upstream
+=======
+    }
+
+    private fun setDefense(newDefense: Int){
+        val defenseString = getString(R.string.defense_attr) + newDefense.toString()
+        defenseAttribute.text = defenseString
+    }
+
+    private fun setPower(newPower: Int){
+        val powerString = getString(R.string.power_attribute) + newPower.toString()
+        powerAttribute.text = powerString
+>>>>>>> Stashed changes
     }
 
     private fun processArmorItems(itemList: List<Item>, characterAttributes: CharacterAttributes) {
@@ -394,6 +554,7 @@ class CompareEquipment : AppCompatActivity() {
     }
 
     private fun loadImageWithPicasso(imageView: ImageView, url: String) {
+<<<<<<< Updated upstream
         Picasso.get().load(url).into(imageView)
     }
 
@@ -435,10 +596,26 @@ class CompareEquipment : AppCompatActivity() {
         baseAttributes.toughness = totalValue
         baseAttributes.precision = totalValue
         baseAttributes.vitality = totalValue
+=======
+        Log.d("Picasso", "$url")
+        Picasso.get().load(url).into(imageView)
+    }
+
+    private fun calculateBaseAttributes(level: Int): CharacterAttributes{
+        // These four Attributes have a base value based on the characters level
+        // they increment by 12 points per level
+        val baseAttributes = CharacterAttributes()
+
+        baseAttributes.power = 37 + (level - 1) * 12
+        baseAttributes.toughness = 37 + (level - 1) * 12
+        baseAttributes.precision = 37 + (level - 1) * 12
+        baseAttributes.vitality = 37 + (level - 1) * 12
+>>>>>>> Stashed changes
 
         return baseAttributes
     }
 
+<<<<<<< Updated upstream
     private fun calculateInfixUpgrades(item: Item): CharacterAttributes {
 
         val equipmentAttribute = CharacterAttributes()
@@ -567,3 +744,79 @@ class CompareEquipment : AppCompatActivity() {
     }
 }
 
+=======
+    private fun fetchAttributeAdjustments(itemId: Int, mItem: Item){
+        val maxRetries = 3
+        var currentAttempt = 0
+
+        val json = Json{ignoreUnknownKeys = true}
+
+        while (currentAttempt < maxRetries) {
+            try {
+                val request = Request.Builder()
+                    .url("https://api.guildwars2.com/v2/itemstats/$itemId")
+                    .build()
+
+                client.newCall(request).execute().use { response ->
+                    if (!response.isSuccessful) {
+                        println("Failed to fetch item with id $itemId: ${response.message}")
+                        return@use
+                    }
+
+                    response.body?.string()?.let { jsonString ->
+                        try {
+
+                            val item = json.decodeFromString<AttributeAdjustment>(jsonString)
+                            mItem.details.attribute_adjustment_object = item
+                        } catch (e: Exception) {
+                            println("Failed to parse item JSON: ${e.message}")
+                        }
+                    } ?: println("Empty response body for item with id $itemId")
+                }
+
+                break // Exit loop if successful
+            } catch (e: SocketTimeoutException) {
+                currentAttempt++
+                if (currentAttempt >= maxRetries) {
+                    println("Failed to fetch item after $maxRetries attempts")
+                    throw e
+                }
+            }
+        }
+    }
+
+    private fun calculateAttribute(attributeAdjustment: Double, multiplier: Double, offset:Double): Int{
+        return (attributeAdjustment * multiplier + offset).toInt()
+    }
+
+    private fun applyAttributeAdjustment(baseAttributes: CharacterAttributes,item:Item){
+        val totalAttributes = baseAttributes.copy()
+
+        item.details?.let{details ->
+            val attributeAdjustment = details.attribute_adjustment
+
+
+        }
+    }
+
+
+    private fun applyInfixUpgrades(baseAttributes: CharacterAttributes, item: Item): CharacterAttributes{
+        val totalAttributes = baseAttributes.copy()
+
+        item.details.infix_upgrade?.attributes?.forEach{ attributeModifier ->
+            when (attributeModifier.attribute) {
+                "Power" -> totalAttributes.power += attributeModifier.modifier
+                "Precision" -> totalAttributes.precision += attributeModifier.modifier
+                "Toughness" -> totalAttributes.toughness += attributeModifier.modifier
+                "Vitality" -> totalAttributes.vitality += attributeModifier.modifier
+                "Ferocity" -> totalAttributes.ferocity += attributeModifier.modifier
+                "ConditionDamage" -> totalAttributes.conditionDamage += attributeModifier.modifier
+                "Expertise" -> totalAttributes.expertise += attributeModifier.modifier
+                "Concentration" -> totalAttributes.concentration += attributeModifier.modifier
+                "HealingPower" -> totalAttributes.healingPower += attributeModifier.modifier
+            }
+        }
+        return totalAttributes
+    }
+}
+>>>>>>> Stashed changes

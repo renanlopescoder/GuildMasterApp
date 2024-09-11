@@ -93,7 +93,11 @@ class GuildWars2Api {
         client.newCall(request).enqueue(object : Callback {
             override fun onResponse(call: Call, response: Response) {
                 response.body?.string()?.let { jsonResponse ->
+<<<<<<< Updated upstream
 
+=======
+                    Log.d("JSON RESPONSE", jsonResponse)
+>>>>>>> Stashed changes
                     try {
                         if (jsonResponse.isNotEmpty()) {
                             val characterDetails = Json.decodeFromString<List<CharacterDetail>>(jsonResponse)[0]
