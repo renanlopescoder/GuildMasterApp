@@ -713,4 +713,5 @@ class CompareEquipment : AppCompatActivity() {
         }
     }
 
+
 }
