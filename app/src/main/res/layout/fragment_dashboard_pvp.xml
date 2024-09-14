@@ -39,6 +39,7 @@
                                         android:text="@string/overall_pvp_stats_title"
                                         android:textSize="18sp"
                                         android:textColor="@color/black"
+                                        android:fontFamily="times"
                                         android:textStyle="bold" />
                                 <TextView
                                         android:id="@+id/wins_vs_loss"
@@ -46,6 +47,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="@string/wins_vs_losses"
                                         android:textColor="@color/black"
+                                        android:fontFamily="times"
                                         android:textSize="14sp" />
                                 <TextView
                                         android:id="@+id/pvp_rank"
@@ -53,6 +55,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="@string/rank"
                                         android:textColor="@color/black"
+                                        android:fontFamily="times"
                                         android:textSize="14sp" />
                                 <TextView
                                         android:id="@+id/pvp_rank_points"
@@ -60,6 +63,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="@string/rank_points"
                                         android:textColor="@color/black"
+                                        android:fontFamily="times"
                                         android:textSize="14sp" />
                                 <TextView
                                         android:id="@+id/pvp_rank_rollovers"
@@ -67,6 +71,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="@string/rank_rollovers"
                                         android:textColor="@color/black"
+                                        android:fontFamily="times"
                                         android:textSize="14sp" />
                         </LinearLayout>
 
@@ -155,6 +160,7 @@
                                                         android:layout_height="wrap_content"
                                                         android:text="@string/pvp_professions_wins"
                                                         android:layout_gravity="center"
+                                                        android:fontFamily="times"
                                                         android:textSize="20sp"
                                                         android:textColor="@color/black"/>
                                                 <TextView
@@ -162,6 +168,7 @@
                                                         android:layout_width="match_parent"
                                                         android:layout_height="wrap_content"
                                                         android:text="@string/pvp_professions_losses"
+                                                        android:fontFamily="times"
                                                         android:layout_gravity="center"
                                                         android:textSize="20sp"
                                                         android:textColor="@color/black"/>
@@ -171,6 +178,7 @@
                                                         android:layout_height="wrap_content"
                                                         android:text="@string/pvp_professions_desertions"
                                                         android:layout_gravity="center"
+                                                        android:fontFamily="times"
                                                         android:textSize="20sp"
                                                         android:textColor="@color/black"/>
                                                 <TextView
@@ -179,6 +187,7 @@
                                                         android:layout_height="wrap_content"
                                                         android:text="@string/pvp_professions_byes"
                                                         android:layout_gravity="center"
+                                                        android:fontFamily="times"
                                                         android:textSize="20sp"
                                                         android:textColor="@color/black"/>
                                                 <TextView
@@ -187,6 +196,7 @@
                                                         android:layout_height="wrap_content"
                                                         android:text="@string/pvp_professions_forfeits"
                                                         android:layout_gravity="center"
+                                                        android:fontFamily="times"
                                                         android:textSize="20sp"
                                                         android:textColor="@color/black"/>
                                         </LinearLayout>
@@ -236,6 +246,7 @@
                                                 android:orientation="vertical">
 
                                                 <TextView
+                                                        android:fontFamily="times"
                                                         android:id="@+id/pvp_ladder_wins"
                                                         android:layout_width="match_parent"
                                                         android:layout_height="wrap_content"
@@ -244,6 +255,7 @@
                                                         android:textSize="20sp"
                                                         android:textColor="@color/black"/>
                                                 <TextView
+                                                        android:fontFamily="times"
                                                         android:id="@+id/pvp_ladder_losses"
                                                         android:layout_width="match_parent"
                                                         android:layout_height="wrap_content"
@@ -252,6 +264,7 @@
                                                         android:textSize="20sp"
                                                         android:textColor="@color/black"/>
                                                 <TextView
+                                                        android:fontFamily="times"
                                                         android:id="@+id/pvp_ladder_desertions"
                                                         android:layout_width="match_parent"
                                                         android:layout_height="wrap_content"
@@ -260,6 +273,7 @@
                                                         android:textSize="20sp"
                                                         android:textColor="@color/black"/>
                                                 <TextView
+                                                        android:fontFamily="times"
                                                         android:id="@+id/pvp_ladder_byes"
                                                         android:layout_width="match_parent"
                                                         android:layout_height="wrap_content"
@@ -268,6 +282,7 @@
                                                         android:textSize="20sp"
                                                         android:textColor="@color/black"/>
                                                 <TextView
+                                                        android:fontFamily="times"
                                                         android:id="@+id/pvp_ladder_forfeits"
                                                         android:layout_width="match_parent"
                                                         android:layout_height="wrap_content"

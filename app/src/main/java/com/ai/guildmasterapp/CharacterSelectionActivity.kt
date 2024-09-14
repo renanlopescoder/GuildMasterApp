@@ -13,6 +13,7 @@ import com.ai.guildmasterapp.api.GuildWars2Api
 import com.ai.guildmasterapp.CharacterDetail
 import pl.droidsonroids.gif.GifImageView
 import pl.droidsonroids.gif.GifDrawable
+import android.graphics.Typeface
 
 
 class CharacterSelectionActivity : AppCompatActivity() {
@@ -58,10 +59,15 @@ class CharacterSelectionActivity : AppCompatActivity() {
         }
 
         selectButton.setOnClickListener {
+            val loader = LoaderDialogFragment.newInstance("In Game Data and PVP Stats")
+            loader.isCancelable = false
+            loader.show(supportFragmentManager, "LoaderDialog")
+
             val guildWarsApi = GuildWars2Api()
             guildWarsApi.getPvpStats { pvpStats ->
                 runOnUiThread {
                     if (pvpStats != null) {
+                        loader.dismiss()
                         val navigationIntent = Intent(this, MainActivity::class.java)
                         startActivity(navigationIntent)
                     } else {
@@ -90,7 +96,7 @@ class CharacterSelectionActivity : AppCompatActivity() {
                 orientation = LinearLayout.VERTICAL
                 layoutParams = LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
+                    ViewGroup.LayoutParams.MATCH_PARENT,
                 )
             }
 
@@ -115,6 +121,7 @@ class CharacterSelectionActivity : AppCompatActivity() {
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
                 )
+                typeface = Typeface.SERIF
                 textAlignment = TextView.TEXT_ALIGNMENT_CENTER
                 textSize = 12f
                 setPadding(0, 8, 0, 0)
@@ -146,7 +153,7 @@ class CharacterSelectionActivity : AppCompatActivity() {
 
 
     private fun showSelectedCharacter(characterName: String, characterImageResId: Int) {
-        val loader = LoaderDialogFragment()
+        val loader = LoaderDialogFragment.newInstance("Character Data...")
         loader.isCancelable = false
         loader.show(supportFragmentManager, "LoaderDialog")
 

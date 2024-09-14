@@ -45,6 +45,7 @@
                     android:text="@string/hello_nwizard"
                     android:textSize="36sp"
                     android:textColor="@color/black"
+                    android:fontFamily="times"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/dashboard_temp_prof_pic" tools:ignore="RtlSymmetry"/>
