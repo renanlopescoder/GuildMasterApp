@@ -22,6 +22,11 @@ import com.google.android.material.navigation.NavigationView
 import com.ai.guildmasterapp.GlobalState
 import com.ai.guildmasterapp.api.GuildWars2Api
 import kotlinx.coroutines.launch
+import android.widget.*
+
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -30,7 +35,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var appBarConfiguration: AppBarConfiguration
     private var api = GuildWars2Api()
-    private var globalState = GlobalState
+    private lateinit var username: TextView
+    private lateinit var userEmail: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +78,13 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
         bottomNavView.setupWithNavController(navController)
 
+        val headerView = navView.getHeaderView(0)
 
+        username = headerView.findViewById(R.id.nav_header_name)
+        userEmail = headerView.findViewById(R.id.nav_header_email)
+
+        username.text = GlobalState.characterDetail?.name ?: "Guest"
+        userEmail.text = FirebaseAuth.getInstance().currentUser?.email ?: "guest@example.com"
 
         // Handles bottom menu item clicks, navigates to the appropriate page
         bottomNavView.setOnItemSelectedListener { item ->

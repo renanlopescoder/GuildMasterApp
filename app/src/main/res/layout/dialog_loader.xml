@@ -7,37 +7,52 @@
 
     <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
-            android:layout_height="228dp"
+            android:layout_height="337dp"
             android:layout_gravity="center"
             app:cardCornerRadius="20dp"
             app:cardElevation="8dp"
-            android:background="@color/white"
+            android:background="@color/white_clear"
             app:cardBackgroundColor="#CCFFFFFF">
 
         <LinearLayout
-                android:layout_width="244dp"
-                android:layout_height="231dp"
+                android:layout_width="346dp"
+                android:layout_height="339dp"
                 android:padding="24dp"
                 android:orientation="vertical"
                 android:gravity="center_horizontal">
 
             <pl.droidsonroids.gif.GifImageView
                     android:id="@+id/loaderGif"
-                    android:layout_width="206dp"
-                    android:layout_height="110dp"
+                    android:layout_width="297dp"
+                    android:layout_height="189dp"
                     android:layout_gravity="center"
                     android:src="@drawable/loading_9"
                     android:contentDescription="Loading Dragon GIF"/>
+
             <TextView
                     android:id="@+id/loading"
                     android:layout_width="wrap_content"
                     android:layout_height="43dp"
                     android:layout_gravity="center_horizontal"
-                    android:text="Loading..."
-                    android:textColor="@color/dark_gray"
-                    android:textSize="28sp"
+                    android:text="LOADING . . ."
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="30sp"
                     android:textStyle="bold"
+                    android:fontFamily="times"
                     android:layout_marginTop="16dp"/>
+            <TextView
+                    android:id="@+id/custom_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="20sp"
+                    android:layout_marginTop="20dp"
+                    android:textStyle="bold"
+                    android:fontFamily="times"
+                    android:text=""
+                    />
+
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
