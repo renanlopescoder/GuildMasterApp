@@ -1,3 +1,5 @@
+@file:Suppress("KotlinConstantConditions", "PropertyName")
+
 package com.ai.guildmasterapp.ui.dashboard
 
 import android.animation.ValueAnimator
@@ -14,6 +16,8 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.animation.doOnEnd
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ai.guildmasterapp.GlobalState
 import com.ai.guildmasterapp.R
 import com.google.firebase.firestore.FirebaseFirestore
@@ -23,29 +27,14 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import java.io.InputStream
 import java.net.SocketTimeoutException
 import java.util.concurrent.TimeUnit
+import androidx.appcompat.widget.SearchView
 
 
 
-//@Serializable
-//data class Item(
-//    val id: Int = 0,
-//    val chat_link: String = "",
-//    val name: String = "",
-//    val icon: String = "",
-//    val description: String = "",
-//    val type: String = "",
-//    val rarity: String = "",
-//    val level: Int = 0,
-//    val vendor_value: Int = 0,
-//    val default_skin: Int = 0,
-//    val flags: List<String>? = null,
-//    val game_types: List<String>? = null,
-//    val restrictions: List<String>? = null,
-//    val details: ItemDetails? = null
-//)
+
+
 
 @Serializable
 data class Item(
@@ -83,17 +72,6 @@ data class InfusionSlot(
     val flags: List<String> = emptyList()
 )
 
-//@Serializable
-//data class ItemDetails(
-//    val type: String = "",
-//    val weight_class: String = "",
-//    val defense: Int = 0,
-//    val attribute_adjustment: Double = 0.0,
-//    val infix_upgrade: InfixUpgrade? = null,
-//    val suffix_item_id: Int = 0,
-//    val secondary_suffix_item_id: Int = 0,
-//    val infusion_slots: List<Any>
-//)
 
 @Serializable
 data class InfixUpgrade(
@@ -128,26 +106,17 @@ data class CharacterAttributes(
     var healingPower: Int = 0
 )
 
-class ItemAdapter(context: Context, private val itemList: List<Item>) :
-    ArrayAdapter<Item>(context, 0, itemList), Filterable {
+
+//Adapter for the RecycleView and SearchView
+class ItemAdapter(
+    private val context: Context,
+    private var itemList: List<Item>
+) : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>(), Filterable {
 
     private var filteredItemList: List<Item> = itemList
+    private var onItemClickListener: ((Item) -> Unit)? = null
 
-    override fun getCount(): Int {
-        return filteredItemList.size
-    }
-
-    override fun getItem(position: Int): Item? {
-        return filteredItemList[position]
-    }
-
-    @SuppressLint("SetTextI18n")
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val view = convertView ?: LayoutInflater.from(context).inflate(
-            R.layout.list_item, parent, false
-        )
-
-        val item = getItem(position)
+    class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val itemIcon: ImageView = view.findViewById(R.id.item_icon)
         val itemName: TextView = view.findViewById(R.id.item_name)
         val itemDescription: TextView = view.findViewById(R.id.item_description)
@@ -158,50 +127,65 @@ class ItemAdapter(context: Context, private val itemList: List<Item>) :
         val itemFlags: TextView = view.findViewById(R.id.item_flags)
         val itemValue: TextView = view.findViewById(R.id.item_value)
         val valueIcon: ImageView = view.findViewById(R.id.value_icon)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
+        val view = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false)
+        return ItemViewHolder(view)
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+        val item = filteredItemList[position]
 
 
+        Picasso.get().load(item.icon).into(holder.itemIcon)
+        holder.itemName.text = item.name
+        holder.itemDefense.text = context.getString(R.string.item_defense) + " ${item.details?.defense.toString()}"
 
-        if (item != null) {
-            Picasso.get().load(item.icon).into(itemIcon)
-        }
-        itemName.text = item?.name
+        val formattedAttributes: String = item.details?.infix_upgrade?.attributes?.let { formatAttributes(it) }.toString()
+        holder.itemAttributes.text = formattedAttributes
+        holder.itemWeightClass.text = item.details?.weight_class
+        holder.itemArmorSlot.text = item.details?.type
 
-        itemDefense.text = item?.details?.defense.toString()
-        val formattedAttributes: String? = item?.details?.infix_upgrade?.attributes?.let { formatAttributes(it) }
-        itemAttributes.text = formattedAttributes
-        itemWeightClass.text = item?.details?.weight_class
-        itemArmorSlot.text = item?.details?.type
-        val formattedFlags: String? = item?.flags?.let { formatFlags(it) }
-        itemFlags.text = formattedFlags
-        itemValue.text = item?.vendor_value.toString()
+        val formattedFlags: String = formatFlags(item.flags)
+        holder.itemFlags.text = formattedFlags
+        holder.itemValue.text = item.vendor_value.toString()
 
         when {
-            item?.vendor_value!! < 100 -> valueIcon.setImageResource(R.drawable.copper_coin)
-            item.vendor_value in 100..10_000 -> valueIcon.setImageResource(R.drawable.silver_coin)
-            item.vendor_value > 10_000 -> valueIcon.setImageResource(R.drawable.gold_coin)
+            item.vendor_value < 100 -> holder.valueIcon.setImageResource(R.drawable.copper_coin)
+            item.vendor_value in 100..10_000 -> holder.valueIcon.setImageResource(R.drawable.silver_coin)
+            item.vendor_value > 10_000 -> holder.valueIcon.setImageResource(R.drawable.gold_coin)
         }
 
-        val description = item?.description
-        val plainDescription = description?.replace("<.*?>".toRegex(), " ")
-        itemDescription.text = plainDescription
+        val plainDescription = item.description?.replace("<.*?>".toRegex(), "")
+        holder.itemDescription.text = plainDescription
 
-
-
-        return view
-    }
-
-    fun formatAttributes(attributes: List<Attribute>): String {
-        return attributes.joinToString(separator = "\n\n") {
-            "${it.attribute} = ${it.modifier}"
+        // Handle item click
+        holder.itemView.setOnClickListener {
+            onItemClickListener?.invoke(item)
         }
     }
 
-    fun formatFlags(flags: List<String>): String{
-        return flags.joinToString(separator = "\n\n")
+    override fun getItemCount(): Int {
+        return filteredItemList.size
     }
 
+    fun setOnItemClickListener(listener: (Item) -> Unit) {
+        onItemClickListener = listener
+    }
 
+    private fun formatAttributes(attributes: List<Attribute>): String {
+        return attributes.joinToString(separator = "\n") {
+            "${it.attribute}: ${it.modifier}"
+        }
+    }
 
+    private fun formatFlags(flags: List<String>): String {
+        return flags.joinToString(separator = "\n")
+    }
+
+    // Filter logic
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
@@ -221,11 +205,12 @@ class ItemAdapter(context: Context, private val itemList: List<Item>) :
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 filteredItemList = results?.values as List<Item>
-                notifyDataSetChanged()
+                notifyDataSetChanged() // Notify RecyclerView about the updated data
             }
         }
     }
 }
+
 
 class CompareEquipment : AppCompatActivity() {
 
@@ -236,6 +221,7 @@ class CompareEquipment : AppCompatActivity() {
     private lateinit var handsImage: ImageView
     private lateinit var legsImage: ImageView
     private lateinit var feetImage: ImageView
+    private val characterAttributes = CharacterAttributes()
 
     // Attributes
     private lateinit var defenseAttribute: TextView
@@ -253,12 +239,6 @@ class CompareEquipment : AppCompatActivity() {
     private lateinit var loadingScreen: ConstraintLayout
     private lateinit var continuePrompt: TextView
     private lateinit var loadingBar: ProgressBar
-
-    //Popup Window
-
-
-
-
 
     private var helmsList: MutableList<Item> = mutableListOf()
     private var shouldersList: MutableList<Item> = mutableListOf()
@@ -283,8 +263,12 @@ class CompareEquipment : AppCompatActivity() {
         .writeTimeout(30, TimeUnit.SECONDS)
         .build()
 
+    //List used to store all the users Armor, but is changed when the user changes Items by using the popupwindow
     private val itemList = mutableListOf<Item>()
-    var baseAttributes = CharacterAttributes()
+
+
+    //Attributes calculated base on the users level
+    private val baseAttributes = GlobalState.characterDetail?.level?.let { calculateBaseAttributes(it) }
 
 
     @SuppressLint("MissingInflatedId")
@@ -298,6 +282,7 @@ class CompareEquipment : AppCompatActivity() {
         backButton.setOnClickListener { returnToMain() }
 
 
+        // Image Views, they are the Icons
         helmImage = findViewById(R.id.equipment_helm)
         shoulderImage = findViewById(R.id.equipment_shoulders)
         chestImage = findViewById(R.id.equipment_chest)
@@ -305,6 +290,7 @@ class CompareEquipment : AppCompatActivity() {
         legsImage = findViewById(R.id.equipment_legs)
         feetImage = findViewById(R.id.equipment_feet)
 
+        // Text Views, they are the attributes
         defenseAttribute = findViewById(R.id.defense)
         powerAttribute = findViewById(R.id.power_attr)
         toughnessAttribute = findViewById(R.id.toughness_attr)
@@ -316,33 +302,32 @@ class CompareEquipment : AppCompatActivity() {
         ferocityAttribute = findViewById(R.id.ferocity_attr)
         healingPowerAttribute = findViewById(R.id.healing_power_attr)
 
+        // Loading screen widgets
         loadingScreen = findViewById(R.id.loading_screen)
         continuePrompt = findViewById(R.id.continue_prompt)
         loadingBar = findViewById(R.id.splashscreen_loadingbar)
 
 
+        // Use Coroutine for performance
         CoroutineScope(Dispatchers.Main).launch {
             withContext(Dispatchers.IO) {
 
+                // Loop through characters Items and push into a list
                 for (item in GlobalState.characterDetail?.equipment!!) {
                     if (item.slot in armorTypes) {
                         fetchAndAddItem(item.id)
                     }
                 }
+                // Attributes based on the character in-game armor
+                val equipmentAttributes = processArmorItems(itemList)
 
-//              Calculate the base attributes based on the characters level and store them in baseAttributes
-                val baseAttributes = GlobalState.characterDetail?.level?.let { calculateBaseAttributes(it) }
+                // Add to Character Attributes
+                addAttributes(characterAttributes,equipmentAttributes)
 
-                // Will be deleted once firestore is up and running with the data
+                // Add base attributes to character attributes
+                baseAttributes?.let { addAttributes(characterAttributes, it) }
 
-
-                val characterAttributes = CharacterAttributes()
-
-                processArmorItems(itemList, characterAttributes)
-
-                if (baseAttributes != null) addAttributes(characterAttributes, baseAttributes)
-
-//      Calculate the defense by adding all the equipments defense values together, and add toughness from baseAttributes
+//              Calculate the defense by adding all the equipments defense values together, and add toughness from baseAttributes
                 characterAttributes.defense = (calculateInitialDefense() + baseAttributes?.toughness!!)
 
                 runOnUiThread {
@@ -350,7 +335,7 @@ class CompareEquipment : AppCompatActivity() {
 //              Loop through itemList and match the item to the Equipment slot, update image using Picasso
                     itemList.forEach { item ->
                         when (item.details?.type) {
-                            "Helm" -> item?.icon?.let { loadImageWithPicasso(helmImage, it) }
+                            "Helm" -> item.icon?.let { loadImageWithPicasso(helmImage, it) }
                             "Shoulders" -> item.icon?.let { loadImageWithPicasso(shoulderImage, it) }
                             "Coat" -> item.icon?.let { loadImageWithPicasso(chestImage, it) }
                             "Boots" -> item.icon?.let { loadImageWithPicasso(feetImage, it) }
@@ -359,13 +344,12 @@ class CompareEquipment : AppCompatActivity() {
                         }
                     }
 
-
-
-
                     updateAttributes(characterAttributes)
 
+                    // Function simulates loading Screen, will update with the Loading screen when merged.
                     allowToContinue()
 
+                    // Icon listeners, will bring up pop up window
                     setupClickListener(helmImage, helmsList, "helmtest") { success ->
                         if (!success) {
                             println("Failure to load helmsList")
@@ -405,7 +389,7 @@ class CompareEquipment : AppCompatActivity() {
             }
         }
     }
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private fun returnToMain() {
@@ -413,7 +397,7 @@ class CompareEquipment : AppCompatActivity() {
     }
 
     private fun calculateInitialDefense(): Int {
-        var totalEquipmentDefense: Int = 0
+        var totalEquipmentDefense = 0
 
         for (item in itemList) {
             val defense = item.details?.defense ?: 0
@@ -423,15 +407,22 @@ class CompareEquipment : AppCompatActivity() {
         return totalEquipmentDefense
     }
 
-    private fun processArmorItems(itemList: List<Item>, characterAttributes: CharacterAttributes) {
+    private fun processArmorItems(itemList: List<Item>): CharacterAttributes {
+        // Initialize a new CharacterAttributes object to store the accumulated attributes
+        val totalAttributes = CharacterAttributes()
 
         for (item in itemList) {
             if (item.details?.type in armorTypes) {
                 val attributes: CharacterAttributes = calculateInfixUpgrades(item)
-                addAttributes(characterAttributes, attributes)
+                // Accumulate the calculated attributes
+                addAttributes(totalAttributes, attributes)
             }
         }
+
+        // Return the accumulated attributes
+        return totalAttributes
     }
+
 
     private fun setAttribute(attributeTextView: TextView, attributeResId: Int, newValue: Int) {
         val attributeString = getString(attributeResId) + newValue.toString()
@@ -490,7 +481,11 @@ class CompareEquipment : AppCompatActivity() {
     }
 
     private fun loadImageWithPicasso(imageView: ImageView, url: String) {
-        Picasso.get().load(url).into(imageView)
+//        Picasso.get().load(url).into(imageView)
+        Picasso.get()
+            .load(url)
+            .fit()
+            .into(imageView)
     }
 
     private fun calculateBaseAttributes(level: Int): CharacterAttributes {
@@ -602,12 +597,11 @@ class CompareEquipment : AppCompatActivity() {
         animator.start()
     }
 
+
     private fun showPopupWindow(equipmentList: List<Item>, icon: ImageView) {
 
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val popupView = inflater.inflate(R.layout.popup_equipment_selection, null)
-
-
 
         val popupWindow = PopupWindow(
             popupView,
@@ -616,25 +610,46 @@ class CompareEquipment : AppCompatActivity() {
             true
         )
 
-        val listView: ListView = popupView.findViewById(R.id.equipment_list)
-        val searchView: SearchView = popupView.findViewById(R.id.search_view)
+        // Use RecyclerView instead of ListView
+        val recyclerView: RecyclerView = popupView.findViewById(R.id.equipment_recycler_list)
+        val searchView: androidx.appcompat.widget.SearchView? = popupView.findViewById<androidx.appcompat.widget.SearchView>(R.id.search_view)
 
+        recyclerView.setRecycledViewPool(RecyclerView.RecycledViewPool())
+        searchView?.queryHint = "Search for equipment...."
+
+
+        // Set up the RecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(this)
         val adapter = ItemAdapter(this, equipmentList)
-        listView.adapter = adapter
+        recyclerView.adapter = adapter
 
-        listView.setOnItemClickListener { parent: AdapterView<*>, view: View, position: Int, id: Long ->
-            val selectedItem = adapter.getItem(position)
-            // Handle the selected item here
-            selectedItem?.icon.let{
-                if (it != null) {
-                    loadImageWithPicasso(icon, it)
-                }
+        // Set up item click listener manually for RecyclerView
+        adapter.setOnItemClickListener { selectedItem ->
+            selectedItem.icon?.let {
+                //Update the icon
+                loadImageWithPicasso(icon, it)
+
+                // remove item from itemList and add the selected item
+                selectedItem.details?.type?.let { it1 -> updateArmorItem(itemList, it1,selectedItem) }
+
+                // Get new attributes from item changed
+                val newEquipmentAttributes = processArmorItems(itemList)
+
+                // Get new defense from item changed
+                newEquipmentAttributes.defense = (calculateInitialDefense() + baseAttributes?.toughness!!)
+
+                // Add the new equipment Attributes with the characters Base attributes
+                addAttributes(newEquipmentAttributes, baseAttributes)
+
+                //Update the UI with the new attributes
+                updateAttributes(newEquipmentAttributes)
             }
-            Toast.makeText(this, "Selected: ${selectedItem?.name}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Selected: ${selectedItem.name}", Toast.LENGTH_SHORT).show()
             popupWindow.dismiss()
         }
 
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        // Set up SearchView filtering
+        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 return false
             }
@@ -647,6 +662,7 @@ class CompareEquipment : AppCompatActivity() {
 
         popupWindow.showAtLocation(findViewById(R.id.equipment_build_calc), Gravity.CENTER, 0, 0)
     }
+
 
     private fun fetchEquipment(
         itemList: MutableList<Item>, // The list to add items to
@@ -664,7 +680,7 @@ class CompareEquipment : AppCompatActivity() {
         }
 
         // Query the collection based on the collection name passed
-        db.collection(collectionName)
+        db.collection(collectionName).limit(50)
             .get()
             .addOnSuccessListener { documents ->
                 // Loop through each document in the query result
@@ -696,16 +712,16 @@ class CompareEquipment : AppCompatActivity() {
             if (itemList.isNotEmpty()) {
                 // Skip fetching and directly show the popup
                 showPopupWindow(itemList, imageView)
-                println("Successfully added ${collectionName} list")
+                println("Successfully added $collectionName list")
                 onComplete(true)
             } else {
                 // Fetch the data if the list is empty
                 fetchEquipment(itemList, collectionName) { success ->
                     if (success) {
                         showPopupWindow(itemList, imageView)
-                        println("Successfully added ${collectionName} list")
+                        println("Successfully added $collectionName list")
                     } else {
-                        println("Failure to load ${collectionName} list")
+                        println("Failure to load $collectionName list")
                     }
                     onComplete(success)
                 }
@@ -713,5 +729,19 @@ class CompareEquipment : AppCompatActivity() {
         }
     }
 
+    private fun updateArmorItem(itemList: MutableList<Item>, armorType: String, newItem: Item) {
+        // Find the index of the current item based on its details.type
+        val currentIndex = itemList.indexOfFirst { it.details?.type == armorType }
+
+        // Remove the current item if found
+        if (currentIndex != -1) {
+            itemList.removeAt(currentIndex)
+        }
+
+
+        // Add the new item
+        itemList.add(newItem)
+
+    }
 
 }

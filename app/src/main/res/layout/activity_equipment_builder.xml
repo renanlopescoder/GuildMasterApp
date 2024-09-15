@@ -36,6 +36,7 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@color/dark_gray"
+            android:fontFamily="times"
             android:layout_marginTop="44dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
@@ -78,6 +79,7 @@
                         android:textColor="@color/white"
                         android:textSize="20sp"
                         android:textStyle="bold"
+                        android:fontFamily="times"
                         app:layout_constraintVertical_chainStyle="spread_inside"/>
                 <ImageView
                         android:id="@+id/equipment_helm"
@@ -93,8 +95,7 @@
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"
                         android:clickable="true"
-                        android:focusable="true"
-                />
+                        android:focusable="true"/>
                 <ImageView
                         android:id="@+id/equipment_shoulders"
                         android:contentDescription="@string/shoulder_slot"
@@ -192,7 +193,8 @@
                         android:text="@string/attributes_title"
                         android:textStyle="bold|normal"
                         android:textColor="@color/white"
-                        android:textSize="22sp"
+                        android:textSize="20sp"
+                        android:fontFamily="times"
                         app:layout_constraintVertical_chainStyle="spread_inside"/>
                 <TextView
                         android:id="@+id/defense"
@@ -203,9 +205,9 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBottom_toTopOf="@+id/power_attr"
                         android:text="@string/defense_attr"
-                        android:textSize="18sp"
-                        android:textColor="@color/white"
-                />
+                        android:textSize="16sp"
+                        android:fontFamily="times"
+                        android:textColor="@color/white"/>
                 <TextView
                         android:id="@+id/power_attr"
                         android:layout_width="match_parent"
@@ -215,9 +217,9 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBottom_toTopOf="@+id/toughness_attr"
                         android:text="@string/power_attribute"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textColor="@color/white"
-                        />
+                        android:fontFamily="times"/>
                 <TextView
                         android:id="@+id/toughness_attr"
                         android:layout_width="match_parent"
@@ -227,7 +229,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBottom_toTopOf="@id/precision_attr"
                         android:text="@string/toughness_attribute"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:fontFamily="times"
                         android:textColor="@color/white"/>
                 <TextView
                         android:id="@+id/precision_attr"
@@ -238,7 +241,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBottom_toTopOf="@+id/vitality_attr"
                         android:text="@string/precision_attribute"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:fontFamily="times"
                         android:textColor="@color/white"/>
                 <TextView
                         android:id="@+id/vitality_attr"
@@ -249,7 +253,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBottom_toTopOf="@+id/concentration_attr"
                         android:text="@string/vitality_attribute"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:fontFamily="times"
                         android:textColor="@color/white"/>
                 <TextView
                         android:id="@+id/concentration_attr"
@@ -260,7 +265,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBottom_toTopOf="@+id/condition_attr"
                         android:text="@string/concentration_attribute"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:fontFamily="times"
                         android:textColor="@color/white"/>
                 <TextView
                         android:id="@+id/condition_attr"
@@ -271,7 +277,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBottom_toTopOf="@+id/expertise_attr"
                         android:text="@string/condition_attribute"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:fontFamily="times"
                         android:textColor="@color/white"/>
                 <TextView
                         android:id="@+id/expertise_attr"
@@ -282,7 +289,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBottom_toTopOf="@id/ferocity_attr"
                         android:text="@string/expertise_attribute"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:fontFamily="times"
                         android:textColor="@color/white"/>
                 <TextView
                         android:id="@+id/ferocity_attr"
@@ -293,7 +301,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBottom_toTopOf="@+id/healing_power_attr"
                         android:text="@string/ferocity_attribute"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:fontFamily="times"
                         android:textColor="@color/white"/>
                 <TextView
                         android:id="@+id/healing_power_attr"
@@ -305,15 +314,14 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         android:text="@string/healing_power_attribute"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:fontFamily="times"
                         android:textColor="@color/white"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
     <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/loading_screen"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:elevation="10dp"

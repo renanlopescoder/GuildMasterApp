@@ -139,8 +139,8 @@
         cool-down is required in between both attacks when casting in sequence
     </string>
     <string name="player_profile">Profile</string>
-    <string name="equipment_comp">Compare Equipment</string>
-    <string name="weapon_comp">Compare Weapons</string>
+    <string name="equipment_comp">Equipment Calculator</string>
+    <string name="weapon_comp">Weapon Calculator</string>
     <string name="equip_build_calc">Equipment Build Calculator</string>
     <string name="power_attribute">"Power: "</string>
     <string name="toughness_attribute">"Toughness: "</string>
@@ -179,8 +179,8 @@
     <string name="splashscreen_message">Explore how different armor pieces can transform your attributes.
         Just click on any armor piece, select your desired gear, and instantly see the impact on your stats. Unleash your potential and optimize your build for ultimate performance!
     </string>
-    <string name="prompt">Touch anywhere to continue...</string>
-    <string name="search_equipment">"Search "</string>
+    <string name="prompt">Touch anywhere to continue…</string>
+    <string name="search_equipment">"Search"</string>
     <string name="item_level" tools:ignore="ExtraTranslation">"Level: "</string>
     <string name="level">"Level: "</string>
     <string name="name">Item Name</string>
