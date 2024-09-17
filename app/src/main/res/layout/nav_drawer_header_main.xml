@@ -2,30 +2,15 @@
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:background="@drawable/transparent_logo"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/banner_menu_2"
         android:orientation="vertical"
-        android:padding="16dp" tools:ignore="ExtraText">
-
-    <androidx.cardview.widget.CardView
-            android:layout_width="62dp"
-            android:layout_height="62dp"
-            android:layout_gravity="start"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="31dp"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/white">
-
-        <ImageView
-                android:id="@+id/profile_image_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/temp_profile_pic"
-                android:scaleType="centerCrop"
-                android:contentDescription="@string/transparent_product_logo"/>
-
-    </androidx.cardview.widget.CardView>
+        android:paddingStart="16dp"
+        android:paddingTop="5dp"
+        tools:ignore="ExtraText,RtlSymmetry">
 
     <TextView
             android:id="@+id/nav_header_name"
@@ -34,10 +19,11 @@
             android:text="@string/sample_username"
             android:textColor="@android:color/holo_red_dark"
             android:textSize="18sp"
+            android:textStyle="bold"
             android:fontFamily="times"
-            android:paddingTop="8dp"
-            app:layout_constraintTop_toBottomOf="@id/profile_image_view"
-            app:layout_constraintBottom_toTopOf="@id/nav_header_race"/>
+            android:paddingTop="3dp"
+
+            app:layout_constraintBottom_toTopOf="@id/nav_header_race_title"/>
 
     <LinearLayout
             android:layout_width="match_parent"

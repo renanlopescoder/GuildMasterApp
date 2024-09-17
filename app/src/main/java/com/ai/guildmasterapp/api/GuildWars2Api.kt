@@ -76,6 +76,7 @@ class GuildWars2Api {
         val firestore = FirebaseFirestore.getInstance()
 
         val docRef = firestore.collection("users").document(uid)
+
         docRef.get()
             .addOnSuccessListener { document ->
                     val apiKey = document.getString("apiKey")
