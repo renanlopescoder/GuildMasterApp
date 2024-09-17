@@ -67,7 +67,7 @@
 
                 <Button
                         android:id="@+id/button_about"
-                        style="@style/AppTheme.Button"
+                        style="@style/AppTheme.Button.Red"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
@@ -76,7 +76,7 @@
 
                 <Button
                         android:id="@+id/button_log_out"
-                        style="@style/AppTheme.Button"
+                        style="@style/AppTheme.Button.Gray"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"

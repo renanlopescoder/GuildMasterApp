@@ -199,6 +199,7 @@ data class WeaponDetails(
     val defense: Int,
     val infusion_slots: List<String>,
     val attribute_adjustment: Double,
+    val infix_upgrade: InfixUpgrade? = null,
 )
 
 

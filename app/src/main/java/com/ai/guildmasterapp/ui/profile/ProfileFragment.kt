@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.ai.guildmasterapp.api.GuildWars2Api
 import com.ai.guildmasterapp.databinding.FragmentProfileBinding
 import com.ai.guildmasterapp.GlobalState
+import com.ai.guildmasterapp.ItemType
 import com.ai.guildmasterapp.LoaderDialogFragment
 import com.ai.guildmasterapp.R
 import com.ai.guildmasterapp.ui.dashboard.CompareEquipment
@@ -31,6 +32,11 @@ class ProfileFragment : Fragment() {
 
     private val api = GuildWars2Api() // Initializes variable for the api
 
+    private val powerModifiers = ArrayList<Int>()
+    private val precisionModifiers = ArrayList<Int>()
+    private val toughnessModifiers = ArrayList<Int>()
+    private val vitalityModifiers = ArrayList<Int>()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,9 +47,82 @@ class ProfileFragment : Fragment() {
 
         val characterBackstory = GlobalState.characterDetail?.backstory // Initializes backstory instance
 
+        val characterEquipment = GlobalState.characterDetail?.equipment
+
+        val items = ArrayList<ItemType>()
+
+
+
         // Sets the question & answer textViews to show a portion of the backstory
         lifecycleScope.launch {
             setBackstory(characterBackstory)
+
+            characterEquipment?.forEach { equipment ->
+
+                if(equipment.id != 97730) {
+                    val itemType = api.fetchItemDetails(equipment.id)
+                    items.add(itemType!!)
+                }
+            }
+
+            items.forEach { item ->
+                when(item.type) {
+                    "Weapon" -> {
+                        val weaponAttributes = GlobalState.weaponMap[item.id]?.details?.infix_upgrade?.attributes
+
+                        weaponAttributes?.forEach { weapon ->
+                            when(weapon.attribute) {
+                                "Power" -> {
+                                    powerModifiers.add(weapon.modifier)
+                                }
+
+                                "Precision" -> {
+                                    precisionModifiers.add(weapon.modifier)
+                                }
+
+                                "Toughness" -> {
+                                    toughnessModifiers.add(weapon.modifier)
+                                }
+
+                                "Vitality" -> {
+                                    vitalityModifiers.add(weapon.modifier)
+                                }
+
+                            }
+                        }
+                    }
+
+                    "Armor" -> {
+                        val armorAttributes = GlobalState.armorMap[item.id]?.details?.infix_upgrade?.attributes
+
+                        armorAttributes?.forEach { armor ->
+                            when(armor.attribute) {
+                                "Power" -> {
+                                    powerModifiers.add(armor.modifier)
+                                }
+
+                                "Precision" -> {
+                                    precisionModifiers.add(armor.modifier)
+                                }
+
+                                "Toughness" -> {
+                                    toughnessModifiers.add(armor.modifier)
+                                }
+
+                                "Vitality" -> {
+                                    vitalityModifiers.add(armor.modifier)
+                                }
+
+                            }
+                        }
+                    }
+
+                }
+
+            }
+
+            displayAttributes() // Displays the character's base stats
+
         }
 
 
@@ -124,7 +203,7 @@ class ProfileFragment : Fragment() {
         }
 
 
-        // Starts the CompareEquipment Activity
+        // Starts the CompareEquipment Activity when the equipment calculator button is clicked
         binding.profileEquipmentButton.setOnClickListener {
 
             val intent = Intent(requireContext(),CompareEquipment::class.java)
@@ -132,7 +211,7 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
         }
 
-        // Navigates to the guild fragment
+        // Navigates to the guild fragment when the guild button is clicked
         binding.profileGuildButton.setOnClickListener {
 
             findNavController().navigate(R.id.navigation_guild)
@@ -140,7 +219,6 @@ class ProfileFragment : Fragment() {
 
 
         displayCharacterDetails() // Displays the character's name, race, profession, and level
-        displayAttributes() // Displays the character's base stats
 
         return binding.root
     }
@@ -188,8 +266,11 @@ class ProfileFragment : Fragment() {
 
     private suspend fun displayBackstory(backstory: String?) {
 
+        // Initializes backstory answer & question objects
         val backstoryAnswers = api.fetchBackstoryAnswer(backstory!!)
         val backstoryQuestion = api.fetchBackstoryQuestions(backstoryAnswers!!.question)
+
+        // Shows the full backstory question & answer in a dialog window
         showDialogBackstory(backstoryAnswers.description, backstoryQuestion!!.description)
     }
 
@@ -197,12 +278,14 @@ class ProfileFragment : Fragment() {
 
     private fun showDialogBackstory(answer: String, question: String) {
 
+        // Initializes a dialog window
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_backstory, null)
         val dialogBuilder = AlertDialog.Builder(requireContext())
             .setView(dialogView)
 
         val dialog = dialogBuilder.create()
 
+        // Creates views & button for the dialog window
         val backstoryQuestion = dialogView.findViewById<TextView>(R.id.profile_dialog_question)
         val backstoryAnswer = dialogView.findViewById<TextView>(R.id.profile_dialog_answer)
         val closeButton = dialogView.findViewById<Button>(R.id.backstory_close_button)
@@ -234,10 +317,28 @@ class ProfileFragment : Fragment() {
         val playerLevel : Int = GlobalState.characterDetail!!.level
         val baseStat = (playerLevel.toFloat() / 80) * 1000
 
-        binding.profileAttributePowerStat.text = baseStat.toInt().toString()
-        binding.profileAttributePrecisionStat.text = baseStat.toInt().toString()
-        binding.profileAttributeToughnessStat.text = baseStat.toInt().toString()
-        binding.profileAttributeVitalityStat.text = baseStat.toInt().toString()
+        var powerStat = baseStat.toInt()
+        var precisionStat = baseStat.toInt()
+        var toughnessStat = baseStat.toInt()
+        var vitalityStat = baseStat.toInt()
+
+        powerModifiers.forEach { modifier ->
+            powerStat += modifier
+        }
+        precisionModifiers.forEach { modifier ->
+            precisionStat += modifier
+        }
+        toughnessModifiers.forEach { modifier ->
+            toughnessStat += modifier
+        }
+        vitalityModifiers.forEach { modifier ->
+            vitalityStat += modifier
+        }
+
+        binding.profileAttributePowerStat.text = powerStat.toString()
+        binding.profileAttributePrecisionStat.text = precisionStat.toString()
+        binding.profileAttributeToughnessStat.text = toughnessStat.toString()
+        binding.profileAttributeVitalityStat.text = vitalityStat.toString()
 
     }
 

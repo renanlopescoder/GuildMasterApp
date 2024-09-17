@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
 
                     // Sets the text for the TextViews
                     headerNameView.text = characterName
-                    headerRaceView.text = "Race: " + characterRace
+                    headerRaceView.text = characterRace
                         true
                 }
                 R.id.navigation_dashboard -> {

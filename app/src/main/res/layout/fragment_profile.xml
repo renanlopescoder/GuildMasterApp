@@ -211,7 +211,7 @@
                         android:text="@string/profile_equipment_button"
                         android:fontFamily="times"
                         android:layout_marginVertical="8dp"
-                        style="@style/AppTheme.Button"/>
+                        style="@style/AppTheme.Button.Red"/>
 
                 <Button
                         android:id="@+id/profile_guild_button"
@@ -220,8 +220,7 @@
                         android:text="@string/profile_guild_button"
                         android:layout_marginBottom="8dp"
                         android:fontFamily="times"
-                        style="@style/AppTheme.Button"/>
-
+                        style="@style/AppTheme.Button.Gray"/>
 
 
             </LinearLayout>
