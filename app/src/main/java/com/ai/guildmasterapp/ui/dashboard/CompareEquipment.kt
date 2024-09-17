@@ -274,7 +274,7 @@ class CompareEquipment : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_equipment_builder)
+        setContentView(R.layout.activity_armor_calculator)
         supportActionBar?.hide()
 
         //Back button, when pressed it will close the activity
@@ -592,11 +592,9 @@ class CompareEquipment : AppCompatActivity() {
                 loadingScreen.visibility = View.GONE
             }
         }
-
         // Start the animation
         animator.start()
     }
-
 
     private fun showPopupWindow(equipmentList: List<Item>, icon: ImageView) {
 
@@ -737,11 +735,7 @@ class CompareEquipment : AppCompatActivity() {
         if (currentIndex != -1) {
             itemList.removeAt(currentIndex)
         }
-
-
         // Add the new item
         itemList.add(newItem)
-
     }
-
 }

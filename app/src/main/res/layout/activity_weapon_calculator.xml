@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/equipment_build_calc"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
     <ImageView
-            android:contentDescription="@string/equipment_builder_bg"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@drawable/compare_equipment_background"
+            android:scaleType="centerCrop"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:scaleType="fitXY"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/asura_city"/>
     <ImageView
             android:id="@+id/back_button"
             android:contentDescription="@string/backArrow"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="16dp"
-            app:layout_constraintTop_toBottomOf="@id/equipment_builder_title"
+            app:layout_constraintTop_toBottomOf="@id/weapon_build_calc_title"
             app:layout_constraintBottom_toTopOf="@id/equipment_build_card"
             app:layout_constraintStart_toStartOf="parent"
             android:src="@drawable/back_arrow"
@@ -29,10 +27,10 @@
             android:clickable="true"
             android:focusable="true"/>
     <TextView
-            android:id="@+id/equipment_builder_title"
+            android:id="@+id/weapon_build_calc_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/equip_build_calc"
+            android:text="@string/weapon_build_calc"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@color/dark_gray"
@@ -41,22 +39,19 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            />
-
+            app:layout_constraintStart_toStartOf="parent"/>
     <androidx.cardview.widget.CardView
             android:id="@+id/equipment_build_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/equipment_builder_title"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_margin="16dp"
             android:layout_marginBottom="50dp"
             app:cardElevation="4dp"
             app:cardCornerRadius="20dp"
-            app:cardBackgroundColor="#E6624A2E" android:layout_marginStart="16dp"
-            >
+            app:cardBackgroundColor="#CC624A2E" android:layout_marginStart="16dp">
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,115 +62,57 @@
                     android:padding="20dp"
                     android:layout_weight="1">
                 <TextView
-                        android:id="@+id/equipment_title"
+                        android:id="@+id/weapon_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
+                        android:gravity="center_horizontal"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintBottom_toTopOf="@+id/equipment_helm"
+                        app:layout_constraintBottom_toTopOf="@+id/main_hand"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:text="@string/equipment_title"
+                        android:text="@string/weapon_title"
                         android:textColor="@color/white"
-                        android:textSize="20sp"
+                        android:textSize="25sp"
                         android:textStyle="bold"
                         android:fontFamily="times"
                         app:layout_constraintVertical_chainStyle="spread_inside"/>
                 <ImageView
-                        android:id="@+id/equipment_helm"
-                        android:contentDescription="@string/helm_slot"
-                        android:layout_width="81dp"
-                        android:layout_height="81dp"
-                        android:layout_marginBottom="10dp"
-                        app:layout_constraintTop_toBottomOf="@id/equipment_title"
-                        app:layout_constraintBottom_toTopOf="@id/equipment_shoulders"
+                        android:id="@+id/main_hand"
+                        android:contentDescription="@string/main_hand"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginBottom="50dp"
+                        app:layout_constraintTop_toBottomOf="@id/weapon_title"
+                        app:layout_constraintBottom_toTopOf="@id/off_hand"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:src="@drawable/equipment_helm_icon"
+                        android:src="@drawable/sword_icon"
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"
                         android:clickable="true"
                         android:focusable="true"/>
                 <ImageView
-                        android:id="@+id/equipment_shoulders"
-                        android:contentDescription="@string/shoulder_slot"
-                        android:layout_width="81dp"
-                        android:layout_height="81dp"
-                        android:layout_marginBottom="10dp"
-                        app:layout_constraintTop_toBottomOf="@id/equipment_helm"
-                        app:layout_constraintBottom_toTopOf="@+id/equipment_chest"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:src="@drawable/equipment_shoulder_icon"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:clickable="true"
-                        android:focusable="true"/>
-                <ImageView
-                        android:id="@+id/equipment_chest"
-                        android:contentDescription="@string/chest_slot"
-                        android:layout_width="81dp"
-                        android:layout_height="81dp"
-                        android:layout_marginBottom="10dp"
-                        app:layout_constraintTop_toBottomOf="@id/equipment_shoulders"
-                        app:layout_constraintBottom_toTopOf="@id/equipment_hands"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:src="@drawable/equipment_chest_icon"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:clickable="true"
-                        android:focusable="true"/>
-                <ImageView
-                        android:id="@+id/equipment_hands"
-                        android:contentDescription="@string/hands_slot"
-                        android:layout_width="81dp"
-                        android:layout_height="81dp"
-                        android:layout_marginBottom="10dp"
-                        app:layout_constraintTop_toBottomOf="@id/equipment_chest"
-                        app:layout_constraintBottom_toTopOf="@id/equipment_legs"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:src="@drawable/equipment_hand_icon"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:clickable="true"
-                        android:focusable="true"/>
-                <ImageView
-                        android:id="@+id/equipment_legs"
-                        android:contentDescription="@string/legs_slot"
-                        android:layout_width="81dp"
-                        android:layout_height="81dp"
-                        android:layout_marginBottom="10dp"
-                        app:layout_constraintTop_toBottomOf="@id/equipment_hands"
-                        app:layout_constraintBottom_toTopOf="@id/equipment_feet"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:src="@drawable/equipment_leg_icon"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:clickable="true"
-                        android:focusable="true"/>
-                <ImageView
-                        android:id="@+id/equipment_feet"
-                        android:contentDescription="@string/feet_slot"
-                        android:layout_width="81dp"
-                        android:layout_height="81dp"
-                        android:layout_marginBottom="10dp"
-                        app:layout_constraintTop_toBottomOf="@id/equipment_legs"
+                        android:id="@+id/off_hand"
+                        android:contentDescription="@string/off_hand"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginBottom="25dp"
+                        android:layout_marginTop="75dp"
+                        app:layout_constraintTop_toBottomOf="@id/main_hand"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:src="@drawable/equipment_feet_icon"
+                        android:src="@drawable/shield_icon"
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"
                         android:clickable="true"
                         android:focusable="true"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
-            <View
-                    android:layout_width="2dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/dark_gray"/>
+    <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/dark_gray"/>
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -186,6 +123,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
+                        android:gravity="center_horizontal"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toTopOf="@+id/defense"
                         app:layout_constraintStart_toStartOf="parent"
@@ -193,7 +131,7 @@
                         android:text="@string/attributes_title"
                         android:textStyle="bold|normal"
                         android:textColor="@color/white"
-                        android:textSize="20sp"
+                        android:textSize="25sp"
                         android:fontFamily="times"
                         app:layout_constraintVertical_chainStyle="spread_inside"/>
                 <TextView
@@ -320,99 +258,5 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-    <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/loading_screen"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:elevation="10dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:visibility="visible">
-        <ImageView
-                android:id="@+id/dashboard"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/splash_screen_bg"
-                android:scaleType="centerCrop"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:contentDescription="@string/dashboard_background_description"/>
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
-            <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="150dp"
-                    android:layout_marginStart="35dp"
-                    android:layout_marginEnd="35dp"
-                    android:backgroundTint="#9900BCD4"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="4dp"
-                    android:layout_gravity="center">
-                <TextView
-                        android:id="@+id/splashscreen_title"
-                        android:padding="30dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:gravity="center_horizontal"
-                        android:text="@string/splashscreen_title"
-                        android:textSize="30sp"
-                        android:fontFamily="times"/>
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
-                    android:layout_marginStart="35dp"
-                    android:layout_marginEnd="35dp"
-                    android:backgroundTint="#9900BCD4"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="4dp"
-                    android:layout_gravity="center">
-                <TextView
-                        android:id="@+id/splashscreen_message"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/splashscreen_message"
-                        android:textSize="20sp"
-                        android:textColor="@color/white"
-                        android:fontFamily="times"
-                        android:padding="15dp"
-                        android:layout_weight="1"
-                        android:layout_marginEnd="30dp"
-                        android:layout_marginStart="30dp"/>
-            </androidx.cardview.widget.CardView>
-            <ProgressBar
-                    android:id="@+id/splashscreen_loadingbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="4dp"
-                    android:layout_weight="0.5"
-                    android:indeterminate="false"
-                    android:max="100"
-                    android:layout_marginTop="20dp"
-                    android:visibility="gone"/>
-            <TextView
-                    android:id="@+id/continue_prompt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/prompt"
-                    android:textColor="@color/white"
-                    android:background="@color/semi_transparent_black"
-                    android:textSize="16sp"
-                    android:layout_marginTop="50dp"
-                    android:layout_marginStart="35dp"
-                    android:layout_marginBottom="20dp"
-                    android:visibility="invisible"/>
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
 
+</androidx.constraintlayout.widget.ConstraintLayout>
