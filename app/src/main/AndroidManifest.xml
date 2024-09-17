@@ -13,6 +13,9 @@
             android:theme="@style/Theme.GuildMasterApp"
             tools:targetApi="31">
         <activity
+                android:name=".ui.dashboard.WeaponsBuildCalcActivity"
+                android:exported="false"/>
+        <activity
                 android:name=".ui.dashboard.CompareEquipment"
                 android:exported="true"
                 android:label="Compare Equipment">
@@ -45,7 +48,6 @@
                 android:exported="true"
                 android:label="@string/app_name">
         </activity>
-
     </application>
 
 </manifest>

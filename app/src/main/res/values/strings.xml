@@ -162,7 +162,6 @@
     <string name="feet_slot">Feet slot</string>
 
 
-
     <!-- Guild fragment string values -->
 
     <!-- image Content description -->
@@ -177,7 +176,8 @@
 
     <string name="splashscreen_title">Discover the Power of Your Gear with Our Build Calculator!</string>
     <string name="splashscreen_message">Explore how different armor pieces can transform your attributes.
-        Just click on any armor piece, select your desired gear, and instantly see the impact on your stats. Unleash your potential and optimize your build for ultimate performance!
+        Just click on any armor piece, select your desired gear, and instantly see the impact on your stats. Unleash
+        your potential and optimize your build for ultimate performance!
     </string>
     <string name="prompt">Touch anywhere to continue…</string>
     <string name="search_equipment">"Search"</string>
@@ -190,6 +190,10 @@
     <string name="flags">Flags</string>
     <string name="item_value">1</string>
     <string name="item_description">Description</string>
-    <string name="item_defense">Defense: </string>
+    <string name="item_defense">Defense:</string>
+    <string name="weapon_build_calc">Weapon Build Calculator</string>
+    <string name="off_hand">Offhand icon</string>
+    <string name="main_hand">Main hand</string>
+    <string name="weapon_title">Weapons</string>
 
 </resources>
