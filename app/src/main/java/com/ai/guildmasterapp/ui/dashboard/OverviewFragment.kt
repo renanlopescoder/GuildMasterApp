@@ -7,6 +7,7 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.ai.guildmasterapp.R
 
 class OverviewFragment : Fragment(R.layout.fragment_dashboard_overview) {
@@ -32,6 +33,10 @@ class OverviewFragment : Fragment(R.layout.fragment_dashboard_overview) {
         compareEquipmentCard.setOnClickListener {
             val navigationIntent = Intent(requireContext(),CompareEquipment::class.java)
             startActivity(navigationIntent)
+        }
+
+        profileCard.setOnClickListener {
+            findNavController().navigate(R.id.navigation_profile)
         }
 
     }

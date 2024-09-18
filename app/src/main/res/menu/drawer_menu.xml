@@ -32,7 +32,7 @@
             android:fontFamily="times"/>
 
     <item
-            android:id="@+id/navigation_my_profile"
+            android:id="@+id/navigation_profile"
             android:title="@string/title_my_profile"
             android:fontFamily="times"/>
 

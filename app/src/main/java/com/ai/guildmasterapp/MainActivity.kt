@@ -22,8 +22,6 @@ import kotlinx.coroutines.launch
 import android.widget.*
 
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-
 
 
 class MainActivity : AppCompatActivity() {
@@ -67,7 +65,7 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.navigation_dashboard, R.id.navigation_notifications,
                 R.id.navigation_messages, R.id.navigation_menu, R.id.navigation_pvp_history,
-                R.id.navigation_guild, R.id.navigation_community, R.id.navigation_crafting, R.id.navigation_my_profile,
+                R.id.navigation_guild, R.id.navigation_community, R.id.navigation_crafting, R.id.navigation_profile,
                 R.id.navigation_about
             )
         )
@@ -114,8 +112,8 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(R.id.navigation_messages)
                     true
                 }
-                R.id.navigation_my_profile -> {
-                    navController.navigate(R.id.navigation_my_profile)
+                R.id.navigation_profile -> {
+                    navController.navigate(R.id.navigation_profile)
                     true
                 }
                 else -> false
@@ -162,8 +160,8 @@ class MainActivity : AppCompatActivity() {
                     drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }
-                R.id.navigation_my_profile -> {
-                    navController.navigate(R.id.navigation_my_profile)
+                R.id.navigation_profile -> {
+                    navController.navigate(R.id.navigation_profile)
                     drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }
