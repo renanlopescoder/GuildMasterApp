@@ -362,3 +362,13 @@ data class EventDetails(
     val flags: List<String>,
 )
 
+
+@Serializable
+data class MapDetails(
+    val id: Int,
+    val name: String,
+    val min_level: Int,
+    val max_level: Int,
+    val default_floor: Int,
+    val type: String
+)

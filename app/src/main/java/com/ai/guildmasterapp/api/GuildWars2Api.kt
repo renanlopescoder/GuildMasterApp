@@ -512,6 +512,53 @@ class GuildWars2Api {
     }
 
 
+    suspend fun fetchMapDetails(id: Int) : MapDetails {
+
+        val customJson = Json {
+            ignoreUnknownKeys = true
+        }
+
+        return suspendCancellableCoroutine { continuation ->
+
+            val url = "https://api.guildwars2.com/v2/maps/$id"
+            val request = Request.Builder()
+                .url(url)
+                .build()
+
+            client.newCall(request).enqueue(object : Callback {
+
+                override fun onFailure(call: Call, e: IOException) {
+                    if (continuation.isActive) {
+                        continuation.resumeWithException(e)
+                    }
+                }
+
+
+                override fun onResponse(call: Call, response: Response) {
+                    try {
+                        val jsonResponse = response.body?.string()
+                        if (jsonResponse?.isNotEmpty() == true) {
+
+                            val mapDetails = customJson.decodeFromString<MapDetails>(jsonResponse)
+                            continuation.resumeWith(Result.success(mapDetails))
+                        }
+
+                    } catch (e: Exception) {
+                        if (continuation.isActive) {
+                            continuation.resumeWithException(e)
+                        }
+                    }
+                }
+            })
+
+            continuation.invokeOnCancellation {
+                continuation.cancel()
+            }
+
+        }
+    }
+
+
 
 
     // Fetches a list of almost every item id in the game

@@ -36,8 +36,10 @@ class NotificationsFragment : Fragment() {
         lifecycleScope.launch {
 
             val eventDetails = api.fetchEventDetails("CEA84FBF-2368-467C-92EA-7FA60D527C7B")
+            val mapDetails = api.fetchMapDetails(eventDetails.map_id)
 
             binding.testEventDetails.text = eventDetails.name
+            binding.testMapDetails.text = mapDetails.name
         }
 
 
