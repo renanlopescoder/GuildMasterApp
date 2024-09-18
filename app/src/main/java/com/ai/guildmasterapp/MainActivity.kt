@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var appBarConfiguration: AppBarConfiguration
     private var api = GuildWars2Api()
+    private var globalState = GlobalState
     private lateinit var username: TextView
     private lateinit var userEmail: TextView
 
@@ -77,7 +78,7 @@ class MainActivity : AppCompatActivity() {
         val headerView = navView.getHeaderView(0)
 
         username = headerView.findViewById(R.id.nav_header_name)
-        userEmail = headerView.findViewById(R.id.nav_header_email)
+        userEmail = headerView.findViewById(R.id.nav_header_race)
 
         username.text = GlobalState.characterDetail?.name ?: "Guest"
         userEmail.text = FirebaseAuth.getInstance().currentUser?.email ?: "guest@example.com"

@@ -226,7 +226,7 @@ class ProfileFragment : Fragment() {
 
     private suspend fun setBackstory(backstories: List<String?>?) {
 
-        val loader = LoaderDialogFragment() // Initializes Loading dialog
+        val loader = LoaderDialogFragment.newInstance("Preparing Profile") // Initializes Loading dialog
         loader.isCancelable = false
         loader.show(childFragmentManager,"loader") // Displays dialog
 
@@ -248,17 +248,17 @@ class ProfileFragment : Fragment() {
 
         // Sets the text for the profileAnswer textViews
         binding.profileAnswer1.text = answer1.description.substring(0, 18) + "..."
-        binding.profileAnswer2.text = answer2.description.substring(0, 20) + "..."
+        binding.profileAnswer2.text = answer2.description.substring(0, 26) + "..."
         binding.profileAnswer3.text = answer3.description.substring(0, 20) + "..."
         binding.profileAnswer4.text = answer4.description.substring(0, 21) + "..."
         binding.profileAnswer5.text = answer5.description.substring(0, 20) + "..."
 
         // Sets the text for the profileQuestion textViews
         binding.profileQuestion1.text = question1?.description?.substring(0, 18) + "..."
-        binding.profileQuestion2.text = question2?.description?.substring(0, 16) + "..."
-        binding.profileQuestion3.text = question3?.description?.substring(0, 18) + "..."
-        binding.profileQuestion4.text = question4?.description?.substring(0, 17) + "..."
-        binding.profileQuestion5.text = question5?.description?.substring(0, 18) + "..."
+        binding.profileQuestion2.text = question2?.description?.substring(0, 32) + "..."
+        binding.profileQuestion3.text = question3?.description?.substring(0, 22) + "..."
+        binding.profileQuestion4.text = question4?.description?.substring(0, 25) + "..."
+        binding.profileQuestion5.text = question5?.description?.substring(0, 28) + "..."
 
         loader.dismiss() // Closes loading dialog after the data is fetched
     }
