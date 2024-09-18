@@ -1,5 +1,6 @@
 package com.ai.guildmasterapp
 
+import android.media.metrics.Event
 import kotlinx.serialization.Serializable
 
 
@@ -349,13 +350,7 @@ data class LadderStats(
 
 @Serializable
 data class EventJson(
-    val events: Events
-)
-
-
-@Serializable
-data class Events(
-    val event_id: EventDetails
+    val events: Map<String, EventDetails>
 )
 
 

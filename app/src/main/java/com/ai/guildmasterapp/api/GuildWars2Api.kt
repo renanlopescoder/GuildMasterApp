@@ -491,7 +491,7 @@ class GuildWars2Api {
                         if (jsonResponse?.isNotEmpty() == true) {
 
                             val event = customJson.decodeFromString<EventJson>(jsonResponse)
-                            val eventDetails = event.events.event_id
+                            val eventDetails = event.events[id]!!
 
                             continuation.resumeWith(Result.success(eventDetails))
                         }
