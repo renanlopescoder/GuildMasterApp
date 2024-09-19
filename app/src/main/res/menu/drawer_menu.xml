@@ -5,6 +5,10 @@
             android:id="@+id/navigation_dashboard"
             android:title="@string/title_dashboard"
             android:fontFamily="times"/>
+    <item
+            android:id="@+id/navigation_friends"
+            android:title="@string/title_friends"
+            android:fontFamily="times"/>
 
     <item
             android:id="@+id/navigation_messages"
