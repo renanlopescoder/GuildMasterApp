@@ -167,5 +167,9 @@
     <string name="guild_temp_text_2">Looking for group</string>
     <string name="guild_temp_text_3">Crafters needed</string>
 
+    <!-- Friends string values -->
 
+    <string name="no_friends_text">No friends found</string>
+    <string name="error_loading_friends">Error loading friends</string>
+    <string name="error_empty_email">Please enter an email to search</string>
 </resources>
