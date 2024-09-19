@@ -15,6 +15,7 @@
             android:text="Member Name"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:fontFamily="times"
             android:textColor="@color/black"/>
 
     <TextView
@@ -23,6 +24,7 @@
             android:layout_height="wrap_content"
             android:text="Member Rank"
             android:textSize="15sp"
+            android:fontFamily="times"
             android:textColor="@color/shadow_black"/>
 
     <TextView
@@ -31,6 +33,7 @@
             android:layout_height="wrap_content"
             android:text="2024-08-31"
             android:textSize="12sp"
+            android:fontFamily="times"
             android:textColor="@color/maroon"/>
 
 </LinearLayout>

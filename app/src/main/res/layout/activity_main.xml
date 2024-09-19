@@ -67,20 +67,22 @@
 
                 <Button
                         android:id="@+id/button_about"
-                        style="@style/AppTheme.Button"
+                        style="@style/AppTheme.Button.Red"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:text="@string/about_button"
-                        android:radius="100dp"/>
+                        android:fontFamily="times"/>
 
                 <Button
                         android:id="@+id/button_log_out"
-                        style="@style/AppTheme.Button"
+                        style="@style/AppTheme.Button.Gray"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:text="@string/log_out_button"/>
+                        android:layout_marginBottom="40dp"
+                        android:text="@string/log_out_button"
+                        android:fontFamily="times" />
 
             </LinearLayout>
 

@@ -1,0 +1,556 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.profile.ProfileFragment">
+
+    <!-- Background image -->
+    <ImageView
+            android:contentDescription="@string/profile_background_image"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/profile_background_2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:scaleType="fitXY"/>
+
+
+    <!-- Screen Title -->
+    <androidx.cardview.widget.CardView
+            android:id="@+id/profile_title_card_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="#4CF3FFFF">
+
+        <TextView
+                android:id="@+id/profile_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textAlignment="center"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="@string/title_my_profile"
+                android:fontFamily="times"
+                android:paddingHorizontal="40dp"/>
+
+    </androidx.cardview.widget.CardView>
+
+
+
+    <!-- Main CardView -->
+    <androidx.cardview.widget.CardView
+            android:id="@+id/profile_card_view"
+            android:layout_width="match_parent"
+            android:layout_height="600dp"
+            app:layout_constraintTop_toBottomOf="@+id/profile_title_card_view"
+            app:layout_constraintBottom_toTopOf="@+id/profile_buttons_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="8dp"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="#9CF3FFFF"
+            android:layout_marginStart="16dp">
+
+
+        <ScrollView
+                android:id="@+id/profile_scroll_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+
+            <LinearLayout
+                    android:id="@+id/backstory_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="20dp">
+
+
+                <!-- Profile Pic -->
+                <ImageView
+                        android:id="@+id/profile_character_image"
+                        android:layout_width="150dp"
+                        android:layout_height="300dp"
+                        android:layout_marginTop="25dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/profile_character_image"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/character_human_mesmer_male"/>
+
+
+                <!-- Attributes CardView -->
+                <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:cardElevation="8dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardBackgroundColor="#4CF3FFFF">
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                        <TextView
+                                android:id="@+id/profile_title_attributes"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/profile_attributes"
+                                android:textSize="20sp"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"
+                                android:fontFamily="times"
+                                android:layout_marginStart="20dp"/>
+
+                        <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                app:cardElevation="12dp"
+                                app:cardCornerRadius="5dp"
+                                app:cardBackgroundColor="#8CF3BBCC">
+
+                            <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical">
+
+
+                                <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="horizontal">
+
+                                    <TextView
+                                            android:id="@+id/profile_attribute_power"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/profile_attribute_power"
+                                            android:textSize="16sp"
+                                            android:textColor="@color/black"
+                                            android:textStyle="italic"
+                                            android:fontFamily="times"
+                                            android:textAlignment="textStart"
+                                            android:layout_marginStart="12dp"/>
+
+                                    <TextView
+                                            android:id="@+id/profile_attribute_power_stat"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/profile_attribute_default_stat"
+                                            android:textSize="16sp"
+                                            android:fontFamily="times"
+                                            android:textColor="@color/black"
+                                            android:textAlignment="textEnd"
+                                            android:paddingEnd="12dp"/>
+
+                                </LinearLayout>
+
+
+                                <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="horizontal">
+
+                                    <TextView
+                                            android:id="@+id/profile_attribute_precision"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/profile_attribute_precision"
+                                            android:textSize="16sp"
+                                            android:textColor="@color/black"
+                                            android:textStyle="italic"
+                                            android:fontFamily="times"
+                                            android:textAlignment="textStart"
+                                            android:layout_marginStart="12dp"/>
+
+                                    <TextView
+                                            android:id="@+id/profile_attribute_precision_stat"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/profile_attribute_default_stat"
+                                            android:textSize="16sp"
+                                            android:fontFamily="times"
+                                            android:textColor="@color/black"
+                                            android:textAlignment="textEnd"
+                                            android:paddingEnd="12dp"/>
+
+                                </LinearLayout>
+
+
+                                <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="horizontal">
+
+                                    <TextView
+                                            android:id="@+id/profile_attribute_toughness"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/profile_attribute_toughness"
+                                            android:fontFamily="times"
+                                            android:textSize="16sp"
+                                            android:textColor="@color/black"
+                                            android:textStyle="italic"
+                                            android:textAlignment="textStart"
+                                            android:layout_marginStart="12dp"/>
+
+                                    <TextView
+                                            android:id="@+id/profile_attribute_toughness_stat"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/profile_attribute_default_stat"
+                                            android:textSize="16sp"
+                                            android:fontFamily="times"
+                                            android:textColor="@color/black"
+                                            android:textAlignment="textEnd"
+                                            android:paddingEnd="12dp"/>
+
+                                </LinearLayout>
+
+
+                                <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="horizontal">
+
+                                    <TextView
+                                            android:id="@+id/profile_attribute_vitality"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/profile_attribute_vitality"
+                                            android:textSize="16sp"
+                                            android:textColor="@color/black"
+                                            android:textStyle="italic"
+                                            android:fontFamily="times"
+                                            android:textAlignment="textStart"
+                                            android:layout_marginStart="12dp"/>
+
+                                    <TextView
+                                            android:id="@+id/profile_attribute_vitality_stat"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/profile_attribute_default_stat"
+                                            android:textSize="16sp"
+                                            android:fontFamily="times"
+                                            android:textColor="@color/black"
+                                            android:textAlignment="textEnd"
+                                            android:paddingEnd="12dp"/>
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
+                        </androidx.cardview.widget.CardView>
+
+
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+
+                            <TextView
+                                    android:id="@+id/profile_name_title"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/profile_name_title"
+                                    android:textSize="16sp"
+                                    android:textColor="@color/black"
+                                    android:textStyle="italic"
+                                    android:fontFamily="times"
+                                    android:textAlignment="textStart"
+                                    android:layout_marginStart="12dp"/>
+
+                            <TextView
+                                    android:id="@+id/profile_name"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Name"
+                                    android:fontFamily="times"
+                                    android:textSize="16sp"
+                                    android:textColor="@color/black"
+                                    android:textAlignment="textEnd"
+                                    android:paddingEnd="12dp"/>
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+
+                            <TextView
+                                    android:id="@+id/profile_race_title"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/profile_race_title"
+                                    android:textSize="16sp"
+                                    android:textColor="@color/black"
+                                    android:textStyle="italic"
+                                    android:fontFamily="times"
+                                    android:textAlignment="textStart"
+                                    android:layout_marginStart="12dp"/>
+
+                            <TextView
+                                    android:id="@+id/profile_race"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Race"
+                                    android:fontFamily="times"
+                                    android:textSize="16sp"
+                                    android:textColor="@color/black"
+                                    android:textAlignment="textEnd"
+                                    android:paddingEnd="12dp"/>
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+
+                            <TextView
+                                    android:id="@+id/profile_level_title"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/profile_level_title"
+                                    android:textSize="16sp"
+                                    android:textColor="@color/black"
+                                    android:textStyle="italic"
+                                    android:fontFamily="times"
+                                    android:textAlignment="textStart"
+                                    android:layout_marginStart="12dp"/>
+
+                            <TextView
+                                    android:id="@+id/profile_level"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Level"
+                                    android:fontFamily="times"
+                                    android:textSize="16sp"
+                                    android:textColor="@color/black"
+                                    android:textAlignment="textEnd"
+                                    android:paddingEnd="12dp"/>
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+
+                            <TextView
+                                    android:id="@+id/profile_profession_title"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/profile_profession_title"
+                                    android:textSize="16sp"
+                                    android:textColor="@color/black"
+                                    android:textStyle="italic"
+                                    android:fontFamily="times"
+                                    android:textAlignment="textStart"
+                                    android:layout_marginStart="12dp"/>
+
+                            <TextView
+                                    android:id="@+id/profile_profession"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Warrior"
+                                    android:textSize="16sp"
+                                    android:fontFamily="times"
+                                    android:textColor="@color/black"
+                                    android:textAlignment="textEnd"
+                                    android:paddingEnd="10dp"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+
+                <TextView
+                        android:id="@+id/profile_question_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_question_1"
+                        android:textSize="20sp"
+                        android:textColor="@color/maroon"
+                        android:textStyle="italic"
+                        android:textAlignment="center"
+                        android:fontFamily="times"
+                        android:paddingVertical="12dp"/>
+
+
+                <TextView
+                        android:id="@+id/profile_answer_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_answer_1"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        android:textAlignment="center"
+                        android:fontFamily="times"/>
+
+
+                <TextView
+                        android:id="@+id/profile_question_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_question_2"
+                        android:textSize="20sp"
+                        android:textColor="@color/maroon"
+                        android:textStyle="italic"
+                        android:textAlignment="center"
+                        android:fontFamily="times"
+                        android:paddingVertical="12dp"/>
+
+
+                <TextView
+                        android:id="@+id/profile_answer_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_answer_2"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        android:textAlignment="center"
+                        android:fontFamily="times"/>
+
+                <TextView
+                        android:id="@+id/profile_question_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_question_3"
+                        android:textSize="20sp"
+                        android:textColor="@color/maroon"
+                        android:textStyle="italic"
+                        android:textAlignment="center"
+                        android:fontFamily="times"
+                        android:paddingVertical="12dp"/>
+
+
+                <TextView
+                        android:id="@+id/profile_answer_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_answer_3"
+                        android:textSize="16sp"
+                        android:textAlignment="center"
+                        android:fontFamily="times"
+                        android:textColor="@color/black"/>
+
+
+                <TextView
+                        android:id="@+id/profile_question_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_question_4"
+                        android:textSize="20sp"
+                        android:textColor="@color/maroon"
+                        android:textStyle="italic"
+                        android:textAlignment="center"
+                        android:fontFamily="times"
+                        android:paddingVertical="12dp"/>
+
+
+                <TextView
+                        android:id="@+id/profile_answer_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_answer_4"
+                        android:textSize="16sp"
+                        android:textAlignment="center"
+                        android:fontFamily="times"
+                        android:textColor="@color/black"/>
+
+
+                <TextView
+                        android:id="@+id/profile_question_5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_question_5"
+                        android:textSize="20sp"
+                        android:textColor="@color/maroon"
+                        android:textStyle="italic"
+                        android:textAlignment="center"
+                        android:fontFamily="times"
+                        android:paddingVertical="12dp"/>
+
+
+                <TextView
+                        android:id="@+id/profile_answer_5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_answer_5"
+                        android:textSize="16sp"
+                        android:textAlignment="center"
+                        android:fontFamily="times"
+                        android:paddingBottom="12dp"
+                        android:textColor="@color/black"/>
+
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+
+    <LinearLayout
+            android:id="@+id/profile_buttons_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="bottom"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="32dp"
+            app:layout_constraintTop_toBottomOf="@+id/profile_card_view">
+
+
+        <Button
+                android:id="@+id/profile_equipment_button"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="@string/profile_equipment_button"
+                android:fontFamily="times"
+                android:layout_marginVertical="8dp"
+                style="@style/AppTheme.Button.Red"/>
+
+        <Button
+                android:id="@+id/profile_guild_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_guild_button"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="times"
+                style="@style/AppTheme.Button.Gray"/>
+
+
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

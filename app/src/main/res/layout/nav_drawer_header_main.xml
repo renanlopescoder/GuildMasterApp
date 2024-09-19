@@ -23,19 +23,37 @@
             android:fontFamily="times"
             android:paddingTop="3dp"
 
-            app:layout_constraintBottom_toTopOf="@id/nav_header_email"
+            app:layout_constraintBottom_toTopOf="@id/nav_header_race_title"/>
 
-    />
-
-    <TextView
-            android:id="@+id/nav_header_email"
-            android:layout_width="wrap_content"
-            android:textSize="15sp"
+    <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/sample_email"
-            android:textStyle="bold"
-            android:textColor="@android:color/holo_red_dark"
-            app:layout_constraintTop_toBottomOf="@id/nav_header_name"
-            app:layout_constraintBottom_toBottomOf="parent"
-    />
+            android:orientation="horizontal">
+
+
+        <TextView
+                android:id="@+id/nav_header_race_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Race: "
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:fontFamily="times"
+                app:layout_constraintTop_toBottomOf="@id/nav_header_name"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+        <TextView
+                android:id="@+id/nav_header_race"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sample_email"
+                android:textColor="@android:color/holo_red_dark"
+                android:fontFamily="times"
+                app:layout_constraintTop_toBottomOf="@id/nav_header_name"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </LinearLayout>
+
+
 </LinearLayout>
