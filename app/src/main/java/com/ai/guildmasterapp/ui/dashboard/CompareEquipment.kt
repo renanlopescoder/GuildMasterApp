@@ -141,15 +141,33 @@ class ItemAdapter(
 
         Picasso.get().load(item.icon).into(holder.itemIcon)
         holder.itemName.text = item.name
-        holder.itemDefense.text = context.getString(R.string.item_defense) + " ${item.details?.defense.toString()}"
+        if (item.details?.defense == 0){
+            holder.itemDefense.visibility = View.GONE
+        } else {
+            holder.itemDefense.text = context.getString(R.string.item_defense) + " ${item.details?.defense.toString()}"
+        }
 
-        val formattedAttributes: String = item.details?.infix_upgrade?.attributes?.let { formatAttributes(it) }.toString()
-        holder.itemAttributes.text = formattedAttributes
-        holder.itemWeightClass.text = item.details?.weight_class
+        if(item.details?.infix_upgrade?.attributes?.isEmpty() == true){
+            holder.itemAttributes.visibility = View.GONE
+        }else {
+            val formattedAttributes: String =
+                item.details?.infix_upgrade?.attributes?.let { formatAttributes(it) }.toString()
+            holder.itemAttributes.text = formattedAttributes
+        }
+
+        if (item.details?.weight_class?.isEmpty() == true){
+            holder.itemWeightClass.visibility = View.GONE
+        } else {
+            holder.itemWeightClass.text = item.details?.weight_class
+        }
         holder.itemArmorSlot.text = item.details?.type
 
-        val formattedFlags: String = formatFlags(item.flags)
-        holder.itemFlags.text = formattedFlags
+        if (item.flags.isEmpty()){
+            holder.itemFlags.visibility = View.GONE
+        } else {
+            val formattedFlags: String = formatFlags(item.flags)
+            holder.itemFlags.text = formattedFlags
+        }
         holder.itemValue.text = item.vendor_value.toString()
 
         when {
@@ -158,8 +176,12 @@ class ItemAdapter(
             item.vendor_value > 10_000 -> holder.valueIcon.setImageResource(R.drawable.gold_coin)
         }
 
-        val plainDescription = item.description?.replace("<.*?>".toRegex(), "")
-        holder.itemDescription.text = plainDescription
+        if (item.description?.isEmpty() == true){
+            holder.itemDescription.visibility = View.GONE
+        } else {
+            val plainDescription = item.description?.replace("<.*?>".toRegex(), "")
+            holder.itemDescription.text = plainDescription
+        }
 
         // Handle item click
         holder.itemView.setOnClickListener {

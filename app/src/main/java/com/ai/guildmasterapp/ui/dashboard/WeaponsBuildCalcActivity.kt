@@ -240,7 +240,7 @@ class WeaponAdapter(
 class WeaponsBuildCalcActivity : AppCompatActivity() {
 
     // Attributes
-    private lateinit var defenseAttribute: TextView
+
     private lateinit var powerAttribute: TextView
     private lateinit var toughnessAttribute: TextView
     private lateinit var precisionAttribute: TextView
@@ -283,7 +283,7 @@ class WeaponsBuildCalcActivity : AppCompatActivity() {
         backButton.setOnClickListener { finish() }
 
         // Text Views, they are the attributes
-        defenseAttribute = findViewById(R.id.defense)
+
         powerAttribute = findViewById(R.id.power_attr)
         toughnessAttribute = findViewById(R.id.toughness_attr)
         precisionAttribute = findViewById(R.id.precision_attr)
@@ -368,7 +368,6 @@ class WeaponsBuildCalcActivity : AppCompatActivity() {
     }
 
     private fun updateAttributes(attributes: CharacterAttributes) {
-        setAttribute(defenseAttribute, string.defense_attr, attributes.defense)
         setAttribute(powerAttribute, string.power_attribute, attributes.power)
         setAttribute(toughnessAttribute, string.toughness_attribute, attributes.toughness)
         setAttribute(precisionAttribute, string.precision_attribute, attributes.precision)
