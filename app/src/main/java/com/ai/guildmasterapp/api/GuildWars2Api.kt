@@ -26,7 +26,6 @@ import com.ai.guildmasterapp.ProfessionStats
 import com.ai.guildmasterapp.Ladders
 import com.ai.guildmasterapp.LadderStats
 
-
 import kotlin.coroutines.resumeWithException
 import okhttp3.Call
 import okhttp3.*
