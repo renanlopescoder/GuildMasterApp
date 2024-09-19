@@ -53,7 +53,7 @@
         <!-- First Notification post -->
         <androidx.cardview.widget.CardView
                 android:id="@+id/notification_card_view_first"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#FFF2F2"
                 app:cardElevation="4dp"
@@ -67,34 +67,6 @@
                     android:gravity="start"
                     android:layout_marginVertical="18dp">
 
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="start">
-
-                    <TextView
-                            android:id="@+id/test_map_details"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAlignment="textStart"
-                            android:textSize="18sp"
-                            android:text="@string/guild_post_replied"
-                            android:textColor="@color/black"
-                            android:textStyle="bold"
-                            android:padding="8dp"/>
-
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textAlignment="textEnd"
-                            android:textSize="18sp"
-                            android:text="@string/august_19th"
-                            android:textColor="@color/red"
-                            android:textStyle="bold"
-                            android:padding="8dp"/>
-
-                </LinearLayout>
 
                 <TextView
                         android:id="@+id/test_event_details"
@@ -104,8 +76,30 @@
                         android:textSize="16sp"
                         android:padding="8dp"
                         android:text="@string/notifications_guild_post_example"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
+
+
+                <TextView
+                        android:id="@+id/test_map_details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textStart"
+                        android:textSize="18sp"
+                        android:text="@string/guild_post_replied"
                         android:textColor="@color/dark_gray"
-                        android:textStyle="normal"/>
+                        android:textStyle="normal"
+                        android:padding="8dp"/>
+
+                <TextView
+                        android:id="@+id/test_event_level_details"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:text="@string/august_19th"
+                        android:textColor="@color/red"
+                        android:textStyle="bold"
+                        android:padding="8dp"/>
 
             </LinearLayout>
 

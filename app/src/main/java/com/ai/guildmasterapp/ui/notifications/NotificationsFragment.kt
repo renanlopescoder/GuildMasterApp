@@ -39,7 +39,8 @@ class NotificationsFragment : Fragment() {
             val mapDetails = api.fetchMapDetails(eventDetails.map_id)
 
             binding.testEventDetails.text = eventDetails.name
-            binding.testMapDetails.text = mapDetails.name
+            binding.testMapDetails.text = "Map: " + mapDetails.name
+            binding.testEventLevelDetails.text = "Level: " + eventDetails.level.toString()
         }
 
 
