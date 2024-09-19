@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.ai.guildmasterapp.GlobalState
 import com.ai.guildmasterapp.api.GuildWars2Api
 import com.ai.guildmasterapp.databinding.FragmentNotificationsBinding
 import kotlinx.coroutines.launch
@@ -41,6 +42,7 @@ class NotificationsFragment : Fragment() {
             binding.testEventDetails.text = eventDetails.name
             binding.testMapDetails.text = "Map: " + mapDetails.name
             binding.testEventLevelDetails.text = "Level: " + eventDetails.level.toString()
+            binding.testPlayerLevelDetails.text = "Player Level: " + GlobalState.characterDetail?.level.toString()
         }
 
 
