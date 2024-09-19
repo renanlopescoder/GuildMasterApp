@@ -195,5 +195,9 @@
     <string name="off_hand">Offhand icon</string>
     <string name="main_hand">Main hand</string>
     <string name="weapon_title">Weapons</string>
+    <string name="weapon_strength">"Weapon Strength: "</string>
+    <string name="weapon_type">Weapon Type</string>
+    <string name="weapon_rarity">Rarity</string>
+    <string name="weapon_level">"Required Level: "</string>
 
 </resources>

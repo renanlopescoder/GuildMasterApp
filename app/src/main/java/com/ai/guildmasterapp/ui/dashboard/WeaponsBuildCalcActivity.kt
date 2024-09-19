@@ -1,11 +1,28 @@
 package com.ai.guildmasterapp.ui.dashboard
 
+import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
+import android.content.Context
+import android.graphics.Color
+import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TextView
+import android.provider.Settings.Global.getString
+import android.util.Log
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ai.guildmasterapp.GlobalState
 import com.ai.guildmasterapp.R
+import com.ai.guildmasterapp.R.string
+import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -15,6 +32,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.w3c.dom.Text
 import java.net.SocketTimeoutException
 import java.util.concurrent.TimeUnit
 
@@ -42,7 +60,7 @@ data class WeaponDetails(
     val min_power: Int = 0,
     val max_power: Int = 0,
     val defense: Int = 0,
-    val infusion_slots: List<String> = emptyList(),
+    val infusion_slots: List<WeaponInfusionSlot> = emptyList(),
     val attribute_adjustment: Float = 0.0f,
     val infix_upgrade: WeaponInfixUpgrade = WeaponInfixUpgrade(),
     val secondary_suffix_item_id: String = ""
@@ -52,12 +70,172 @@ data class WeaponInfixUpgrade(
     val id: Int = 0,
     val attributes: List<InfixAttribute> = emptyList()
 )
+@Serializable
+data class WeaponInfusionSlot(
+    val flags: List<String> = emptyList()
+)
 
 @Serializable
 data class InfixAttribute(
     val attribute: String = "",
     val modifier: Int = 0
 )
+
+//Adapter for the RecycleView and SearchView
+class WeaponAdapter(
+    private val context: Context,
+    private var weaponList: List<Weapon>
+) : RecyclerView.Adapter<WeaponAdapter.ItemViewHolder>(), Filterable {
+
+    private var filteredWeaponList: List<Weapon> = weaponList
+    private var onItemClickListener: ((Weapon) -> Unit)? = null
+
+    class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val itemIcon: ImageView = view.findViewById(R.id.item_icon)
+        val itemName: TextView = view.findViewById(R.id.item_name)
+        val itemDescription: TextView = view.findViewById(R.id.item_description)
+        val weaponStrength: TextView = view.findViewById(R.id.weapon_strength)
+        val weaponAttribute: TextView = view.findViewById(R.id.item_attributes)
+        val weaponRarity: TextView = view.findViewById(R.id.weapon_rarity)
+        val weaponType: TextView = view.findViewById(R.id.weapon_type)
+        val weaponLevel: TextView =  view.findViewById(R.id.weapon_level)
+        val weaponFlags: TextView = view.findViewById(R.id.item_flags)
+        val weaponValue: TextView = view.findViewById(R.id.item_value)
+        val valueIcon: ImageView = view.findViewById(R.id.value_icon)
+    }
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
+        val view = LayoutInflater.from(context).inflate(R.layout.list_weapon, parent, false)
+        return ItemViewHolder(view)
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+        val weapon = filteredWeaponList[position]
+
+
+        Picasso.get().load(weapon.icon).into(holder.itemIcon)
+        holder.itemName.text = weapon.name
+
+        if (weapon.description.isEmpty()){
+            holder.itemDescription.visibility = View.GONE
+        }else {
+            View.VISIBLE
+            val plainDescription = weapon.description.replace("<.*?>".toRegex(), "")
+            holder.itemDescription.text = plainDescription
+        }
+
+        if (weapon.details.max_power == 0 || weapon.details.min_power == 0) {
+            holder.weaponStrength.visibility = View.GONE
+        }else{
+            val weaponStrengthText: String = buildString {
+                append(context.getString(string.weapon_strength))
+                append("${weapon.details.min_power} - ${weapon.details.max_power}")
+            }
+            holder.weaponStrength.text = weaponStrengthText
+        }
+
+
+        if (weapon.details.infix_upgrade.attributes.isEmpty()){
+            holder.weaponAttribute.visibility = View.GONE
+        }else{
+            val formattedAttributes: String = weapon.details.infix_upgrade.attributes.let { formatAttributes(it) }.toString()
+            holder.weaponAttribute.text = formattedAttributes
+        }
+
+
+
+        holder.weaponRarity.text = weapon.rarity
+        when (weapon.rarity){
+            "Junk" -> holder.weaponRarity.setTextColor(Color.GRAY)
+            "Basic" -> holder.weaponRarity.setTextColor(Color.WHITE)
+            "Fine" -> holder.weaponRarity.setTextColor(Color.CYAN)
+            "Masterwork" -> holder.weaponRarity.setTextColor(Color.GREEN)
+            "Rare" -> holder.weaponRarity.setTextColor(Color.YELLOW)
+            "Exotic" -> holder.weaponRarity.setTextColor(Color.parseColor("#eb911c"))
+            "Ascended" -> holder.weaponRarity.setTextColor(Color.parseColor("#74107d"))
+            "Legendary" -> holder.weaponRarity.setTextColor(Color.parseColor("#a976ad"))
+        }
+
+        holder.weaponType.text = weapon.details.type
+
+        if (weapon.level == 0){
+            holder.weaponLevel.visibility = View.GONE
+        }else{
+            holder.weaponLevel.text = context.getString(R.string.weapon_level) + weapon.level.toString()
+        }
+
+        if (weapon.flags.isEmpty()){
+            holder.weaponFlags.visibility = View.GONE
+        }else{
+            val formattedFlags = formatFlags(weapon.flags)
+            holder.weaponFlags.text = formattedFlags
+        }
+
+
+
+        holder.weaponValue.text = weapon.vendor_value.toString()
+
+
+        when {
+            weapon.vendor_value < 100 -> holder.valueIcon.setImageResource(R.drawable.copper_coin)
+            weapon.vendor_value in 100..10_000 -> holder.valueIcon.setImageResource(R.drawable.silver_coin)
+            weapon.vendor_value > 10000 -> holder.valueIcon.setImageResource(R.drawable.gold_coin)
+        }
+
+
+
+        // Handle item click
+        holder.itemView.setOnClickListener {
+            onItemClickListener?.invoke(weapon)
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return filteredWeaponList.size
+    }
+
+    fun setOnItemClickListener(listener: (Weapon) -> Unit) {
+        onItemClickListener = listener
+    }
+
+    private fun formatAttributes(attributes: List<InfixAttribute>): String {
+        return attributes.joinToString(separator = "\n") {
+            "${it.attribute}: ${it.modifier}"
+        }
+    }
+
+    private fun formatFlags(flags: List<String>): String {
+        return flags.joinToString(separator = "\n")
+    }
+
+    // Filter logic
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val filterResults = FilterResults()
+                if (constraint.isNullOrEmpty()) {
+                    filterResults.values = weaponList
+                    filterResults.count = weaponList.size
+                } else {
+                    val filteredList = weaponList.filter {
+                        it.name.contains(constraint, ignoreCase = true)
+                    }
+                    filterResults.values = filteredList
+                    filterResults.count = filteredList.size
+                }
+                return filterResults
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                filteredWeaponList = results?.values as List<Weapon>
+                notifyDataSetChanged() // Notify RecyclerView about the updated data
+            }
+        }
+    }
+}
+
 
 class WeaponsBuildCalcActivity : AppCompatActivity() {
 
@@ -76,12 +254,16 @@ class WeaponsBuildCalcActivity : AppCompatActivity() {
     private lateinit var mainHand: ImageView
     private lateinit var offHand: ImageView
 
+    private var mainHandList: MutableList<Weapon> = mutableListOf()
+    private var offHandList: MutableList<Weapon> = mutableListOf()
+
+
     private val weaponList: MutableMap<String,Weapon?> = mutableMapOf(
         "WeaponA1" to null,
         "WeaponA2" to null
     )
 
-    val characterAttributes = CharacterAttributes()
+    private val characterAttributes = CharacterAttributes()
 
     private val client = OkHttpClient.Builder()
         .connectTimeout(30, TimeUnit.SECONDS)
@@ -89,6 +271,7 @@ class WeaponsBuildCalcActivity : AppCompatActivity() {
         .writeTimeout(30, TimeUnit.SECONDS)
         .build()
 
+    private var baseAttributes = CharacterAttributes()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,7 +301,7 @@ class WeaponsBuildCalcActivity : AppCompatActivity() {
 
 
         //Attributes calculated base on the users level
-        val baseAttributes = GlobalState.characterDetail?.level?.let { calculateBaseAttributes(it) }
+        baseAttributes = GlobalState.characterDetail?.level?.let { calculateBaseAttributes(it) }!!
 
 
         CoroutineScope(Dispatchers.Main).launch {
@@ -126,14 +309,24 @@ class WeaponsBuildCalcActivity : AppCompatActivity() {
 
                 mapWeaponToSlots()
 
-                println(weaponList)
+
 
                 val weaponAttributes = processWeapons(weaponList)
 
                 addAttributes(characterAttributes,weaponAttributes)
 
+
+
+
+
                 baseAttributes?.let { addAttributes(characterAttributes, it) }
 
+
+
+
+
+                val mainHandWeapons= arrayOf("Axe","Dagger","Mace","Pistol","Scepter","Sword")
+                val offHandWeapons= arrayOf("Dagger","Focus","Pistol","Shield","Torch","Warhorn")
 
                 runOnUiThread{
                     if (baseAttributes != null) {
@@ -146,6 +339,14 @@ class WeaponsBuildCalcActivity : AppCompatActivity() {
 
                     weaponList["WeaponA2"]?.let { weapon->
                         loadImageWithPicasso(mainHand,weapon.icon)
+                    }
+                    mainHand.setOnClickListener{
+                        val clickedImage = it as ImageView
+                        showWeaponSelectionDialog(this@WeaponsBuildCalcActivity,mainHandWeapons,clickedImage, mainHandList)
+                    }
+                    offHand.setOnClickListener{
+                        val clickedImage = it as ImageView
+                        showWeaponSelectionDialog(this@WeaponsBuildCalcActivity,offHandWeapons,clickedImage,offHandList)
                     }
 
 
@@ -167,16 +368,16 @@ class WeaponsBuildCalcActivity : AppCompatActivity() {
     }
 
     private fun updateAttributes(attributes: CharacterAttributes) {
-        setAttribute(defenseAttribute, R.string.defense_attr, attributes.defense)
-        setAttribute(powerAttribute, R.string.power_attribute, attributes.power)
-        setAttribute(toughnessAttribute, R.string.toughness_attribute, attributes.toughness)
-        setAttribute(precisionAttribute, R.string.precision_attribute, attributes.precision)
-        setAttribute(vitalityAttribute, R.string.vitality_attribute, attributes.vitality)
-        setAttribute(concentrationAttribute, R.string.concentration_attribute, attributes.concentration)
-        setAttribute(conditionDamageAttribute, R.string.condition_attribute, attributes.conditionDamage)
-        setAttribute(expertiseAttribute, R.string.expertise_attribute, attributes.expertise)
-        setAttribute(ferocityAttribute, R.string.ferocity_attribute, attributes.ferocity)
-        setAttribute(healingPowerAttribute, R.string.healing_power_attribute, attributes.healingPower)
+        setAttribute(defenseAttribute, string.defense_attr, attributes.defense)
+        setAttribute(powerAttribute, string.power_attribute, attributes.power)
+        setAttribute(toughnessAttribute, string.toughness_attribute, attributes.toughness)
+        setAttribute(precisionAttribute, string.precision_attribute, attributes.precision)
+        setAttribute(vitalityAttribute, string.vitality_attribute, attributes.vitality)
+        setAttribute(concentrationAttribute, string.concentration_attribute, attributes.concentration)
+        setAttribute(conditionDamageAttribute, string.condition_attribute, attributes.conditionDamage)
+        setAttribute(expertiseAttribute, string.expertise_attribute, attributes.expertise)
+        setAttribute(ferocityAttribute, string.ferocity_attribute, attributes.ferocity)
+        setAttribute(healingPowerAttribute, string.healing_power_attribute, attributes.healingPower)
     }
 
     private fun calculateBaseAttributes(level: Int): CharacterAttributes {
@@ -339,5 +540,190 @@ class WeaponsBuildCalcActivity : AppCompatActivity() {
             }
         }
         return equipmentAttribute
+    }
+
+    private fun showPopupWindow(equipmentList: List<Weapon>, icon: ImageView) {
+
+        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val popupView = inflater.inflate(R.layout.popup_equipment_selection, null)
+
+        val popupWindow = PopupWindow(
+            popupView,
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            true
+        )
+
+        // Use RecyclerView instead of ListView
+        val recyclerView: RecyclerView = popupView.findViewById(R.id.equipment_recycler_list)
+        val searchView: androidx.appcompat.widget.SearchView? = popupView.findViewById<androidx.appcompat.widget.SearchView>(R.id.search_view)
+
+        recyclerView.setRecycledViewPool(RecyclerView.RecycledViewPool())
+        searchView?.queryHint = "Search for weapon...."
+
+
+        // Set up the RecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        val adapter = WeaponAdapter(this, equipmentList)
+        recyclerView.adapter = adapter
+
+        // Set up item click listener manually for RecyclerView
+        adapter.setOnItemClickListener { selectedItem ->
+            selectedItem.icon?.let {
+                //Update the icon
+                loadImageWithPicasso(icon, it)
+
+//                // remove item from itemList and add the selected item
+                when (icon) {
+                    mainHand -> {
+                        weaponList["WeaponA1"] = selectedItem
+                    }
+                    offHand -> {
+                        weaponList["WeaponA2"] = selectedItem
+                    }
+                }
+//
+//                // Get new attributes from item changed
+                val newEquipmentAttributes = processWeapons(weaponList)
+//
+//                // Get new defense from item changed
+//                newEquipmentAttributes.defense = (calculateInitialDefense() + baseAttributes.toughness)
+//
+//                // Add the new equipment Attributes with the characters Base attributes
+                addAttributes(newEquipmentAttributes, baseAttributes)
+//
+//                //Update the UI with the new attributes
+                updateAttributes(newEquipmentAttributes)
+            }
+            Toast.makeText(this, "Selected: ${selectedItem.name}", Toast.LENGTH_SHORT).show()
+            popupWindow.dismiss()
+        }
+        // Set up SearchView filtering
+        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                adapter.filter.filter(newText)
+                return false
+            }
+        })
+
+        popupWindow.showAtLocation(findViewById(R.id.activity_weapon_calc), Gravity.CENTER, 0, 0)
+    }
+
+    private fun fetchWeapons(
+        itemList: MutableList<Weapon>, // The list to add items to
+        collectionName: String,      // The Firestore collection name
+        onComplete: (Boolean) -> Unit // Callback to notify when the task is completed
+    ) {
+        // Get a reference to the Firestore instance
+        val db = FirebaseFirestore.getInstance()
+
+        // Check if the list is empty, reduces multiples of data
+        if (itemList.isNotEmpty()){
+            onComplete(true)
+            Log.d(TAG, " is not empty.")
+            return
+        }
+
+        // Query the collection based on the collection name passed
+        db.collection(collectionName).limit(50)
+            .get()
+            .addOnSuccessListener { documents ->
+                // Loop through each document in the query result
+                for (document in documents) {
+
+                    val weapon = document.toObject(Weapon::class.java)
+                    itemList.add(weapon)
+                }
+
+                // Notify that the task is completed successfully
+                onComplete(true)
+            }
+            .addOnFailureListener { exception ->
+                // Handle any errors here
+                println("Error fetching documents: ${exception.message}")
+                // Notify that the task failed
+                onComplete(false)
+            }
+    }
+
+
+
+    private fun setupClickListener(
+        imageView: ImageView,
+        weaponList: MutableList<Weapon>,
+        collectionName: String,
+        onComplete: (Boolean) -> Unit
+    ) {
+            // Check if the list is not empty
+            if (weaponList.isNotEmpty()) {
+                // Skip fetching and directly show the popup
+                weaponList.clear()
+
+                fetchWeapons(weaponList, collectionName) { success ->
+                    if (success) {
+                        showPopupWindow(weaponList, imageView)
+                        println("Successfully added $collectionName list")
+                    } else {
+                        println("Failure to load $collectionName list")
+                    }
+                    onComplete(success)
+                }
+            } else {
+                // Fetch the data if the list is empty
+                fetchWeapons(weaponList, collectionName) { success ->
+                    if (success) {
+                        showPopupWindow(weaponList, imageView)
+                        println("Successfully added $collectionName list")
+                    } else {
+                        println("Failure to load $collectionName list")
+                    }
+                    onComplete(success)
+                }
+            }
+
+    }
+
+
+    private fun showWeaponSelectionDialog(context: Context, items: Array<String>, clickedImage:ImageView, weaponsList: MutableList<Weapon>) {
+        // Variable to hold the selected weapon type
+        var selectedWeapon: String? = null
+
+        // Create an AlertDialog.Builder instance
+        val builder = AlertDialog.Builder(context)
+
+        // Set the title of the dialog
+        builder.setTitle("Select Weapon Type")
+
+            // Set up the single-choice items in the dialog
+            .setSingleChoiceItems(items, -1) { dialog, which ->
+                // Update the selectedWeapon variable when an item is clicked
+                selectedWeapon = items[which]
+            }
+
+        // Set up the positive button ("OK") for the dialog
+        builder.setPositiveButton("OK") { dialog, _ ->
+            // Call setupClickListener to handle the selection and update the ImageView and weaponsList
+            setupClickListener(clickedImage, weaponsList, selectedWeapon.toString()) { success ->
+                // Print a message if the setupClickListener function fails
+                if (!success) {
+                    println("Failure to load weapons")
+                }
+            }
+            // Dismiss the dialog after the positive button is clicked
+            dialog.dismiss()
+        }
+
+        // Set up the negative button ("Cancel") for the dialog
+        builder.setNegativeButton("Cancel") { dialog, _ ->
+            // Just dismiss the dialog if the cancel button is clicked
+            dialog.dismiss()
+        }
+
+        // Create and show the dialog
+        builder.create().show()
     }
 }
