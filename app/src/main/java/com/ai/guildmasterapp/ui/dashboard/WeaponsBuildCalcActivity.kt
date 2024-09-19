@@ -652,6 +652,7 @@ class WeaponsBuildCalcActivity : AppCompatActivity() {
 
 
 
+
     private fun setupClickListener(
         imageView: ImageView,
         weaponList: MutableList<Weapon>,
