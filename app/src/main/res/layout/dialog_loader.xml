@@ -2,7 +2,7 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:background="@android:color/transparent"
-        android:padding="32dp"
+             android:padding="32dp"
              xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
@@ -14,46 +14,56 @@
             android:background="@color/white_clear"
             app:cardBackgroundColor="#CCFFFFFF">
 
+        <!-- ImageView to add a background image -->
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/item_card_bg"
+                android:contentDescription="Card Background Image"/>
+
         <LinearLayout
-                android:layout_width="346dp"
-                android:layout_height="339dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:padding="24dp"
                 android:orientation="vertical"
                 android:gravity="center_horizontal">
-
-            <pl.droidsonroids.gif.GifImageView
-                    android:id="@+id/loaderGif"
-                    android:layout_width="297dp"
-                    android:layout_height="189dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/loading_9"
-                    android:contentDescription="Loading Dragon GIF"/>
-
             <TextView
                     android:id="@+id/loading"
                     android:layout_width="wrap_content"
                     android:layout_height="43dp"
                     android:layout_gravity="center_horizontal"
-                    android:text="LOADING . . ."
-                    android:textColor="@android:color/holo_red_dark"
-                    android:textSize="30sp"
+                    android:text="NOW LOADING"
+                    android:textColor="@android:color/white"
+                    android:textSize="25sp"
                     android:textStyle="bold"
                     android:fontFamily="times"
-                    android:layout_marginTop="16dp"/>
+                    />
+
             <TextView
                     android:id="@+id/custom_message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:textSize="20sp"
-                    android:layout_marginTop="20dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+
                     android:textStyle="bold"
                     android:fontFamily="times"
-                    android:text=""
-                    />
+                    android:text="IN GAME DATA" />
+
+
 
 
         </LinearLayout>
+        <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/loaderGif"
+                android:layout_width="347dp"
+                android:layout_height="421dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/loader_4"
+                android:contentDescription="Loading Dragon GIF"
+        />
     </androidx.cardview.widget.CardView>
-        </FrameLayout>
+
+</FrameLayout>
