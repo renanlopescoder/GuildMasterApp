@@ -1,6 +1,5 @@
 package com.ai.guildmasterapp.api
 
-import android.provider.Settings.Global
 import android.util.Log
 import com.ai.guildmasterapp.*
 import com.google.firebase.auth.FirebaseAuth
@@ -89,8 +88,8 @@ class GuildWars2Api {
             .url("https://api.guildwars2.com/v2/characters?access_token=$apiKey&ids=$characterId")
             .build()
 
-        client.newCall(request).enqueue(object : okhttp3.Callback {
-            override fun onResponse(call: Call, response: okhttp3.Response) {
+        client.newCall(request).enqueue(object : Callback {
+            override fun onResponse(call: Call, response: Response) {
                 response.body?.string()?.let { jsonResponse ->
                     try {
                         if (jsonResponse.isNotEmpty()) {
@@ -124,8 +123,8 @@ class GuildWars2Api {
             .url("https://api.guildwars2.com/v2/pvp/stats?access_token=$apiKey")
             .build()
 
-        client.newCall(request).enqueue(object : okhttp3.Callback {
-            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+        client.newCall(request).enqueue(object : Callback {
+            override fun onResponse(call: Call, response: Response) {
                 response.body?.string()?.let { jsonResponse ->
                     try {
                         if (jsonResponse.isNotEmpty()) {
@@ -147,7 +146,7 @@ class GuildWars2Api {
                 }
             }
 
-            override fun onFailure(call: okhttp3.Call, e: IOException) {
+            override fun onFailure(call: Call, e: IOException) {
                 Log.e("GuildWars2Api", "API call failed: ${e.message}")
                 callback(getFallbackPvPStats())
             }
@@ -336,14 +335,38 @@ class GuildWars2Api {
     }
 
 
+    private fun getFallbackBackstoryAnswer(): BackstoryAnswers {
+        val fallbackBackstoryAnswer = BackstoryAnswers(
+            id = "",
+            title = "Answer",
+            description = "Failed to retrieve answer.",
+            journal = "",
+            question = -1
+        )
+
+        return fallbackBackstoryAnswer
+    }
+
+
+    private fun getFallbackBackstoryQuestion(): BackstoryQuestion {
+        val fallbackBackstoryQuestion = BackstoryQuestion(
+            id = -1,
+            title = "Question",
+            description = "Failed to retrieve question."
+        )
+
+        return fallbackBackstoryQuestion
+    }
+
+
 
     private fun fetchCharacters(apiKey: String, callback: (List<String>?) -> Unit) {
         val request = Request.Builder()
             .url("https://api.guildwars2.com/v2/characters?access_token=$apiKey")
             .build()
 
-        client.newCall(request).enqueue(object : okhttp3.Callback {
-            override fun onResponse(call: Call, response: okhttp3.Response) {
+        client.newCall(request).enqueue(object : Callback {
+            override fun onResponse(call: Call, response: Response) {
                 response.body?.string()?.let { jsonResponse ->
                     try {
                         if (jsonResponse.isNotEmpty()) {
@@ -533,6 +556,7 @@ class GuildWars2Api {
                             var consumable: Consumable? = null
                             var backItem: BackItem? = null
                             var armor: Armor? = null
+
                             // Reads through JSON to determine item type.
                             val itemType = customJson.decodeFromString<List<ItemType>>(jsonResponse)
                             if (itemType.isNotEmpty()) {
@@ -578,6 +602,117 @@ class GuildWars2Api {
         }
 
     }
+
+
+
+    suspend fun fetchBackstoryAnswer(id: String): BackstoryAnswers? {
+        var result: BackstoryAnswers? = null
+
+        val customJson = Json {
+            ignoreUnknownKeys = true
+        }
+
+        return suspendCancellableCoroutine { continuation ->
+
+            val request = Request.Builder()
+                .url("https://api.guildwars2.com/v2/backstory/answers/$id")
+                .build()
+
+            client.newCall(request).enqueue(object : Callback {
+
+                override fun onFailure(call: Call, e: IOException) {
+                    if (continuation.isActive) {
+                        continuation.resumeWithException(e)
+                    }
+                }
+
+
+                override fun onResponse(call: Call, response: Response) {
+
+                    try {
+                        val jsonResponse = response.body?.string()
+
+                        if (jsonResponse?.isNotEmpty() == true) {
+                            val backstoryAnswers = customJson.decodeFromString<BackstoryAnswers>(jsonResponse)
+                            result = backstoryAnswers
+                        } else {
+                            result = getFallbackBackstoryAnswer()
+                        }
+
+                        continuation.resumeWith(Result.success(result))
+
+                    } catch (e: Exception) {
+                        if (continuation.isActive) {
+                            continuation.resumeWithException(e)
+                        }
+                    }
+                }
+            })
+
+            continuation.invokeOnCancellation {
+                continuation.cancel()
+            }
+
+        }
+    }
+
+
+
+    suspend fun fetchBackstoryQuestions(id: Int): BackstoryQuestion? {
+        var result: BackstoryQuestion? = null
+
+        val customJson = Json {
+            ignoreUnknownKeys = true
+        }
+
+        return suspendCancellableCoroutine { continuation ->
+
+            val request = Request.Builder()
+                .url("https://api.guildwars2.com/v2/backstory/questions/$id")
+                .build()
+
+            client.newCall(request).enqueue(object : Callback {
+
+                override fun onFailure(call: Call, e: IOException) {
+                    if (continuation.isActive) {
+                        continuation.resumeWithException(e)
+                    }
+                }
+
+
+                override fun onResponse(call: Call, response: Response) {
+
+                    try {
+                        val jsonResponse = response.body?.string()
+
+                        if (jsonResponse?.isNotEmpty() == true) {
+                            val backstoryQuestion = customJson.decodeFromString<BackstoryQuestion>(jsonResponse)
+                            result = backstoryQuestion
+                        } else {
+                            result = getFallbackBackstoryQuestion()
+                        }
+
+                        continuation.resumeWith(Result.success(result))
+
+                    } catch (e: Exception) {
+                        if (continuation.isActive) {
+                            continuation.resumeWithException(e)
+                        }
+                    }
+                }
+            })
+
+            continuation.invokeOnCancellation {
+                continuation.cancel()
+            }
+
+        }
+
+    }
+
+
+
+
 }
 
 

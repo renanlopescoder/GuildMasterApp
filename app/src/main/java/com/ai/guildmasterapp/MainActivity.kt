@@ -1,14 +1,12 @@
 package com.ai.guildmasterapp
 
 
-import android.app.Notification.Action
 import android.os.Bundle
-import android.view.Window
-import androidx.appcompat.app.ActionBar
 
 import android.content.Intent
 
 import android.widget.Button
+import android.widget.TextView
 
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -19,14 +17,11 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.*
 import com.ai.guildmasterapp.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
-import com.ai.guildmasterapp.GlobalState
 import com.ai.guildmasterapp.api.GuildWars2Api
 import kotlinx.coroutines.launch
 import android.widget.*
 
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-
 
 
 class MainActivity : AppCompatActivity() {
@@ -35,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var appBarConfiguration: AppBarConfiguration
     private var api = GuildWars2Api()
+    private var globalState = GlobalState
     private lateinit var username: TextView
     private lateinit var userEmail: TextView
 
@@ -58,7 +54,6 @@ class MainActivity : AppCompatActivity() {
 
        val bottomNavView: BottomNavigationView = binding.navViewBottomMenu // Navigation for bottom menu items
 
-
         val navView: NavigationView = binding.navViewDrawerMenu // Navigation for drawer menu items
 
         // Host fragment to navigate between screens
@@ -68,9 +63,9 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications,
-                R.id.navigation_messages, R.id.navigation_menu, R.id.navigation_news, R.id.navigation_pvp_history,
-                R.id.navigation_guild, R.id.navigation_community, R.id.navigation_crafting, R.id.navigation_my_profile,
+                R.id.navigation_dashboard, R.id.navigation_friends, R.id.navigation_notifications,
+                R.id.navigation_messages, R.id.navigation_menu, R.id.navigation_pvp_history,
+                R.id.navigation_guild, R.id.navigation_community, R.id.navigation_crafting, R.id.navigation_profile,
                 R.id.navigation_about
             )
         )
@@ -81,7 +76,7 @@ class MainActivity : AppCompatActivity() {
         val headerView = navView.getHeaderView(0)
 
         username = headerView.findViewById(R.id.nav_header_name)
-        userEmail = headerView.findViewById(R.id.nav_header_email)
+        userEmail = headerView.findViewById(R.id.nav_header_race)
 
         username.text = GlobalState.characterDetail?.name ?: "Guest"
         userEmail.text = FirebaseAuth.getInstance().currentUser?.email ?: "guest@example.com"
@@ -91,14 +86,26 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.navigation_menu -> {
                     drawerLayout.openDrawer(GravityCompat.START)  // Opens side menu
-                    true
+
+                    // Initializes variables for the textViews in the nav_drawer_header_main.xml
+                    val headerNameView = navView.findViewById<TextView>(R.id.nav_header_name)
+                    val headerRaceView = navView.findViewById<TextView>(R.id.nav_header_race)
+
+                    // Stores the name & race of the selected character
+                    val characterName = globalState.characterDetail?.name
+                    val characterRace = globalState.characterDetail?.race
+
+                    // Sets the text for the TextViews
+                    headerNameView.text = characterName
+                    headerRaceView.text = characterRace
+                        true
                 }
                 R.id.navigation_dashboard -> {
                     navController.navigate(R.id.navigation_dashboard)
                     true
                 }
-                R.id.navigation_home -> {
-                    navController.navigate(R.id.navigation_home)
+                R.id.navigation_friends -> {
+                    navController.navigate(R.id.navigation_friends)
                     true
                 }
                 R.id.navigation_notifications -> {
@@ -109,10 +116,15 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(R.id.navigation_messages)
                     true
                 }
+                R.id.navigation_profile -> {
+                    navController.navigate(R.id.navigation_profile)
+                    true
+                }
                 else -> false
             }
 
         }
+
 
         // When a drawer menu item is selected, it navigates to the appropriate page and closes the menu
         navView.setNavigationItemSelectedListener { item ->
@@ -122,16 +134,16 @@ class MainActivity : AppCompatActivity() {
                     drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }
+                R.id.navigation_friends -> {
+                    navController.navigate(R.id.navigation_friends)
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                    true
+                }
                 R.id.navigation_messages -> {
                     navController.navigate(R.id.navigation_messages)
                     drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }
-                R.id.navigation_news -> {
-                    navController.navigate(R.id.navigation_news)
-                    drawerLayout.closeDrawer(GravityCompat.START)
-                    true
-                }
                 R.id.navigation_pvp_history -> {
                     navController.navigate(R.id.navigation_pvp_history)
                     drawerLayout.closeDrawer(GravityCompat.START)
@@ -139,11 +151,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.navigation_pvp_history -> {
                     navController.navigate(R.id.navigation_pvp_history)
-                    drawerLayout.closeDrawer(GravityCompat.START)
-                    true
-                }
-                R.id.navigation_friends -> {
-                    navController.navigate(R.id.navigation_friends)
                     drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }
@@ -162,8 +169,8 @@ class MainActivity : AppCompatActivity() {
                     drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }
-                R.id.navigation_my_profile -> {
-                    navController.navigate(R.id.navigation_my_profile)
+                R.id.navigation_profile -> {
+                    navController.navigate(R.id.navigation_profile)
                     drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }

@@ -107,6 +107,22 @@ data class Item(
 )
 
 
+@Serializable
+data class BackstoryAnswers(
+    val id: String,
+    val title: String,
+    val description: String,
+    val journal: String,
+    val question: Int
+)
+
+@Serializable
+data class BackstoryQuestion(
+    val id: Int,
+    val title: String,
+    val description: String
+)
+
 // Guild details data class
 @Serializable
 data class GuildInfo(
@@ -150,7 +166,8 @@ data class EmblemLayer(
 data class ItemType(
     val name: String,
     val type: String,
-    val id: Int
+    val id: Int,
+    val icon: String
 )
 
 // Weapons related data classes
@@ -182,6 +199,7 @@ data class WeaponDetails(
     val defense: Int,
     val infusion_slots: List<String>,
     val attribute_adjustment: Double,
+    val infix_upgrade: InfixUpgrade? = null,
 )
 
 

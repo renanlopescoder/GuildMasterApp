@@ -154,6 +154,7 @@
     <string name="hands_slot">Hands slot</string>
     <string name="legs_slot">Legs slot</string>
     <string name="feet_slot">Feet slot</string>
+    <string name="weapon_slot">Weapon slot</string>
 
 
     <!-- Guild fragment string values -->
@@ -172,4 +173,34 @@
     <string name="no_friends_text">No friends found</string>
     <string name="error_loading_friends">Error loading friends</string>
     <string name="error_empty_email">Please enter an email to search</string>
+    <string name="profile_background_image">Profile fragment background</string>
+
+    <!-- Profile fragment string values -->
+
+    <string name="profile_character_image">Character Image</string>
+    <string name="profile_dialog_close_button">Close dialog button</string>
+    <string name="profile_equipment_button">Equipment Calculator</string>
+    <string name="profile_guild_button">Guild</string>
+
+    <string name="profile_attributes">Attributes</string>
+    <string name="profile_backstory_title">Backstory</string>
+    <string name="profile_question_1">Question 1</string>
+    <string name="profile_answer_1">Answer 1</string>
+    <string name="profile_question_2">Question 2</string>
+    <string name="profile_answer_2">Answer 2</string>
+    <string name="profile_question_3">Question 3</string>
+    <string name="profile_answer_3">Answer 3</string>
+    <string name="profile_question_4">Question 4</string>
+    <string name="profile_answer_4">Answer 4</string>
+    <string name="profile_question_5">Question 5</string>
+    <string name="profile_answer_5">Answer 5</string>
+    <string name="profile_attribute_default_stat">100</string>
+    <string name="profile_attribute_power">Power</string>
+    <string name="profile_attribute_precision">Precision</string>
+    <string name="profile_attribute_toughness">Toughness</string>
+    <string name="profile_attribute_vitality">Vitality</string>
+    <string name="profile_name_title">Name:</string>
+    <string name="profile_race_title">Race:</string>
+    <string name="profile_profession_title">Profession:</string>
+    <string name="profile_level_title">Level:</string>
 </resources>
