@@ -133,8 +133,8 @@
         cool-down is required in between both attacks when casting in sequence
     </string>
     <string name="player_profile">Profile</string>
-    <string name="equipment_comp">Compare Equipment</string>
-    <string name="weapon_comp">Compare Weapons</string>
+    <string name="equipment_comp">Equipment Calculator</string>
+    <string name="weapon_comp">Weapon Calculator</string>
     <string name="equip_build_calc">Equipment Build Calculator</string>
     <string name="power_attribute">"Power: "</string>
     <string name="toughness_attribute">"Toughness: "</string>
@@ -156,17 +156,38 @@
     <string name="feet_slot">Feet slot</string>
     <string name="weapon_slot">Weapon slot</string>
 
-
     <!-- Guild fragment string values -->
-
-    <!-- image Content description -->
-    <string name="guild_emblem_image">Guild Emblem</string>
-
     <string name="guild_members_title">Members</string>
     <string name="guild_discussions_title">Discussions</string>
     <string name="guild_temp_text_1">Can I get some help with…</string>
     <string name="guild_temp_text_2">Looking for group</string>
     <string name="guild_temp_text_3">Crafters needed</string>
+    <string name="defense_attr">"Defense: "</string>
+    <string name="splashscreen_title">Discover the Power of Your Gear with Our Build Calculator!</string>
+    <string name="splashscreen_message">Explore how different armor pieces can transform your attributes.
+        Just click on any armor piece, select your desired gear, and instantly see the impact on your stats. Unleash
+        your potential and optimize your build for ultimate performance!
+    </string>
+    <string name="prompt">Touch anywhere to continue…</string>
+    <string name="search_equipment">"Search"</string>
+    <string name="item_level" tools:ignore="ExtraTranslation">"Level: "</string>
+    <string name="level">"Level: "</string>
+    <string name="name">Item Name</string>
+    <string name="item_attributes">ItemAttributes</string>
+    <string name="item_weightclass">Item weightclass</string>
+    <string name="slot">Armor slot</string>
+    <string name="flags">Flags</string>
+    <string name="item_value">1</string>
+    <string name="item_description">Description</string>
+    <string name="item_defense">Defense:</string>
+    <string name="weapon_build_calc">Weapon Build Calculator</string>
+    <string name="off_hand">Offhand icon</string>
+    <string name="main_hand">Main hand</string>
+    <string name="weapon_title">Weapons</string>
+    <string name="weapon_strength">"Weapon Strength: "</string>
+    <string name="weapon_type">Weapon Type</string>
+    <string name="weapon_rarity">Rarity</string>
+    <string name="weapon_level">"Required Level: "</string>
 
     <!-- Friends string values -->
 

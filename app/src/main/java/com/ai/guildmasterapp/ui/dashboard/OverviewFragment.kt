@@ -35,6 +35,11 @@ class OverviewFragment : Fragment(R.layout.fragment_dashboard_overview) {
             startActivity(navigationIntent)
         }
 
+        compareWeaponsCard.setOnClickListener {
+            val navigationIntent = Intent(requireContext(),WeaponsBuildCalcActivity::class.java)
+            startActivity(navigationIntent)
+        }
+
         profileCard.setOnClickListener {
             findNavController().navigate(R.id.navigation_profile)
         }
