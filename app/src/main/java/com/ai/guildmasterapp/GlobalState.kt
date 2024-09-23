@@ -363,3 +363,33 @@ data class LadderStats(
     val byes: Int,
     val forfeits: Int
 )
+
+
+// ====================== ==================== ====================== //
+// ====================== Event Details Data Model ====================== //
+// ====================== ==================== ====================== //
+
+@Serializable
+data class EventJson(
+    val events: Map<String, EventDetails>
+)
+
+
+@Serializable
+data class EventDetails(
+    val name: String,
+    val level: Int,
+    val map_id: Int,
+    val flags: List<String>,
+)
+
+
+@Serializable
+data class MapDetails(
+    val id: Int,
+    val name: String,
+    val min_level: Int,
+    val max_level: Int,
+    val default_floor: Int,
+    val type: String
+)

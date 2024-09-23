@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import com.ai.guildmasterapp.api.GuildWars2Api
 import com.ai.guildmasterapp.databinding.FragmentNotificationsBinding
+import kotlinx.coroutines.launch
 
 class NotificationsFragment : Fragment() {
 
@@ -16,6 +19,8 @@ class NotificationsFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+    private val api = GuildWars2Api()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,12 +31,15 @@ class NotificationsFragment : Fragment() {
             ViewModelProvider(this).get(NotificationsViewModel::class.java)
 
         _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        val textView: TextView = binding.textNotifications
-        notificationsViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        lifecycleScope.launch {
+
+            val eventDetails = api.fetchEventDetails("CEA84FBF-2368-467C-92EA-7FA60D527C7B")
+            val mapDetails = api.fetchMapDetails(eventDetails.map_id)
+
         }
+
+        val root: View = binding.root
         return root
     }
 
