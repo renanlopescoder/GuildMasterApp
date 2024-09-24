@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Root layout (vertical) -->
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <!-- Event Name -->
+    <TextView
+            android:id="@+id/event_detail_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/events_name"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="times"
+            android:textColor="@color/black"
+            android:paddingBottom="12dp"/>
+
+    <!-- Event Level & Player Level -->
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="12dp">
+
+        <TextView
+                android:id="@+id/event_detail_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/events_level"
+                android:textSize="15sp"
+                android:fontFamily="times"
+                android:textColor="@color/shadow_black"/>
+
+        <TextView
+                android:id="@+id/event_detail_player_level"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="textEnd"
+                android:text="@string/events_player_level"
+                android:textSize="12sp"
+                android:fontFamily="times"
+                android:textColor="@color/maroon"
+                android:layout_marginHorizontal="20dp"/>
+
+    </LinearLayout>
+
+
+    <!-- Event Map Location -->
+    <TextView
+            android:id="@+id/event_detail_map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/events_map_location"
+            android:textSize="12sp"
+            android:fontFamily="times"
+            android:textColor="@color/maroon"/>
+
+
+</LinearLayout>

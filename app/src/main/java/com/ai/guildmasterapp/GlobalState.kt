@@ -381,6 +381,7 @@ data class EventDetails(
     val level: Int,
     val map_id: Int,
     val flags: List<String>,
+    var map_name: String? = null,
 )
 
 
