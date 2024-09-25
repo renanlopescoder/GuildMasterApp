@@ -101,6 +101,10 @@
     <string name="events_player_level">Current Player Level</string>
     <string name="events_map_location">Map Name</string>
     <string name="events_normal">Normal Events</string>
+    <string name="events_group">Group Events</string>
+    <string name="events_map_wide">Map Wide Events</string>
+    <string name="events_meta">Meta Events</string>
+    <string name="events_dungeon">Dungeon Events</string>
 
     <!-- image Content description -->
     <string name="events_background">Events background image</string>

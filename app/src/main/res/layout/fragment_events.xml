@@ -34,75 +34,324 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintVertical_bias="0.039">
-
-    </TextView>
+            app:layout_constraintVertical_bias="0.039"/>
 
 
     <!-- Main content -->
-
-    <androidx.cardview.widget.CardView
-            android:id="@+id/event_card_view"
-            android:layout_width="wrap_content"
-            android:layout_height="300dp"
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="600dp"
+            android:fillViewport="true"
             app:layout_constraintTop_toBottomOf="@+id/events_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="20dp"
-            app:cardBackgroundColor="#9CF3FFFF">
+            app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="20dp"
                 android:orientation="vertical"
-                android:gravity="start"
-                app:layout_constraintTop_toBottomOf="@+id/events_title">
+                android:padding="16dp">
 
 
-            <TextView
-                    android:id="@+id/event_normal_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/events_normal"
-                    android:textSize="25sp"
-                    android:textAlignment="textStart"
-                    android:textStyle="bold"
-                    android:textColor="@color/maroon"
-                    android:paddingBottom="8dp"/>
-
-
-            <!-- Line break -->
-            <LinearLayout
+            <!-- Normal Events -->
+            <androidx.cardview.widget.CardView
+                    android:id="@+id/event_normal_card_view"
                     android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginBottom="16dp">
+                    android:layout_height="300dp"
+                    android:layout_marginBottom="28dp"
+                    app:cardElevation="4dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardBackgroundColor="#9CF3FFFF">
 
-                <!-- background for the line break -->
-                <ImageView
+                <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/fragment_guild_linebreak"/>
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:orientation="vertical"
+                        android:gravity="start"
+                        app:layout_constraintTop_toBottomOf="@+id/events_title">
 
-            </LinearLayout>
+
+                    <TextView
+                            android:id="@+id/event_normal_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/events_normal"
+                            android:textSize="30sp"
+                            android:textAlignment="textStart"
+                            android:textStyle="bold"
+                            android:textColor="@color/maroon"
+                            android:paddingBottom="8dp"/>
 
 
-            <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/event_detail_recycler"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    <!-- Line break -->
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginBottom="16dp">
 
+                        <!-- background for the line break -->
+                        <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/fragment_guild_linebreak"/>
+
+                    </LinearLayout>
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/event_detail_normal_recycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+            <!-- Group Events -->
+            <androidx.cardview.widget.CardView
+                    android:id="@+id/event_group_card_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginBottom="28dp"
+                    app:cardElevation="4dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardBackgroundColor="#9CF3FFFF">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:orientation="vertical"
+                        android:gravity="start"
+                        app:layout_constraintTop_toBottomOf="@+id/events_title">
+
+
+                    <TextView
+                            android:id="@+id/event_group_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/events_group"
+                            android:textSize="30sp"
+                            android:textAlignment="textStart"
+                            android:textStyle="bold"
+                            android:textColor="@color/maroon"
+                            android:paddingBottom="8dp"/>
+
+
+                    <!-- Line break -->
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginBottom="16dp">
+
+                        <!-- background for the line break -->
+                        <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/fragment_guild_linebreak"/>
+
+                    </LinearLayout>
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/event_detail_group_recycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+
+
+            <!-- Map Wide Events -->
+            <androidx.cardview.widget.CardView
+                    android:id="@+id/event_map_wide_card_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginBottom="28dp"
+                    app:cardElevation="4dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardBackgroundColor="#9CF3FFFF">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:orientation="vertical"
+                        android:gravity="start"
+                        app:layout_constraintTop_toBottomOf="@+id/events_title">
+
+
+                    <TextView
+                            android:id="@+id/event_map_wide_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/events_map_wide"
+                            android:textSize="30sp"
+                            android:textAlignment="textStart"
+                            android:textStyle="bold"
+                            android:textColor="@color/maroon"
+                            android:paddingBottom="8dp"/>
+
+
+                    <!-- Line break -->
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginBottom="16dp">
+
+                        <!-- background for the line break -->
+                        <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/fragment_guild_linebreak"/>
+
+                    </LinearLayout>
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/event_detail_map_wide_recycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+
+            <!-- Meta Events -->
+            <androidx.cardview.widget.CardView
+                    android:id="@+id/event_meta_card_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginBottom="28dp"
+                    app:cardElevation="4dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardBackgroundColor="#9CF3FFFF">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:orientation="vertical"
+                        android:gravity="start"
+                        app:layout_constraintTop_toBottomOf="@+id/events_title">
+
+
+                    <TextView
+                            android:id="@+id/event_meta_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/events_meta"
+                            android:textSize="30sp"
+                            android:textAlignment="textStart"
+                            android:textStyle="bold"
+                            android:textColor="@color/maroon"
+                            android:paddingBottom="8dp"/>
+
+
+                    <!-- Line break -->
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginBottom="16dp">
+
+                        <!-- background for the line break -->
+                        <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/fragment_guild_linebreak"/>
+
+                    </LinearLayout>
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/event_detail_meta_recycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+
+            <!-- Dungeon Events -->
+            <androidx.cardview.widget.CardView
+                    android:id="@+id/event_dungeon_card_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginBottom="28dp"
+                    app:cardElevation="4dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardBackgroundColor="#9CF3FFFF">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:orientation="vertical"
+                        android:gravity="start"
+                        app:layout_constraintTop_toBottomOf="@+id/events_title">
+
+
+                    <TextView
+                            android:id="@+id/event_dungeon_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/events_dungeon"
+                            android:textSize="30sp"
+                            android:textAlignment="textStart"
+                            android:textStyle="bold"
+                            android:textColor="@color/maroon"
+                            android:paddingBottom="8dp"/>
+
+
+                    <!-- Line break -->
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginBottom="16dp">
+
+                        <!-- background for the line break -->
+                        <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/fragment_guild_linebreak"/>
+
+                    </LinearLayout>
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/event_detail_dungeon_recycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
 
 
         </LinearLayout>
 
-
-
-    </androidx.cardview.widget.CardView>
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

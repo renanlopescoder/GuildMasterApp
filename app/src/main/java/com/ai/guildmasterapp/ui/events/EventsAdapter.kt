@@ -5,14 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.lifecycle.findViewTreeLifecycleOwner
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.ai.guildmasterapp.EventDetails
 import com.ai.guildmasterapp.GlobalState
 import com.ai.guildmasterapp.R
-import com.ai.guildmasterapp.api.GuildWars2Api
-import kotlinx.coroutines.launch
+
 
 class EventsAdapter(private val events: List<EventDetails>): RecyclerView.Adapter<EventsAdapter.EventsViewHolder>() {
 
@@ -44,7 +41,7 @@ class EventsAdapter(private val events: List<EventDetails>): RecyclerView.Adapte
         if(event.level > GlobalState.characterDetail?.level!!) {
             holder.nameTextView.setTextColor(Color.DKGRAY)
             holder.levelTextView.setTextColor(Color.RED)
-            holder.playerLevelTextView.setTextColor(Color.BLACK)
+            holder.playerLevelTextView.setTextColor(Color.RED)
             holder.mapTextView.setTextColor(Color.DKGRAY)
 
         }
