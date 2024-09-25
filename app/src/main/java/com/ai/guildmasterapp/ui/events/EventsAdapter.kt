@@ -42,7 +42,11 @@ class EventsAdapter(private val events: List<EventDetails>): RecyclerView.Adapte
         holder.mapTextView.text = event.map_name
 
         if(event.level > GlobalState.characterDetail?.level!!) {
-            holder.levelTextView.setTextColor(Color.GRAY)
+            holder.nameTextView.setTextColor(Color.DKGRAY)
+            holder.levelTextView.setTextColor(Color.RED)
+            holder.playerLevelTextView.setTextColor(Color.BLACK)
+            holder.mapTextView.setTextColor(Color.DKGRAY)
+
         }
     }
 

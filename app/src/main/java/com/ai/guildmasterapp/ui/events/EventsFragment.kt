@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ai.guildmasterapp.EventDetails
+import com.ai.guildmasterapp.LoaderDialogFragment
 import com.ai.guildmasterapp.R
 import com.ai.guildmasterapp.api.GuildWars2Api
 import com.ai.guildmasterapp.databinding.FragmentEventsBinding
@@ -36,6 +37,10 @@ class EventsFragment : Fragment() {
 
         lifecycleScope.launch {
 
+            val loader = LoaderDialogFragment.newInstance("Preparing Events") // Initializes Loading dialog
+            loader.isCancelable = false
+            loader.show(childFragmentManager,"loader") // Displays dialog
+
             val eventIDs = mutableListOf<String>(
                 "03CFBEE1-FDF4-4698-9ED8-3BDCE69C716D",
                 "EED8A79F-B374-4AE6-BA6F-B7B98D9D7142",
@@ -57,6 +62,9 @@ class EventsFragment : Fragment() {
             val adapter = EventsAdapter(fetchedEvents)
             binding.eventDetailRecycler.adapter = adapter
             binding.eventDetailRecycler.layoutManager = LinearLayoutManager(requireContext())
+
+
+            loader.dismiss() // Closes loading dialog after the data is fetched
 
         }
 

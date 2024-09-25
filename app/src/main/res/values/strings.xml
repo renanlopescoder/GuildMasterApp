@@ -100,6 +100,7 @@
     <string name="events_level">Required Level</string>
     <string name="events_player_level">Current Player Level</string>
     <string name="events_map_location">Map Name</string>
+    <string name="events_normal">Normal Events</string>
 
     <!-- image Content description -->
     <string name="events_background">Events background image</string>
