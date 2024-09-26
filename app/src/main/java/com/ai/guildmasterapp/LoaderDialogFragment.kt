@@ -32,7 +32,7 @@ class LoaderDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val loadingTextView = view.findViewById<TextView>(R.id.loading)
-        loadingTextView.text = "Loading..."
+        loadingTextView.text = "NOW LOADING"
 
         // Retrieve the custom message from arguments
         val customMessage = arguments?.getString(ARG_CUSTOM_MESSAGE)
