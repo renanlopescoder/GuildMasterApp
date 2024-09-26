@@ -9,12 +9,12 @@
             android:contentDescription="@string/equipment_builder_bg"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@drawable/compare_equipment_background"
+            android:src="@drawable/undersea_labs"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:scaleType="fitXY"/>
+            android:scaleType="centerCrop"/>
     <ImageView
             android:id="@+id/back_button"
             android:contentDescription="@string/backArrow"

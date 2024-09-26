@@ -170,6 +170,10 @@
         Just click on any armor piece, select your desired gear, and instantly see the impact on your stats. Unleash
         your potential and optimize your build for ultimate performance!
     </string>
+    <string name="weapon_help_title">Maximize Your Weapon’s Damage with Our Ultimate Build Calculator!</string>
+    <string name="weapon_help_message">Discover how different weapons can amplify your damage.
+        Simply click on any weapon, choose your preferred build, and instantly see the impact on your stats. Unleash your potential and optimize your build for maximum damage!
+    </string>
     <string name="prompt">Touch anywhere to continue…</string>
     <string name="search_equipment">"Search"</string>
     <string name="item_level" tools:ignore="ExtraTranslation">"Level: "</string>

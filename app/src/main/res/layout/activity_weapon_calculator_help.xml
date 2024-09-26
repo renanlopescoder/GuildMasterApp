@@ -12,7 +12,7 @@
             android:id="@+id/dashboard"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:src="@drawable/splash_screen_bg"
+            android:src="@drawable/sylvari_entrance"
             android:scaleType="centerCrop"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -33,7 +33,7 @@
                 android:layout_marginTop="150dp"
                 android:layout_marginStart="35dp"
                 android:layout_marginEnd="35dp"
-                android:backgroundTint="#9900BCD4"
+                android:backgroundTint="#CC335B35"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="4dp"
                 android:layout_gravity="center">
@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:gravity="center_horizontal"
-                    android:text="@string/splashscreen_title"
+                    android:text="@string/weapon_help_title"
                     android:textSize="30sp"
                     android:fontFamily="times"/>
         </androidx.cardview.widget.CardView>
@@ -54,7 +54,7 @@
                 android:layout_marginTop="50dp"
                 android:layout_marginStart="35dp"
                 android:layout_marginEnd="35dp"
-                android:backgroundTint="#9900BCD4"
+                android:backgroundTint="#CC335B35"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="4dp"
                 android:layout_gravity="center">
@@ -62,7 +62,7 @@
                     android:id="@+id/splashscreen_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/splashscreen_message"
+                    android:text="@string/weapon_help_message"
                     android:textSize="20sp"
                     android:textColor="@color/white"
                     android:fontFamily="times"
@@ -78,6 +78,7 @@
                 android:textSize="20sp"
                 android:layout_gravity="center"
                 android:layout_marginTop="50dp"
+                style="@style/AppTheme.Button.Gray"
                 android:backgroundTint="@color/white"
                 android:textColor="@color/black"
                 android:fontFamily="times"

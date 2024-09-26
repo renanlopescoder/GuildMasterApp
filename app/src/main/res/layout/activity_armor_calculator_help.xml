@@ -80,6 +80,7 @@
                 android:layout_marginTop="50dp"
                 android:backgroundTint="@color/white"
                 android:textColor="@color/black"
+                style="@style/AppTheme.Button.Gray"
                 android:fontFamily="times"
                 android:id="@+id/close_button"/>
     </LinearLayout>
