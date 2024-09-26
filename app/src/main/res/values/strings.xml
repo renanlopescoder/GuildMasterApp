@@ -226,4 +226,67 @@
     <string name="profile_race_title">Race:</string>
     <string name="profile_profession_title">Profession:</string>
     <string name="profile_level_title">Level:</string>
+    <string name="crafting_title">Crafting Recipes</string>
+    <string name="recipe_list_name">Recipe Name</string>
+    <string name="ingredient_name">Ingredient name:</string>
+    <string name="ingredient_count">Ingredient count:</string>
+    <string name="ingredients">Ingredients:</string>
+    <string name="close">CLOSE</string>
+
+
+    <string-array name="recipe_types">
+        <item>Amulet</item>
+        <item>Axe</item>
+        <item>Backpack</item>
+        <item>Bag</item>
+        <item>Boots</item>
+        <item>Bulk</item>
+        <item>Coat</item>
+        <item>Component</item>
+        <item>Consumable</item>
+        <item>Dagger</item>
+        <item>Dessert</item>
+        <item>Dye</item>
+        <item>Earring</item>
+        <item>Feast</item>
+        <item>Focus</item>
+        <item>Gloves</item>
+        <item>Greatsword</item>
+        <item>Guild Consumable</item>
+        <item>Guild ConsumableWvW</item>
+        <item>Guild Decoration</item>
+        <item>Hammer</item>
+        <item>Harpoon</item>
+        <item>Helm</item>
+        <item>Ingredient Cooking</item>
+        <item>Inscription</item>
+        <item>Insignia</item>
+        <item>Legendary Component</item>
+        <item>Leggings</item>
+        <item>Long Bow</item>
+        <item>Mace</item>
+        <item>Meal</item>
+        <item>Pistol</item>
+        <item>Potion</item>
+        <item>Refinement</item>
+        <item>Refinement Ectoplasm</item>
+        <item>Refinement Obsidian</item>
+        <item>Rifle</item>
+        <item>Ring</item>
+        <item>Scepter</item>
+        <item>Seasoning</item>
+        <item>Shield</item>
+        <item>Short Bow</item>
+        <item>Shoulders</item>
+        <item>Snack</item>
+        <item>Soup</item>
+        <item>Speargun</item>
+        <item>Staff</item>
+        <item>Sword</item>
+        <item>Torch</item>
+        <item>Trident</item>
+        <item>Upgrade Component</item>
+        <item>Warhorn</item>
+    </string-array>
+
 </resources>
