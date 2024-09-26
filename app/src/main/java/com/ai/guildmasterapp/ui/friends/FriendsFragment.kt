@@ -121,11 +121,19 @@ class FriendsFragment : Fragment() {
     }
 
     private fun searchForUserByEmail(email: String) {
-        firestoreDb.searchUserByEmail(email) { result ->
-            if (result != null && result.isNotEmpty()) {
-                // Extract emails from the result and display in the list
-                val foundUsers = result.mapNotNull { it["email"] as? String }
-                displayFriendsList(foundUsers)
+        val currentUserId = firestoreDb.getCurrentUserId()
+        if (currentUserId.isNullOrEmpty()) return
+
+        firestoreDb.searchUserByEmail(email, currentUserId) { result ->
+            if (result != null) {
+                friendsListContainer.removeAllViews()
+                for (user in result) {
+                    val userEmail = user["email"] as? String ?: ""
+                    val isFriend = user["isFriend"] as? Boolean ?: false
+
+                    val cardView = createCardView(userEmail, isFriend)
+                    friendsListContainer.addView(cardView)
+                }
             } else {
                 friendsListContainer.removeAllViews()
                 val noResultsTextView = TextView(requireContext()).apply {
@@ -137,5 +145,57 @@ class FriendsFragment : Fragment() {
                 friendsListContainer.addView(noResultsTextView)
             }
         }
+    }
+
+    private fun createCardView(email: String, isFriend: Boolean): CardView {
+        val cardView = CardView(requireContext()).apply {
+            radius = 8f
+            cardElevation = 4f
+            setContentPadding(16, 16, 16, 16)
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                setMargins(16, 16, 16, 16)
+            }
+        }
+
+        val itemLayout = LinearLayout(requireContext()).apply {
+            orientation = LinearLayout.HORIZONTAL
+            setPadding(16, 16, 16, 16)
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+        }
+
+        val emailTextView = TextView(requireContext()).apply {
+            text = email
+            textSize = 18f
+            setTextColor(ContextCompat.getColor(requireContext(), android.R.color.black))
+            setPadding(16, 16, 16, 16)
+        }
+
+        itemLayout.addView(emailTextView)
+
+        if (!isFriend) {
+            val addButton = Button(requireContext()).apply {
+                text = "ADD"
+                setOnClickListener {
+                    val currentUserId = firestoreDb.getCurrentUserId()
+                    if (currentUserId != null) {
+                        firestoreDb.addFriend(currentUserId, email) { success, errorMessage ->
+                            if (success) {
+                                loadFriendsList()
+                            }
+                        }
+                    }
+                }
+            }
+            itemLayout.addView(addButton)
+        }
+
+        cardView.addView(itemLayout)
+        return cardView
     }
 }
