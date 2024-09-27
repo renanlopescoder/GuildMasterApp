@@ -17,13 +17,11 @@ class FirebaseFirestoreDatabase {
 
                     val matchingUsers = documents.mapNotNull { document ->
                         val email = document.getString("email")?.lowercase() ?: ""
-                        val foundUserId = document.id
-                        val isFriend = currentUserFriends.contains(foundUserId)
+                        val isFriend = currentUserFriends.contains(email)
 
                         if (email.contains(query.lowercase())) {
                             document.data.apply {
                                 put("isFriend", isFriend)
-                                put("userId", foundUserId)
                             }
                         } else {
                             null
