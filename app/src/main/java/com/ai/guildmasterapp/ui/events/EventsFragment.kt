@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -140,25 +141,164 @@ class EventsFragment : Fragment() {
         }
 
 
-        val normalAdapter = EventsAdapter(fetchedNormalEvents)
+        // Normal Events
+        val normalAdapter = EventsAdapter(fetchedNormalEvents, requireContext())
         binding.eventDetailNormalRecycler.adapter = normalAdapter
         binding.eventDetailNormalRecycler.layoutManager = LinearLayoutManager(requireContext())
 
-        val groupAdapter = EventsAdapter(fetchedGroupEvents)
+        val normalSearchView = binding.eventNormalSearchView
+
+        normalSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+
+                if(!query.isNullOrBlank()) {
+                    normalAdapter.filterEvents(query)
+                }
+                else {
+                    normalAdapter.resetEvents()
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+
+                return false
+            }
+        })
+
+        val resetNormalButton = binding.eventResetButtonNormal
+
+        resetNormalButton.setOnClickListener {
+            normalAdapter.resetEvents()
+        }
+
+
+
+        // Group Events
+        val groupAdapter = EventsAdapter(fetchedGroupEvents, requireContext())
         binding.eventDetailGroupRecycler.adapter = groupAdapter
         binding.eventDetailGroupRecycler.layoutManager = LinearLayoutManager(requireContext())
 
-        val mapAdapter = EventsAdapter(fetchedMapEvents)
+        val groupSearchView = binding.eventGroupSearchView
+
+        groupSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if(!query.isNullOrBlank()) {
+                    groupAdapter.filterEvents(query)
+                }
+                else {
+                    groupAdapter.resetEvents()
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+        })
+
+        val resetGroupButton = binding.eventResetButtonGroup
+
+        resetGroupButton.setOnClickListener {
+            groupAdapter.resetEvents()
+        }
+
+
+        // Map Wide Events
+        val mapAdapter = EventsAdapter(fetchedMapEvents, requireContext())
         binding.eventDetailMapWideRecycler.adapter = mapAdapter
         binding.eventDetailMapWideRecycler.layoutManager = LinearLayoutManager(requireContext())
 
-        val metaAdapter = EventsAdapter(fetchedMetaEvents)
+        val mapSearchView = binding.eventMapWideSearchView
+
+        mapSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if(!query.isNullOrBlank()) {
+                    mapAdapter.filterEvents(query)
+                }
+                else {
+                    mapAdapter.resetEvents()
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+        })
+
+        val resetMapButton = binding.eventResetButtonMapWide
+
+        resetMapButton.setOnClickListener {
+            mapAdapter.resetEvents()
+        }
+
+
+        // Meta Events
+        val metaAdapter = EventsAdapter(fetchedMetaEvents, requireContext())
         binding.eventDetailMetaRecycler.adapter = metaAdapter
         binding.eventDetailMetaRecycler.layoutManager = LinearLayoutManager(requireContext())
 
-        val dungeonAdapter = EventsAdapter(fetchedDungeonEvents)
+        val metaSearchView = binding.eventMetaSearchView
+
+        metaSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if(!query.isNullOrBlank()) {
+                    metaAdapter.filterEvents(query)
+                }
+                else {
+                    metaAdapter.resetEvents()
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+        })
+
+        val resetMetaButton = binding.eventResetButtonMeta
+
+        resetMetaButton.setOnClickListener {
+            metaAdapter.resetEvents()
+        }
+
+
+        // Dungeon Events
+        val dungeonAdapter = EventsAdapter(fetchedDungeonEvents, requireContext())
         binding.eventDetailDungeonRecycler.adapter = dungeonAdapter
         binding.eventDetailDungeonRecycler.layoutManager = LinearLayoutManager(requireContext())
+
+        val dungeonSearchView = binding.eventDungeonSearchView
+
+        dungeonSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if(!query.isNullOrBlank()) {
+                    dungeonAdapter.filterEvents(query)
+                }
+                else {
+                    dungeonAdapter.resetEvents()
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+        })
+
+        val resetDungeonButton = binding.eventResetButtonDungeon
+
+        resetDungeonButton.setOnClickListener {
+            dungeonAdapter.resetEvents()
+        }
+
+
+
     }
 
 

@@ -105,6 +105,9 @@
     <string name="events_map_wide">Map Wide Events</string>
     <string name="events_meta">Meta Events</string>
     <string name="events_dungeon">Dungeon Events</string>
+    <string name="search_events">Find Events</string>
+    <string name="events_reset_button">Reset</string>
+
 
     <!-- image Content description -->
     <string name="events_background">Events background image</string>

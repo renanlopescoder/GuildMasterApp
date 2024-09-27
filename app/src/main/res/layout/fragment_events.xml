@@ -32,15 +32,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/event_scroll_view"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintVertical_bias="0.039"/>
 
 
     <!-- Main content -->
     <ScrollView
+            android:id="@+id/event_scroll_view"
             android:layout_width="match_parent"
-            android:layout_height="600dp"
+            android:layout_height="700dp"
             android:fillViewport="true"
             app:layout_constraintTop_toBottomOf="@+id/events_title"
             app:layout_constraintEnd_toEndOf="parent"
@@ -102,6 +103,30 @@
                     </LinearLayout>
 
 
+                    <androidx.appcompat.widget.SearchView
+                            android:id="@+id/event_normal_search_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="28dp"
+                            app:queryHint="@string/search_events"
+                            app:iconifiedByDefault="false"
+                            app:queryBackground="@android:color/transparent"
+                            android:textAppearance="@color/black"
+                            android:layout_marginHorizontal="16dp"
+                            android:layout_marginBottom="4dp"
+                            android:background="@drawable/searchview_background"
+                            android:backgroundTint="#9CF3FFFF"/>
+
+
+                    <Button
+                            android:id="@+id/event_reset_button_normal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/events_reset_button"
+                            android:layout_gravity="center"
+                            style="@style/AppTheme.Button.Red"
+                            android:layout_marginBottom="8dp"/>
+
+
                     <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/event_detail_normal_recycler"
                             android:layout_width="match_parent"
@@ -161,6 +186,30 @@
                     </LinearLayout>
 
 
+                    <androidx.appcompat.widget.SearchView
+                            android:id="@+id/event_group_search_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="28dp"
+                            app:queryHint="@string/search_events"
+                            app:iconifiedByDefault="false"
+                            app:queryBackground="@android:color/transparent"
+                            android:textAppearance="@color/black"
+                            android:layout_marginHorizontal="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:background="@drawable/searchview_background"
+                            android:backgroundTint="#9CF3FFFF"/>
+
+
+                    <Button
+                            android:id="@+id/event_reset_button_group"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/events_reset_button"
+                            android:layout_gravity="center"
+                            style="@style/AppTheme.Button.Red"
+                            android:layout_marginBottom="8dp"/>
+
+
                     <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/event_detail_group_recycler"
                             android:layout_width="match_parent"
@@ -169,8 +218,6 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
-
-
 
 
             <!-- Map Wide Events -->
@@ -221,6 +268,30 @@
                     </LinearLayout>
 
 
+                    <androidx.appcompat.widget.SearchView
+                            android:id="@+id/event_map_wide_search_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="28dp"
+                            app:queryHint="@string/search_events"
+                            app:iconifiedByDefault="false"
+                            app:queryBackground="@android:color/transparent"
+                            android:textAppearance="@color/black"
+                            android:layout_marginHorizontal="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:background="@drawable/searchview_background"
+                            android:backgroundTint="#9CF3FFFF"/>
+
+
+                    <Button
+                            android:id="@+id/event_reset_button_map_wide"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/events_reset_button"
+                            android:layout_gravity="center"
+                            style="@style/AppTheme.Button.Red"
+                            android:layout_marginBottom="8dp"/>
+
+
                     <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/event_detail_map_wide_recycler"
                             android:layout_width="match_parent"
@@ -229,7 +300,6 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
-
 
 
             <!-- Meta Events -->
@@ -280,6 +350,30 @@
                     </LinearLayout>
 
 
+                    <androidx.appcompat.widget.SearchView
+                            android:id="@+id/event_meta_search_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="28dp"
+                            app:queryHint="@string/search_events"
+                            app:iconifiedByDefault="false"
+                            app:queryBackground="@android:color/transparent"
+                            android:textAppearance="@color/black"
+                            android:layout_marginHorizontal="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:background="@drawable/searchview_background"
+                            android:backgroundTint="#9CF3FFFF"/>
+
+
+                    <Button
+                            android:id="@+id/event_reset_button_meta"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/events_reset_button"
+                            android:layout_gravity="center"
+                            style="@style/AppTheme.Button.Red"
+                            android:layout_marginBottom="8dp"/>
+
+
                     <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/event_detail_meta_recycler"
                             android:layout_width="match_parent"
@@ -288,7 +382,6 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
-
 
 
             <!-- Dungeon Events -->
@@ -337,6 +430,29 @@
                                 android:src="@drawable/fragment_guild_linebreak"/>
 
                     </LinearLayout>
+
+
+                    <androidx.appcompat.widget.SearchView
+                            android:id="@+id/event_dungeon_search_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="28dp"
+                            app:queryHint="@string/search_events"
+                            app:queryBackground="@android:color/transparent"
+                            android:textAppearance="@color/black"
+                            android:layout_marginHorizontal="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:background="@drawable/searchview_background"
+                            android:backgroundTint="#9CF3FFFF"/>
+
+
+                    <Button
+                            android:id="@+id/event_reset_button_dungeon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/events_reset_button"
+                            android:layout_gravity="center"
+                            style="@style/AppTheme.Button.Red"
+                            android:layout_marginBottom="8dp"/>
 
 
                     <androidx.recyclerview.widget.RecyclerView
