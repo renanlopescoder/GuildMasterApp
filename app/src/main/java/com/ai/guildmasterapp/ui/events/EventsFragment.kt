@@ -1,9 +1,11 @@
 package com.ai.guildmasterapp.ui.events
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -11,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ai.guildmasterapp.EventDetails
 import com.ai.guildmasterapp.LoaderDialogFragment
+import com.ai.guildmasterapp.R
 import com.ai.guildmasterapp.api.GuildWars2Api
 import com.ai.guildmasterapp.databinding.FragmentEventsBinding
 import kotlinx.coroutines.launch
@@ -24,6 +27,9 @@ class EventsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val api = GuildWars2Api()
+
+    private lateinit var sortType : String
+    private lateinit var sortOrder: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,6 +55,104 @@ class EventsFragment : Fragment() {
 
         val root: View = binding.root
         return root
+    }
+
+
+    private fun showSortingDialog(adapter: EventsAdapter) {
+
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_event_sort, null)
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+
+        val closeButton = dialogView.findViewById<Button>(R.id.event_sort_close_button)
+
+        val nameButton = dialogView.findViewById<Button>(R.id.event_sort_name)
+        val levelButton = dialogView.findViewById<Button>(R.id.event_sort_level)
+        val mapButton = dialogView.findViewById<Button>(R.id.event_sort_map)
+        val ascendingButton = dialogView.findViewById<Button>(R.id.event_sort_ascending)
+        val descendingButton = dialogView.findViewById<Button>(R.id.event_sort_descending)
+
+
+        dialogBuilder.setPositiveButton(android.R.string.ok) { dialog, which ->
+        }
+
+        dialogBuilder.setNegativeButton(android.R.string.cancel) { dialog, which ->
+            dialog.cancel()
+        }
+
+
+        val dialog = dialogBuilder.create()
+
+
+        closeButton.setOnClickListener {
+            dialog.cancel()
+        }
+
+
+        dialog.show()
+
+        nameButton.setOnClickListener {
+
+            sortType = "name"
+
+            dialog.dismiss()
+
+            nameButton.visibility = View.GONE
+            levelButton.visibility = View.GONE
+            mapButton.visibility = View.GONE
+
+            ascendingButton.visibility = View.VISIBLE
+            descendingButton.visibility = View.VISIBLE
+
+            dialog.show()
+        }
+
+
+        levelButton.setOnClickListener {
+
+            sortType = "level"
+
+            dialog.dismiss()
+
+            nameButton.visibility = View.GONE
+            levelButton.visibility = View.GONE
+            mapButton.visibility = View.GONE
+
+            ascendingButton.visibility = View.VISIBLE
+            descendingButton.visibility = View.VISIBLE
+
+            dialog.show()
+        }
+
+
+        mapButton.setOnClickListener {
+
+            sortType = "map_name"
+
+            dialog.dismiss()
+
+            nameButton.visibility = View.GONE
+            levelButton.visibility = View.GONE
+            mapButton.visibility = View.GONE
+
+            ascendingButton.visibility = View.VISIBLE
+            descendingButton.visibility = View.VISIBLE
+
+            dialog.show()
+        }
+
+        ascendingButton.setOnClickListener {
+            sortOrder = "ascending"
+            dialog.dismiss()
+            adapter.sortEvents(sortType, sortOrder)
+        }
+
+        descendingButton.setOnClickListener {
+            sortOrder = "descending"
+            dialog.dismiss()
+            adapter.sortEvents(sortType, sortOrder)
+        }
+
     }
 
 
@@ -141,7 +245,10 @@ class EventsFragment : Fragment() {
         }
 
 
-        // Normal Events
+// ====================== ==================== ====================== //
+// ====================== Normal Events  ============================ //
+// ====================== ==================== ====================== //
+
         val normalAdapter = EventsAdapter(fetchedNormalEvents, requireContext())
         binding.eventDetailNormalRecycler.adapter = normalAdapter
         binding.eventDetailNormalRecycler.layoutManager = LinearLayoutManager(requireContext())
@@ -153,9 +260,11 @@ class EventsFragment : Fragment() {
 
                 if(!query.isNullOrBlank()) {
                     normalAdapter.filterEvents(query)
+                    binding.eventDetailNormalRecycler.scrollToPosition(0)
                 }
                 else {
                     normalAdapter.resetEvents()
+                    binding.eventDetailNormalRecycler.scrollToPosition(0)
                 }
                 return true
             }
@@ -170,11 +279,22 @@ class EventsFragment : Fragment() {
 
         resetNormalButton.setOnClickListener {
             normalAdapter.resetEvents()
+            binding.eventDetailNormalRecycler.scrollToPosition(0)
+        }
+
+        val sortNormalButton = binding.eventSortButtonNormal
+
+        sortNormalButton.setOnClickListener {
+            showSortingDialog(normalAdapter)
+            binding.eventDetailNormalRecycler.scrollToPosition(0)
         }
 
 
 
-        // Group Events
+// ====================== ==================== ====================== //
+// ====================== Group Events  ============================= //
+// ====================== ==================== ====================== //
+
         val groupAdapter = EventsAdapter(fetchedGroupEvents, requireContext())
         binding.eventDetailGroupRecycler.adapter = groupAdapter
         binding.eventDetailGroupRecycler.layoutManager = LinearLayoutManager(requireContext())
@@ -186,9 +306,11 @@ class EventsFragment : Fragment() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if(!query.isNullOrBlank()) {
                     groupAdapter.filterEvents(query)
+                    binding.eventDetailGroupRecycler.scrollToPosition(0)
                 }
                 else {
                     groupAdapter.resetEvents()
+                    binding.eventDetailGroupRecycler.scrollToPosition(0)
                 }
                 return true
             }
@@ -202,10 +324,21 @@ class EventsFragment : Fragment() {
 
         resetGroupButton.setOnClickListener {
             groupAdapter.resetEvents()
+            binding.eventDetailGroupRecycler.scrollToPosition(0)
+        }
+
+        val sortGroupButton = binding.eventSortButtonGroup
+
+        sortGroupButton.setOnClickListener {
+            showSortingDialog(groupAdapter)
+            binding.eventDetailGroupRecycler.scrollToPosition(0)
         }
 
 
-        // Map Wide Events
+// ====================== ==================== ====================== //
+// ====================== Map Wide Events  ========================== //
+// ====================== ==================== ====================== //
+
         val mapAdapter = EventsAdapter(fetchedMapEvents, requireContext())
         binding.eventDetailMapWideRecycler.adapter = mapAdapter
         binding.eventDetailMapWideRecycler.layoutManager = LinearLayoutManager(requireContext())
@@ -217,9 +350,11 @@ class EventsFragment : Fragment() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if(!query.isNullOrBlank()) {
                     mapAdapter.filterEvents(query)
+                    binding.eventDetailMapWideRecycler.scrollToPosition(0)
                 }
                 else {
                     mapAdapter.resetEvents()
+                    binding.eventDetailMapWideRecycler.scrollToPosition(0)
                 }
                 return true
             }
@@ -233,10 +368,21 @@ class EventsFragment : Fragment() {
 
         resetMapButton.setOnClickListener {
             mapAdapter.resetEvents()
+            binding.eventDetailMapWideRecycler.scrollToPosition(0)
+        }
+
+        val sortMapButton = binding.eventSortButtonMapWide
+
+        sortMapButton.setOnClickListener {
+            showSortingDialog(mapAdapter)
+            binding.eventDetailMapWideRecycler.scrollToPosition(0)
         }
 
 
-        // Meta Events
+// ====================== ==================== ====================== //
+// ====================== Meta Events  ============================== //
+// ====================== ==================== ====================== //
+
         val metaAdapter = EventsAdapter(fetchedMetaEvents, requireContext())
         binding.eventDetailMetaRecycler.adapter = metaAdapter
         binding.eventDetailMetaRecycler.layoutManager = LinearLayoutManager(requireContext())
@@ -248,9 +394,11 @@ class EventsFragment : Fragment() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if(!query.isNullOrBlank()) {
                     metaAdapter.filterEvents(query)
+                    binding.eventDetailMetaRecycler.scrollToPosition(0)
                 }
                 else {
                     metaAdapter.resetEvents()
+                    binding.eventDetailMetaRecycler.scrollToPosition(0)
                 }
                 return true
             }
@@ -264,10 +412,21 @@ class EventsFragment : Fragment() {
 
         resetMetaButton.setOnClickListener {
             metaAdapter.resetEvents()
+            binding.eventDetailMetaRecycler.scrollToPosition(0)
+        }
+
+        val sortMetaButton = binding.eventSortButtonMeta
+
+        sortMetaButton.setOnClickListener {
+            showSortingDialog(metaAdapter)
+            binding.eventDetailMetaRecycler.scrollToPosition(0)
         }
 
 
-        // Dungeon Events
+// ====================== ==================== ====================== //
+// ====================== Dungeon Events  =========================== //
+// ====================== ==================== ====================== //
+
         val dungeonAdapter = EventsAdapter(fetchedDungeonEvents, requireContext())
         binding.eventDetailDungeonRecycler.adapter = dungeonAdapter
         binding.eventDetailDungeonRecycler.layoutManager = LinearLayoutManager(requireContext())
@@ -279,9 +438,11 @@ class EventsFragment : Fragment() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if(!query.isNullOrBlank()) {
                     dungeonAdapter.filterEvents(query)
+                    binding.eventDetailDungeonRecycler.scrollToPosition(0)
                 }
                 else {
                     dungeonAdapter.resetEvents()
+                    binding.eventDetailDungeonRecycler.scrollToPosition(0)
                 }
                 return true
             }
@@ -295,8 +456,15 @@ class EventsFragment : Fragment() {
 
         resetDungeonButton.setOnClickListener {
             dungeonAdapter.resetEvents()
+            binding.eventDetailDungeonRecycler.scrollToPosition(0)
         }
 
+        val sortDungeonButton = binding.eventSortButtonDungeon
+
+        sortDungeonButton.setOnClickListener {
+            showSortingDialog(dungeonAdapter)
+            binding.eventDetailDungeonRecycler.scrollToPosition(0)
+        }
 
 
     }

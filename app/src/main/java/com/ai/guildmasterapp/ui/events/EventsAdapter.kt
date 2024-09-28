@@ -106,4 +106,43 @@ class EventsAdapter(
         updateEvents(filteredEvents)
     }
 
+
+
+    fun sortEvents(sortType: String, sortOrder: String) {
+
+        var sortedEvents : List<EventDetails>? = null
+
+        if(sortType == "name") {
+            if (sortOrder == "ascending") {
+                sortedEvents = masterEvents.sortedBy { it.name }
+            } else {
+                sortedEvents = masterEvents.sortedByDescending { it.name }
+            }
+        }
+
+        if(sortType == "level") {
+            if (sortOrder == "ascending") {
+                sortedEvents = masterEvents.sortedBy { it.level }
+            }
+            else {
+                sortedEvents = masterEvents.sortedByDescending { it.level }
+            }
+        }
+
+        if(sortType == "map_name") {
+            if (sortOrder == "ascending") {
+                sortedEvents = masterEvents.sortedBy { it.map_name }
+            }
+            else {
+                sortedEvents = masterEvents.sortedByDescending { it.map_name }
+            }
+        }
+
+        updateEvents(sortedEvents!!)
+
+    }
+
+
+
+
 }

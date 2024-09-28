@@ -107,6 +107,12 @@
     <string name="events_dungeon">Dungeon Events</string>
     <string name="search_events">Find Events</string>
     <string name="events_reset_button">Reset</string>
+    <string name="events_sort_button">Sort</string>
+    <string name="events_name_sort">Name</string>
+    <string name="events_level_sort">Level</string>
+    <string name="events_map_sort">Map Name</string>
+    <string name="events_ascending_sort">Ascending</string>
+    <string name="events_descending_sort">Descending</string>
 
 
     <!-- image Content description -->

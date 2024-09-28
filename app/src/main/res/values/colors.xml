@@ -16,6 +16,8 @@
 
     <color name="yellow_clear">#CCF4E842</color>
 
+    <color name="dark_gray_button_unselected">#B8BECF</color>
+
     <color name="semi_transparent_black">#80000000</color>
     <color name="transparent">#00000000</color>
     <color name="shadow_black">#99000000</color>
