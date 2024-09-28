@@ -20,10 +20,10 @@
             tools:layout="@layout/fragment_friends"/>
 
     <fragment
-            android:id="@+id/navigation_notifications"
-            android:name="com.ai.guildmasterapp.ui.notifications.NotificationsFragment"
-            android:label="@string/title_notifications"
-            tools:layout="@layout/fragment_notifications"/>
+            android:id="@+id/navigation_events"
+            android:name="com.ai.guildmasterapp.ui.events.EventsFragment"
+            android:label="@string/title_events"
+            tools:layout="@layout/fragment_events"/>
 
     <fragment
             android:id="@+id/navigation_messages"

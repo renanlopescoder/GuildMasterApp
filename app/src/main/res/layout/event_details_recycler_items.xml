@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Root layout (vertical) -->
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <!-- Event Name -->
+    <TextView
+            android:id="@+id/event_detail_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/events_name"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="times"
+            android:textColor="@color/black"
+            android:paddingBottom="12dp"/>
+
+    <!-- Event Level & Player Level -->
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="12dp">
+
+        <TextView
+                android:id="@+id/event_detail_level_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Level: "
+                android:textSize="15sp"
+                android:fontFamily="times"
+                android:textStyle="bold"
+                android:textColor="@color/maroon"/>
+
+        <TextView
+                android:id="@+id/event_detail_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/events_level"
+                android:textSize="15sp"
+                android:fontFamily="times"
+                android:textStyle="bold"
+                android:textColor="@android:color/holo_green_dark"/>
+
+        <TextView
+                android:id="@+id/event_detail_player_level_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Player Level: "
+                android:textSize="15sp"
+                android:fontFamily="times"
+                android:textStyle="bold"
+                android:textColor="@color/maroon"
+                android:paddingStart="52dp"/>
+
+        <TextView
+                android:id="@+id/event_detail_player_level"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/events_player_level"
+                android:textSize="15sp"
+                android:fontFamily="times"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingEnd="20dp"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="12dp">
+
+        <TextView
+                android:id="@+id/event_detail_map_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Map: "
+                android:textSize="15sp"
+                android:fontFamily="times"
+                android:textStyle="bold"
+                android:textColor="@color/maroon"/>
+
+        <!-- Event Map Location -->
+        <TextView
+                android:id="@+id/event_detail_map"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/events_map_location"
+                android:textSize="15sp"
+                android:fontFamily="times"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
+
+    </LinearLayout>
+
+
+    <!-- Line break -->
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="1dp"
+            android:layout_marginBottom="20dp">
+
+        <!-- background for the line break -->
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/fragment_guild_linebreak"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

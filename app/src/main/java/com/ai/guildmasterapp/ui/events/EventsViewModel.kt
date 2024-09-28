@@ -1,10 +1,10 @@
-package com.ai.guildmasterapp.ui.notifications
+package com.ai.guildmasterapp.ui.events
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class NotificationsViewModel : ViewModel() {
+class EventsViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "Notifications"

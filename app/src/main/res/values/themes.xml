@@ -17,7 +17,7 @@
 
     </style>
 
-    <!-- Override button style -->
+    <!-- Gray button -->
     <style name="AppTheme.Button.Gray" parent="Widget.MaterialComponents.Button">
         <item name="cornerRadius">100dp</item> <!-- Round corners -->
         <item name="android:backgroundTint">@color/dark_gray</item>
@@ -25,13 +25,14 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <!-- Override button style -->
+    <!-- Red button -->
     <style name="AppTheme.Button.Red" parent="Widget.MaterialComponents.Button">
         <item name="cornerRadius">100dp</item> <!-- Round corners -->
         <item name="android:backgroundTint">@color/red</item>
         <item name="android:backgroundTintMode">src_in</item>
         <item name="android:textColor">@color/white</item>
     </style>
+
 
     <!-- Override button style -->
     <style name="GuildFragment.Button" parent="Widget.MaterialComponents.Button">

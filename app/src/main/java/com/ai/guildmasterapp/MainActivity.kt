@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_dashboard, R.id.navigation_friends, R.id.navigation_notifications,
+                R.id.navigation_dashboard, R.id.navigation_friends, R.id.navigation_events,
                 R.id.navigation_messages, R.id.navigation_menu, R.id.navigation_pvp_history,
                 R.id.navigation_guild, R.id.navigation_community, R.id.navigation_crafting, R.id.navigation_profile,
                 R.id.navigation_about
@@ -108,8 +108,8 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(R.id.navigation_friends)
                     true
                 }
-                R.id.navigation_notifications -> {
-                    navController.navigate(R.id.navigation_notifications)
+                R.id.navigation_events -> {
+                    navController.navigate(R.id.navigation_events)
                     true
                 }
                 R.id.navigation_messages -> {
