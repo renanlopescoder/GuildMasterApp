@@ -39,10 +39,10 @@ data class CharacterDetail(
     val bags: List<Bag?>,
     val backstory: List<String?>,
     val wvw_abilities: List<String?>,
-    val recipes: List<String?>,
+    val recipes: List<Int?>,
     val training: List<String?>,
     val specializations: Specializations,
-    val crafting: List<String?>,
+    val crafting: List<craftingSkills?>,
     val equipment_pvp: EquipmentPvp?
 )
 
@@ -51,6 +51,13 @@ data class EquipmentPvp(
     val amulet: String?,
     val rune: String?,
     val sigils: List<String?>
+)
+
+@Serializable
+data class craftingSkills(
+    val discipline: String = "",
+    val rating: Int = 0,
+    val active: Boolean = false
 )
 
 @Serializable
@@ -63,8 +70,8 @@ data class Skills(
 @Serializable
 data class SkillDetails(
     val heal: Int?,
-    val utilities: List<String?>? = null,
-    val elite: String?,
+    val utilities: List<Int?>? = null,
+    val elite: Int?,
     val legends: List<String?>? = null
 )
 
@@ -310,12 +317,12 @@ data class Attribute(
 
 @Serializable
 data class PvPStats(
-    val pvp_rank: Int,
-    val pvp_rank_points: Int,
-    val pvp_rank_rollovers: Int,
-    val aggregate: Aggregate,
-    val professions: Professions,
-    val ladders: Ladders
+    val pvp_rank: Int = 0,
+    val pvp_rank_points: Int = 0,
+    val pvp_rank_rollovers: Int = 0,
+    val aggregate: Aggregate? = null,
+    val professions: Professions? = null,
+    val ladders: Ladders? = null
 )
 
 @Serializable
@@ -329,15 +336,15 @@ data class Aggregate(
 
 @Serializable
 data class Professions(
-    val elementalist: ProfessionStats,
-    val guardian: ProfessionStats,
-    val mesmer: ProfessionStats,
-    val necromancer: ProfessionStats,
-    val warrior: ProfessionStats,
-    val ranger: ProfessionStats,
-    val thief: ProfessionStats,
-    val engineer: ProfessionStats,
-    val revenant: ProfessionStats
+    val elementalist: ProfessionStats? = null,
+    val guardian: ProfessionStats? = null,
+    val mesmer: ProfessionStats? = null,
+    val necromancer: ProfessionStats? = null,
+    val warrior: ProfessionStats? = null,
+    val ranger: ProfessionStats? = null,
+    val thief: ProfessionStats? = null,
+    val engineer: ProfessionStats? = null,
+    val revenant: ProfessionStats? = null
 )
 
 @Serializable

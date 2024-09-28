@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.ai.guildmasterapp.GlobalState
@@ -107,7 +108,7 @@ class PVPFragment : Fragment(R.layout.fragment_dashboard_pvp) {
 
         // Fetch the data, and push it into the correct variables
         GlobalState.pvpStats?.let { pvpStats ->
-            wins = pvpStats.aggregate.wins
+            wins = pvpStats.aggregate?.wins!!
             losses = pvpStats.aggregate.losses
             setWinLoss()
             setRank(pvpStats.pvp_rank)
@@ -223,49 +224,49 @@ class PVPFragment : Fragment(R.layout.fragment_dashboard_pvp) {
                     when (position) {
                         0 -> {
                             val mesmer = professions.mesmer
-                            setProfessionsCard(mesmer)
+                            mesmer?.let { setProfessionsCard(it) }
                             professionsCard.setCardBackgroundColor(Color.parseColor("#CCB679D5"))
                             professionIcon.setImageResource(professionIcons[position])
                         }
                         1 -> {
                             val guardian = professions.guardian
-                            setProfessionsCard(guardian)
+                            guardian?.let { setProfessionsCard(it) }
                             professionsCard.setCardBackgroundColor(Color.parseColor("#CC72C1D9"))
                             professionIcon.setImageResource(professionIcons[position])
                         }
                         2 -> {
                             val necromancer = professions.necromancer
-                            setProfessionsCard(necromancer)
+                            necromancer?.let { setProfessionsCard(it) }
                             professionsCard.setCardBackgroundColor(Color.parseColor("#CC52A76F"))
                             professionIcon.setImageResource(professionIcons[position])
                         }
                         3 -> {
                             val ranger = professions.ranger
-                            setProfessionsCard(ranger)
+                            ranger?.let { setProfessionsCard(it) }
                             professionsCard.setCardBackgroundColor(Color.parseColor("#CC8CDC82"))
                             professionIcon.setImageResource(professionIcons[position])
                         }
                         4 -> {
                             val elementalist = professions.elementalist
-                            setProfessionsCard(elementalist)
+                            elementalist?.let { setProfessionsCard(it) }
                             professionsCard.setCardBackgroundColor(Color.parseColor("#CCF68A87"))
                             professionIcon.setImageResource(professionIcons[position])
                         }
                         5 -> {
                             val warrior = professions.warrior
-                            setProfessionsCard(warrior)
+                            warrior?.let { setProfessionsCard(it) }
                             professionsCard.setCardBackgroundColor(Color.parseColor("#CCFFD166"))
                             professionIcon.setImageResource(professionIcons[position])
                         }
                         6 -> {
                             val thief = professions.thief
-                            setProfessionsCard(thief)
+                            thief?.let { setProfessionsCard(it) }
                             professionsCard.setCardBackgroundColor(Color.parseColor("#CCC08F95"))
                             professionIcon.setImageResource(professionIcons[position])
                         }
                         7 -> {
                             val engineer = professions.engineer
-                            setProfessionsCard(engineer)
+                            engineer?.let { setProfessionsCard(it) }
                             professionsCard.setCardBackgroundColor(Color.parseColor("#CCD09C59"))
                             professionIcon.setImageResource(professionIcons[position])
                         }
@@ -289,24 +290,36 @@ class PVPFragment : Fragment(R.layout.fragment_dashboard_pvp) {
         ladderSpinner.adapter = ladderAdapter
 
         ladderSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) =
                 GlobalState.pvpStats?.ladders?.let { ladders ->
                     when (position) {
                         0 -> {
                             val ranked = ladders.ranked
                             setLadderCard(ranked)
+
+                            val ladderView: TextView? = view?.findViewById(R.id.ladder_view)
+                            ladderView?.setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
                             ladderCard.setCardBackgroundColor(Color.parseColor("#CCA61B1B"))
+                            ladderWins.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                            ladderLosses.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                            ladderForfeits.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                            ladderDesertions.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                            ladderByes.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
                             ladderIcon.setImageResource(ladderIcons[position])
                         }
                         1 -> {
                             val unranked = ladders.unranked
                             setLadderCard(unranked)
                             ladderCard.setCardBackgroundColor(Color.parseColor("#CC4CAF50"))
+                            ladderWins.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+                            ladderLosses.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+                            ladderForfeits.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+                            ladderDesertions.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+                            ladderByes.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
                             ladderIcon.setImageResource(ladderIcons[position])
                         }
                     }
                 } ?: setNullLadderCard()
-            }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 ladderCard.setCardBackgroundColor(Color.parseColor("#CCFFFFFF"))

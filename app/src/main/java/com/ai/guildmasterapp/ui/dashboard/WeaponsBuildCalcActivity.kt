@@ -4,10 +4,7 @@ import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.graphics.Color
-import android.media.Image
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.Settings.Global.getString
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -15,11 +12,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ai.guildmasterapp.GlobalState
+import com.ai.guildmasterapp.LoaderDialogFragment
 import com.ai.guildmasterapp.R
 import com.ai.guildmasterapp.R.string
 import com.google.firebase.firestore.FirebaseFirestore
@@ -32,7 +30,6 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import org.w3c.dom.Text
 import java.net.SocketTimeoutException
 import java.util.concurrent.TimeUnit
 
@@ -163,7 +160,7 @@ class WeaponAdapter(
         if (weapon.level == 0){
             holder.weaponLevel.visibility = View.GONE
         }else{
-            holder.weaponLevel.text = context.getString(R.string.weapon_level) + weapon.level.toString()
+            holder.weaponLevel.text = context.getString(string.weapon_level) + weapon.level.toString()
         }
 
         if (weapon.flags.isEmpty()){
@@ -181,7 +178,7 @@ class WeaponAdapter(
         when {
             weapon.vendor_value < 100 -> holder.valueIcon.setImageResource(R.drawable.copper_coin)
             weapon.vendor_value in 100..10_000 -> holder.valueIcon.setImageResource(R.drawable.silver_coin)
-            weapon.vendor_value > 10000 -> holder.valueIcon.setImageResource(R.drawable.gold_coin)
+            weapon.vendor_value > 10_000 -> holder.valueIcon.setImageResource(R.drawable.gold_coin)
         }
 
 
@@ -230,7 +227,7 @@ class WeaponAdapter(
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 filteredWeaponList = results?.values as List<Weapon>
-                notifyDataSetChanged() // Notify RecyclerView about the updated data
+                notifyItemRangeChanged(0, filteredWeaponList.size) // Notify RecyclerView about the updated data
             }
         }
     }
@@ -271,6 +268,7 @@ class WeaponsBuildCalcActivity : AppCompatActivity() {
         .writeTimeout(30, TimeUnit.SECONDS)
         .build()
 
+
     private var baseAttributes = CharacterAttributes()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -280,7 +278,15 @@ class WeaponsBuildCalcActivity : AppCompatActivity() {
 
         //Back button, when pressed it will close the activity
         val backButton: ImageView = findViewById(R.id.back_button)
-        backButton.setOnClickListener { finish() }
+        backButton.setOnClickListener{
+            finish()
+        }
+
+        val helpButton: ImageView = findViewById(R.id.help_buttn)
+        helpButton.setOnClickListener{
+            showHelpDialog()
+        }
+
 
         // Text Views, they are the attributes
 
@@ -307,56 +313,37 @@ class WeaponsBuildCalcActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.Main).launch {
             withContext(Dispatchers.IO) {
 
+                val loader = LoaderDialogFragment.newInstance("Weapons...").apply{
+                    isCancelable = false
+                    show(supportFragmentManager, "Weapons")
+                }
+
                 mapWeaponToSlots()
 
-
-
                 val weaponAttributes = processWeapons(weaponList)
-
                 addAttributes(characterAttributes,weaponAttributes)
-
-
-
-
-
-                baseAttributes?.let { addAttributes(characterAttributes, it) }
-
-
-
-
+                addAttributes(characterAttributes, baseAttributes)
 
                 val mainHandWeapons= arrayOf("Axe","Dagger","Mace","Pistol","Scepter","Sword")
                 val offHandWeapons= arrayOf("Dagger","Focus","Pistol","Shield","Torch","Warhorn")
 
                 runOnUiThread{
-                    if (baseAttributes != null) {
-                        updateAttributes(characterAttributes)
+                    updateAttributes(characterAttributes)
+                    loader.dismiss()
+
+                    weaponList["WeaponA1"]?.let { loadImageWithPicasso(mainHand, it.icon) }
+                    weaponList["WeaponA2"]?.let { loadImageWithPicasso(offHand, it.icon) }
+
+                    mainHand.setOnClickListener {
+                        showWeaponSelectionDialog(this@WeaponsBuildCalcActivity, mainHandWeapons, it as ImageView, mainHandList)
                     }
 
-                    weaponList["WeaponA1"]?.let { weapon->
-                        loadImageWithPicasso(mainHand,weapon.icon)
-                    }
-
-                    weaponList["WeaponA2"]?.let { weapon->
-                        loadImageWithPicasso(mainHand,weapon.icon)
-                    }
-                    mainHand.setOnClickListener{
-                        val clickedImage = it as ImageView
-                        showWeaponSelectionDialog(this@WeaponsBuildCalcActivity,mainHandWeapons,clickedImage, mainHandList)
-                    }
                     offHand.setOnClickListener{
-                        val clickedImage = it as ImageView
-                        showWeaponSelectionDialog(this@WeaponsBuildCalcActivity,offHandWeapons,clickedImage,offHandList)
+                        showWeaponSelectionDialog(this@WeaponsBuildCalcActivity,offHandWeapons, it as ImageView,offHandList)
                     }
-
-
-
                 }
             }
         }
-
-
-
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -422,14 +409,11 @@ class WeaponsBuildCalcActivity : AppCompatActivity() {
     }
 
     private fun loadImageWithPicasso(imageView: ImageView, url: String) {
-//        Picasso.get().load(url).into(imageView)
-        Picasso.get()
-            .load(url)
-            .fit()
-            .into(imageView)
+        Picasso.get().load(url).fit().into(imageView)
     }
 
-    private suspend fun mapWeaponToSlots(){
+
+    private fun mapWeaponToSlots(){
         val characterDetail = GlobalState.characterDetail
 
         if (characterDetail != null) {
@@ -447,52 +431,43 @@ class WeaponsBuildCalcActivity : AppCompatActivity() {
 
                 }
             }
-
-
         }else{
             println("Character details or equipment list is null")
         }
     }
 
-    private suspend fun fetchWeaponDetails(itemId: Int): Weapon? {
-        val maxRetries = 3
-        var currentAttempt = 0
-        val json = Json { ignoreUnknownKeys = true }
+    private fun fetchWeaponDetails(itemId: Int): Weapon? {
+    val maxRetries = 3
+    val json = Json { ignoreUnknownKeys = true }
 
-        while (currentAttempt < maxRetries) {
-            try {
-                val request = Request.Builder()
-                    .url("https://api.guildwars2.com/v2/items/$itemId")
-                    .build()
+    repeat(maxRetries) { attempt ->
+        try {
+            val request = Request.Builder()
+                .url("https://api.guildwars2.com/v2/items/$itemId")
+                .build()
 
-                client.newCall(request).execute().use { response ->
-                    if (!response.isSuccessful) {
-                        println("Failed to fetch item with id $itemId: ${response.message}")
-                        return null
-                    }
-
+            client.newCall(request).execute().use { response ->
+                if (response.isSuccessful) {
                     response.body?.string()?.let { jsonString ->
-                        return try {
-                            val item = json.decodeFromString<Weapon>(jsonString)
-                            item // Return the fetched weapon
-                        } catch (e: Exception) {
-                            println("Failed to parse item JSON: ${e.message}")
-                            null
-                        }
+                        return json.decodeFromString<Weapon>(jsonString)
                     } ?: println("Empty response body for item with id $itemId")
-                }
-                break // Exit loop if successful
-            } catch (e: SocketTimeoutException) {
-                currentAttempt++
-                if (currentAttempt >= maxRetries) {
-                    println("Failed to fetch item after $maxRetries attempts")
-                    throw e
+                } else {
+                    println("Failed to fetch item with id $itemId: ${response.message}")
                 }
             }
+            return null // Exit if successful
+        } catch (e: SocketTimeoutException) {
+            if (attempt == maxRetries - 1) {
+                println("Failed to fetch item after $maxRetries attempts")
+                throw e
+            }
+        } catch (e: Exception) {
+            println("Unexpected error: ${e.message}")
+            return null
         }
-
-        return null
     }
+    return null
+}
 
     private fun addAttributes(attr1: CharacterAttributes, attr2: CharacterAttributes) {
         attr1.defense += attr2.defense
@@ -511,7 +486,7 @@ class WeaponsBuildCalcActivity : AppCompatActivity() {
         // Initialize a new CharacterAttributes object to store the accumulated attributes
         val totalAttributes = CharacterAttributes()
 
-        for ((key,weapon) in weaponList) {
+        for ((_,weapon) in weaponList) {
             println("ProcessWeapons: $weapon")
             val attributes = weapon?.let { calculateInfixUpgrades(it) }
             attributes?.let { addAttributes(totalAttributes, it) }
@@ -530,11 +505,11 @@ class WeaponsBuildCalcActivity : AppCompatActivity() {
                 "Precision" -> equipmentAttribute.precision += attributeModifier.modifier
                 "Toughness" -> equipmentAttribute.toughness += attributeModifier.modifier
                 "Vitality" -> equipmentAttribute.vitality += attributeModifier.modifier
-                "Ferocity" -> equipmentAttribute.ferocity += attributeModifier.modifier
+                "CritDamage" -> equipmentAttribute.ferocity += attributeModifier.modifier
                 "ConditionDamage" -> equipmentAttribute.conditionDamage += attributeModifier.modifier
-                "Expertise" -> equipmentAttribute.expertise += attributeModifier.modifier
-                "Concentration" -> equipmentAttribute.concentration += attributeModifier.modifier
-                "HealingPower" -> equipmentAttribute.healingPower += attributeModifier.modifier
+                "ConditionDuration" -> equipmentAttribute.expertise += attributeModifier.modifier
+                "BoonDuration" -> equipmentAttribute.concentration += attributeModifier.modifier
+                "Healing" -> equipmentAttribute.healingPower += attributeModifier.modifier
                 "Power" -> equipmentAttribute.power += attributeModifier.modifier
             }
         }
@@ -544,7 +519,7 @@ class WeaponsBuildCalcActivity : AppCompatActivity() {
     private fun showPopupWindow(equipmentList: List<Weapon>, icon: ImageView) {
 
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val popupView = inflater.inflate(R.layout.popup_equipment_selection, null)
+        val popupView = inflater.inflate(R.layout.popup_equipment_selection, findViewById(android.R.id.content),false)
 
         val popupWindow = PopupWindow(
             popupView,
@@ -555,7 +530,7 @@ class WeaponsBuildCalcActivity : AppCompatActivity() {
 
         // Use RecyclerView instead of ListView
         val recyclerView: RecyclerView = popupView.findViewById(R.id.equipment_recycler_list)
-        val searchView: androidx.appcompat.widget.SearchView? = popupView.findViewById<androidx.appcompat.widget.SearchView>(R.id.search_view)
+        val searchView: SearchView? = popupView.findViewById<SearchView>(R.id.search_view)
 
         recyclerView.setRecycledViewPool(RecyclerView.RecycledViewPool())
         searchView?.queryHint = "Search for weapon...."
@@ -568,30 +543,28 @@ class WeaponsBuildCalcActivity : AppCompatActivity() {
 
         // Set up item click listener manually for RecyclerView
         adapter.setOnItemClickListener { selectedItem ->
-            selectedItem.icon?.let {
+            selectedItem.icon.let {
                 //Update the icon
                 loadImageWithPicasso(icon, it)
 
-//                // remove item from itemList and add the selected item
+        //                // remove item from itemList and add the selected item
                 when (icon) {
                     mainHand -> {
                         weaponList["WeaponA1"] = selectedItem
                     }
+
                     offHand -> {
                         weaponList["WeaponA2"] = selectedItem
                     }
                 }
-//
-//                // Get new attributes from item changed
+
+        // Get new attributes from item changed
                 val newEquipmentAttributes = processWeapons(weaponList)
-//
-//                // Get new defense from item changed
-//                newEquipmentAttributes.defense = (calculateInitialDefense() + baseAttributes.toughness)
-//
-//                // Add the new equipment Attributes with the characters Base attributes
+
+         // Add the new equipment Attributes with the characters Base attributes
                 addAttributes(newEquipmentAttributes, baseAttributes)
-//
-//                //Update the UI with the new attributes
+
+        //Update the UI with the new attributes
                 updateAttributes(newEquipmentAttributes)
             }
             Toast.makeText(this, "Selected: ${selectedItem.name}", Toast.LENGTH_SHORT).show()
@@ -699,7 +672,7 @@ class WeaponsBuildCalcActivity : AppCompatActivity() {
         builder.setTitle("Select Weapon Type")
 
             // Set up the single-choice items in the dialog
-            .setSingleChoiceItems(items, -1) { dialog, which ->
+            .setSingleChoiceItems(items, -1) { _, which ->
                 // Update the selectedWeapon variable when an item is clicked
                 selectedWeapon = items[which]
             }
@@ -725,5 +698,29 @@ class WeaponsBuildCalcActivity : AppCompatActivity() {
 
         // Create and show the dialog
         builder.create().show()
+    }
+
+    private fun showHelpDialog() {
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.activity_weapon_calculator_help, null)
+        val dialog = AlertDialog.Builder(this)
+
+            .setView(dialogView)
+            .create()
+
+        dialog.window?.apply {
+            setBackgroundDrawableResource(android.R.color.transparent)
+            setGravity(Gravity.CENTER)
+            setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+        }
+
+        dialogView.findViewById<Button>(R.id.close_button).setOnClickListener {
+            dialog.dismiss()
+        }
+
+
+        dialog.show()
     }
 }

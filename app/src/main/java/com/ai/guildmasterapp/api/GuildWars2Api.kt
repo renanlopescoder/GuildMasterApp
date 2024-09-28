@@ -90,13 +90,15 @@ class GuildWars2Api {
             .url("https://api.guildwars2.com/v2/characters?access_token=$apiKey&ids=$characterId")
             .build()
 
+        val json = Json{ignoreUnknownKeys = true }
+
         client.newCall(request).enqueue(object : Callback {
             override fun onResponse(call: Call, response: Response) {
                 response.body?.string()?.let { jsonResponse ->
 
                     try {
                         if (jsonResponse.isNotEmpty()) {
-                            val characterDetails = Json.decodeFromString<List<CharacterDetail>>(jsonResponse)[0]
+                            val characterDetails = json.decodeFromString<List<CharacterDetail>>(jsonResponse)[0]
                             callback(characterDetails)
                             GlobalState.characterDetail = characterDetails
                         } else {

@@ -2,7 +2,6 @@
 
 package com.ai.guildmasterapp.ui.dashboard
 
-import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.content.Context
@@ -14,8 +13,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.animation.doOnEnd
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ai.guildmasterapp.GlobalState
@@ -30,10 +29,7 @@ import okhttp3.Request
 import java.net.SocketTimeoutException
 import java.util.concurrent.TimeUnit
 import androidx.appcompat.widget.SearchView
-
-
-
-
+import com.ai.guildmasterapp.LoaderDialogFragment
 
 
 @Serializable
@@ -226,8 +222,9 @@ class ItemAdapter(
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                filteredItemList = results?.values as List<Item>
-                notifyDataSetChanged() // Notify RecyclerView about the updated data
+                filteredItemList = results?.values as? List<Item> ?: emptyList()
+                notifyItemRangeChanged(0, filteredItemList.size) // Notify RecyclerView about the updated data
+
             }
         }
     }
@@ -259,8 +256,7 @@ class CompareEquipment : AppCompatActivity() {
 
     // Loading Screen
     private lateinit var loadingScreen: ConstraintLayout
-    private lateinit var continuePrompt: TextView
-    private lateinit var loadingBar: ProgressBar
+
 
     private var helmsList: MutableList<Item> = mutableListOf()
     private var shouldersList: MutableList<Item> = mutableListOf()
@@ -295,6 +291,7 @@ class CompareEquipment : AppCompatActivity() {
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("onCreate:", "Created: ")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_armor_calculator)
         supportActionBar?.hide()
@@ -302,6 +299,12 @@ class CompareEquipment : AppCompatActivity() {
         //Back button, when pressed it will close the activity
         val backButton: ImageView = findViewById(R.id.back_button)
         backButton.setOnClickListener { returnToMain() }
+
+        val helpButton: ImageView = findViewById(R.id.help_button)
+        helpButton.setOnClickListener{
+            showHelpDialog()
+        }
+
 
 
         // Image Views, they are the Icons
@@ -325,14 +328,18 @@ class CompareEquipment : AppCompatActivity() {
         healingPowerAttribute = findViewById(R.id.healing_power_attr)
 
         // Loading screen widgets
-        loadingScreen = findViewById(R.id.loading_screen)
-        continuePrompt = findViewById(R.id.continue_prompt)
-        loadingBar = findViewById(R.id.splashscreen_loadingbar)
+//        loadingScreen = findViewById(R.id.loading_screen)
+
 
 
         // Use Coroutine for performance
         CoroutineScope(Dispatchers.Main).launch {
             withContext(Dispatchers.IO) {
+
+
+                val loader = LoaderDialogFragment.newInstance("Equipment")
+                loader.isCancelable = false
+                loader.show(supportFragmentManager, "Armor")
 
                 // Loop through characters Items and push into a list
                 for (item in GlobalState.characterDetail?.equipment!!) {
@@ -368,43 +375,24 @@ class CompareEquipment : AppCompatActivity() {
 
                     updateAttributes(characterAttributes)
 
-                    // Function simulates loading Screen, will update with the Loading screen when merged.
-                    allowToContinue()
+                    //Close loading screen
+                    loader.dismiss()
 
                     // Icon listeners, will bring up pop up window
-                    setupClickListener(helmImage, helmsList, "helmtest") { success ->
-                        if (!success) {
-                            println("Failure to load helmsList")
-                        }
-                    }
+                    val equipmentMap = mapOf(
+                        helmImage to Pair(helmsList, "helmtest"),
+                        shoulderImage to Pair(shouldersList, "shoulders"),
+                        chestImage to Pair(coatsList, "coats"),
+                        handsImage to Pair(glovesList, "hands"),
+                        legsImage to Pair(leggingsList, "leggings"),
+                        feetImage to Pair(bootsList, "boots")
+                    )
 
-                    setupClickListener(shoulderImage, shouldersList, "shoulders") { success ->
-                        if (!success) {
-                            println("Failure to load shoulders list")
-                        }
-                    }
-
-                    setupClickListener(chestImage, coatsList, "coats") { success ->
-                        if (!success) {
-                            println("Failure to load coat list")
-                        }
-                    }
-
-                    setupClickListener(handsImage, glovesList, "hands") { success ->
-                        if (!success) {
-                            println("Failure to load gloves list")
-                        }
-                    }
-
-                    setupClickListener(legsImage, leggingsList, "leggings") { success ->
-                        if (!success) {
-                            println("Failure to load legs list")
-                        }
-                    }
-
-                    setupClickListener(feetImage, bootsList, "boots") { success ->
-                        if (!success) {
-                            println("Failure to load boots list")
+                    equipmentMap.forEach { (imageView, pair) ->
+                            setupClickListener(imageView, pair.first, pair.second) { success ->
+                            if (!success) {
+                                println("Failure to load ${pair.second} list")
+                            }
                         }
                     }
                 }
@@ -464,7 +452,7 @@ class CompareEquipment : AppCompatActivity() {
         setAttribute(healingPowerAttribute, R.string.healing_power_attribute, attributes.healingPower)
     }
 
-    private suspend fun fetchAndAddItem(itemId: Int) {
+    private fun fetchAndAddItem(itemId: Int) {
         val maxRetries = 3
         var currentAttempt = 0
 
@@ -561,11 +549,11 @@ class CompareEquipment : AppCompatActivity() {
                 "Precision" -> equipmentAttribute.precision += attributeModifier.modifier
                 "Toughness" -> equipmentAttribute.toughness += attributeModifier.modifier
                 "Vitality" -> equipmentAttribute.vitality += attributeModifier.modifier
-                "Ferocity" -> equipmentAttribute.ferocity += attributeModifier.modifier
+                "CritDamage" -> equipmentAttribute.ferocity += attributeModifier.modifier
                 "ConditionDamage" -> equipmentAttribute.conditionDamage += attributeModifier.modifier
-                "Expertise" -> equipmentAttribute.expertise += attributeModifier.modifier
-                "Concentration" -> equipmentAttribute.concentration += attributeModifier.modifier
-                "HealingPower" -> equipmentAttribute.healingPower += attributeModifier.modifier
+                "ConditionDuration" -> equipmentAttribute.expertise += attributeModifier.modifier
+                "BoonDuration" -> equipmentAttribute.concentration += attributeModifier.modifier
+                "Healing" -> equipmentAttribute.healingPower += attributeModifier.modifier
                 "Power" -> equipmentAttribute.power += attributeModifier.modifier
             }
         }
@@ -585,39 +573,6 @@ class CompareEquipment : AppCompatActivity() {
         attr1.ferocity += attr2.ferocity
     }
 
-    private fun allowToContinue(){
-
-        loadingBar.isIndeterminate = false
-        loadingBar.max = 100     // Set max value for the progress bar
-
-        loadingBar.visibility = View.VISIBLE
-        loadingBar.progress = 0  // Ensure progress starts at 0
-
-
-        // Create a ValueAnimator to animate the progress over 3 seconds (3000ms)
-        val animator = ValueAnimator.ofInt(0, 100)
-        animator.duration = 3000 // 3 seconds duration
-
-        // Update the ProgressBar's progress on every animation frame
-        animator.addUpdateListener { animation ->
-            val progress = animation.animatedValue as Int
-            loadingBar.progress = progress
-        }
-
-        // When the animation ends, hide the progress bar and show the continue prompt
-        animator.doOnEnd {
-            loadingBar.visibility = View.GONE
-            continuePrompt.visibility = View.VISIBLE
-
-            // Set click listener for the loading screen
-            loadingScreen.setOnClickListener {
-                loadingScreen.visibility = View.GONE
-            }
-        }
-        // Start the animation
-        animator.start()
-    }
-
     private fun showPopupWindow(equipmentList: List<Item>, icon: ImageView) {
 
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -632,7 +587,7 @@ class CompareEquipment : AppCompatActivity() {
 
         // Use RecyclerView instead of ListView
         val recyclerView: RecyclerView = popupView.findViewById(R.id.equipment_recycler_list)
-        val searchView: androidx.appcompat.widget.SearchView? = popupView.findViewById<androidx.appcompat.widget.SearchView>(R.id.search_view)
+        val searchView: SearchView? = popupView.findViewById(R.id.search_view)
 
         recyclerView.setRecycledViewPool(RecyclerView.RecycledViewPool())
         searchView?.queryHint = "Search for equipment...."
@@ -721,33 +676,36 @@ class CompareEquipment : AppCompatActivity() {
             }
     }
 
-    private fun setupClickListener(
-        imageView: ImageView,
-        itemList: MutableList<Item>,
-        collectionName: String,
-        onComplete: (Boolean) -> Unit
-    ) {
-        imageView.setOnClickListener {
-            // Check if the list is not empty
-            if (itemList.isNotEmpty()) {
-                // Skip fetching and directly show the popup
-                showPopupWindow(itemList, imageView)
-                println("Successfully added $collectionName list")
-                onComplete(true)
-            } else {
-                // Fetch the data if the list is empty
-                fetchEquipment(itemList, collectionName) { success ->
-                    if (success) {
-                        showPopupWindow(itemList, imageView)
-                        println("Successfully added $collectionName list")
-                    } else {
-                        println("Failure to load $collectionName list")
-                    }
-                    onComplete(success)
+  private fun setupClickListener(
+    imageView: ImageView,
+    itemList: MutableList<Item>,
+    collectionName: String,
+    onComplete: (Boolean) -> Unit
+) {
+    imageView.setOnClickListener {
+        val loader = LoaderDialogFragment.newInstance("Armor").apply {
+            isCancelable = false
+            show(supportFragmentManager, "Armor")
+        }
+
+        if (itemList.isNotEmpty()) {
+            showPopupWindow(itemList, imageView)
+            println("Successfully added $collectionName list")
+            onComplete(true)
+        } else {
+            fetchEquipment(itemList, collectionName) { success ->
+                if (success) {
+                    showPopupWindow(itemList, imageView)
+                    println("Successfully added $collectionName list")
+                } else {
+                    println("Failure to load $collectionName list")
                 }
+                onComplete(success)
             }
         }
+        loader.dismiss()
     }
+}
 
     private fun updateArmorItem(itemList: MutableList<Item>, armorType: String, newItem: Item) {
         // Find the index of the current item based on its details.type
@@ -760,4 +718,31 @@ class CompareEquipment : AppCompatActivity() {
         // Add the new item
         itemList.add(newItem)
     }
+
+    private fun showHelpDialog() {
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.activity_armor_calculator_help, null)
+        val dialog = AlertDialog.Builder(this)
+
+            .setView(dialogView)
+            .create()
+
+        dialog.window?.apply {
+            setBackgroundDrawableResource(android.R.color.transparent)
+            setGravity(Gravity.CENTER)
+            setLayout(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+            )
+}
+
+        dialogView.findViewById<Button>(R.id.close_button).setOnClickListener {
+            dialog.dismiss()
+        }
+
+
+        dialog.show()
+    }
+
+
+
 }

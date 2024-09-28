@@ -8,29 +8,36 @@ class FirebaseFirestoreDatabase {
 
     private val firestore = FirebaseFirestore.getInstance() // Firestore instance
 
-    fun searchUserByEmail(query: String, callback: (List<Map<String, Any>>?) -> Unit) {
+    fun searchUserByEmail(query: String, userId: String, callback: (List<Map<String, Any>>?) -> Unit) {
         firestore.collection("users")
             .get()
             .addOnSuccessListener { documents ->
-                val matchingUsers = documents.mapNotNull { document ->
-                    val email = document.getString("email")?.lowercase() ?: ""
-                    if (email.contains(query.lowercase())) {
-                        document.data
-                    } else {
-                        null
-                    }
-                }
+                firestore.collection("users").document(userId).get().addOnSuccessListener { userDoc ->
+                    val currentUserFriends = userDoc.get("friends") as? List<String> ?: emptyList()
 
-                if (matchingUsers.isNotEmpty()) {
-                    callback(matchingUsers)
-                } else {
-                    callback(null)
+                    val matchingUsers = documents.mapNotNull { document ->
+                        val email = document.getString("email")?.lowercase() ?: ""
+                        val isFriend = currentUserFriends.contains(email)
+
+                        if (email.contains(query.lowercase())) {
+                            document.data.apply {
+                                put("isFriend", isFriend)
+                            }
+                        } else {
+                            null
+                        }
+                    }
+
+                    if (matchingUsers.isNotEmpty()) {
+                        callback(matchingUsers)
+                    } else {
+                        callback(null)
+                    }
                 }
             }
     }
 
 
-    // Function to get the list of friends for a user (unchanged)
     fun getFriends(userId: String, callback: (List<String>) -> Unit) {
         firestore.collection("users").document(userId).get()
             .addOnSuccessListener { document ->
@@ -49,5 +56,33 @@ class FirebaseFirestoreDatabase {
 
     fun getCurrentUserId(): String? {
         return FirebaseAuth.getInstance().currentUser?.uid
+    }
+
+    fun addFriend(currentUserId: String, friendEmail: String, callback: (Boolean, String?) -> Unit) {
+        firestore.collection("users")
+            .whereEqualTo("email", friendEmail)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    val friendEmailDoc = friendEmail
+                    getFriends(currentUserId) { friendsList ->
+                        if (friendsList.contains(friendEmailDoc)) {
+                            callback(false, "User is already a friend.")
+                        } else {
+                            val updatedFriendsList = friendsList.toMutableList().apply {
+                                add(friendEmailDoc)
+                            }
+
+                            firestore.collection("users").document(currentUserId)
+                                .update("friends", updatedFriendsList)
+                                .addOnSuccessListener {
+                                    callback(true, null)
+                                }
+                        }
+                    }
+                } else {
+                    callback(false, "User not found")
+                }
+            }
     }
 }
